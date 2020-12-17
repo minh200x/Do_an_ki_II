@@ -5,17 +5,23 @@
  */
 package bkap.dao.impl;
 
+import bkap.dao.GenericDAO;
+import bkap.mapper.RowMapper;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
  * @author THUY
+ * @param <T>
  */
-public class AbstractDAO {
+public class AbstractDAO<T> implements GenericDAO<T> {
 
     public Connection getConnect() {
         try {
@@ -28,6 +34,10 @@ public class AbstractDAO {
         }
         return null;
     }
-    
-    
+
+    @Override
+    public <T> List<T> query(String sql, RowMapper<T> mapRow, Object... parameters) {
+        List<T>
+    }
+
 }

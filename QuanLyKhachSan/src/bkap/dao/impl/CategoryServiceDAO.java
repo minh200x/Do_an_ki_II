@@ -23,11 +23,37 @@ import java.util.logging.Logger;
  */
 public class CategoryServiceDAO extends AbstractDAO implements ICategoryService {
 
-   
-
     @Override
     public void add(CategoryService c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<CategoryService> list = new ArrayList<>();
+
+        CallableStatement cs = null;
+        Connection conn = null;
+
+        try {
+            String sql = "{call categoryService_insert(?)}";
+            conn = getConnect();
+            conn.setAutoCommit(false);
+            cs = conn.prepareCall(sql);
+            cs.setString(1, c.getName());
+            cs.executeUpdate();
+            conn.commit();
+        } catch (SQLException ex) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex1) {
+                    Logger.getLogger(CategoryServiceDAO.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
+        } finally {
+            try {
+                conn.close();
+                cs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CategoryServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @Override
@@ -43,23 +69,22 @@ public class CategoryServiceDAO extends AbstractDAO implements ICategoryService 
     @Override
     public List<CategoryService> findAll() {
         List<CategoryService> list = new ArrayList<>();
-        
+
         CallableStatement cs = null;
         Connection conn = null;
-        ResultSet rs = null;      
-        
-        
+        ResultSet rs = null;
+
         try {
             String sql = "{call categoryService_findAll()}";
             conn = getConnect();
             cs = conn.prepareCall(sql);
             rs = cs.executeQuery();
-            
+
             while (rs.next()) {
                 CategoryService c = new CategoryService();
                 c.setId(rs.getInt("id"));
                 c.setName(rs.getString("name"));
-                
+
                 list.add(c);
             }
             return list;
@@ -73,10 +98,10 @@ public class CategoryServiceDAO extends AbstractDAO implements ICategoryService 
                 Logger.getLogger(CategoryServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         return null;
     }
-    
+
     public static void main(String[] args) {
         CategoryServiceDAO c = new CategoryServiceDAO();
         List<CategoryService> list = c.findAll();
