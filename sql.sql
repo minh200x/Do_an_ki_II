@@ -20,6 +20,7 @@ create table tblLevel(
 )
 go
 
+
 create table tblUser(
 	id int primary key not null,
 	username nvarchar(255) not null,
@@ -38,6 +39,7 @@ create table tblUser(
 )
 go
 
+
 create table tblCustomer(
 	phone nvarchar(255) primary key not null,
 	fullname nvarchar(255) not null,
@@ -51,6 +53,7 @@ create table tblCustomer(
 )
 go
 
+
 create table tblCupon(
 	id int primary key identity(1,1) not null,
 	name nvarchar(255) not null,
@@ -61,6 +64,7 @@ create table tblCupon(
 	updatedAt date not null
 )
 go
+
 
 create table tblCheckin(
 	id int identity(1,1) primary key not null,
@@ -73,6 +77,7 @@ create table tblCheckin(
 )
 go
 
+
 create table tblCheckinDetails(
 	detailId int identity(1,1) primary key not null,
 	checkinId int foreign key references tblCheckin(id),
@@ -84,6 +89,7 @@ create table tblCheckinDetails(
 	status tinyint default(1) not null
 )
 go
+
 
 create table tblCategoryService(
 	id int primary key identity(1,1) not null,
@@ -98,6 +104,7 @@ create table tblUnit(
 )
 go
 
+
 create table tblService(
 	id int primary key identity(1,1) not null,
 	name nvarchar(255) not null,
@@ -107,6 +114,7 @@ create table tblService(
 )
 go
 
+
 create table tblCheckinServiceDetails(
 	idServicee int foreign key references tblService(id) not null,
 	idCheckinDetails int foreign key references tblCheckinDetails(detailId),
@@ -115,12 +123,14 @@ create table tblCheckinServiceDetails(
 )
 go
 
+
 create table tblProduct(
 	id int primary key identity(1,1) not null,
 	name nvarchar(255) not null,
 	quantity int not null
 )
 go
+
 
 create table tblCheckoutProductDetails(
 	model nvarchar(255) primary key not null,
@@ -129,4 +139,16 @@ create table tblCheckoutProductDetails(
 	descript text null,
 	status tinyint default(0)
 )
+go
+
+--------------------------------
+-- CREATE PROCEDURE 
+--------------------------------
+
+
+create proc categoryService_findAll
+as
+begin
+	select * from tblCategoryService
+end
 go
