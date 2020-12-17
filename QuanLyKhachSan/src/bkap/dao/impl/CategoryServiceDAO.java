@@ -6,6 +6,7 @@
 package bkap.dao.impl;
 
 import bkap.dao.ICategoryService;
+import bkap.mapper.CategoryServiceMapper;
 import bkap.model.CategoryService;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -68,38 +69,8 @@ public class CategoryServiceDAO extends AbstractDAO implements ICategoryService 
 
     @Override
     public List<CategoryService> findAll() {
-        List<CategoryService> list = new ArrayList<>();
-
-        CallableStatement cs = null;
-        Connection conn = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = "{call categoryService_findAll()}";
-            conn = getConnect();
-            cs = conn.prepareCall(sql);
-            rs = cs.executeQuery();
-
-            while (rs.next()) {
-                CategoryService c = new CategoryService();
-                c.setId(rs.getInt("id"));
-                c.setName(rs.getString("name"));
-
-                list.add(c);
-            }
-            return list;
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoryServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                conn.close();
-                cs.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(CategoryServiceDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        return null;
+        String sql = "{call categoryService_findAll()}";     
+        return query(sql, new CategoryServiceMapper());
     }
 
     public static void main(String[] args) {
