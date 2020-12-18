@@ -12,11 +12,13 @@ import java.util.List;
  *
  * @author THUY
  */
-public interface IUser {
+public interface IUser extends GenericDAO<User>{
     void add(User user);
     void delete(int id);
-    void update(User user);
+    void edit(User user);
     List<User> findAll();
     List<User> findByUsername(String username);
     List<User> findByFullname(String fullname);
+    List<User> findByPhone(String phone);
+//    List<User> findByLevelId(String fullname);
 }

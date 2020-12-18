@@ -12,9 +12,6 @@ import java.util.Date;
  * @author THUY
  */
 public class User {
-    public final static int STATUS_USER_ON = 0;
-    public final static int STATUS_USER_OFF = 1;
-    
     private int id;
     private String fullname;
     private String username;

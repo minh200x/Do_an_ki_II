@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 /**
  *
  * @author THUY
+ * @param <T>
  */
 public interface RowMapper<T> {
     T mapRow(ResultSet rs);

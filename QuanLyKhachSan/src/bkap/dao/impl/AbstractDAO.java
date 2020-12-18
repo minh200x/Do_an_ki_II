@@ -67,25 +67,8 @@ public class AbstractDAO<T> implements GenericDAO<T> {
         return null;
     }
 
-    private void setParameters(CallableStatement cs, Object... parameters) {
-        try {
-            for (Object param : parameters) {
-                int index = 0;
-                if (param instanceof String) {
-                    cs.setString(index, (String) param);
-                } else if (param instanceof Integer) {
-                    cs.setInt(index, (Integer) param);
-                } else if (param instanceof Float) {
-                    cs.setFloat(index, (Float) param);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
-    public void insert(String sql, RowMapper<T> rowmapper, Object... parameters) {
+    public void insert(String sql, Object... parameters) {
         Connection conn = null;
         CallableStatement cs = null;
 
@@ -111,6 +94,56 @@ public class AbstractDAO<T> implements GenericDAO<T> {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @Override
+    public void update(String sql, Object... parameters) {
+        Connection conn = null;
+        CallableStatement cs = null;
+
+        try {
+            conn = getConnect();
+            conn.setAutoCommit(false);
+            cs = conn.prepareCall(sql);
+            setParameters(cs, parameters);
+            cs.executeUpdate();
+            conn.commit();
+        } catch (SQLException ex) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex1) {
+                    Logger.getLogger(AbstractDAO.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
+        } finally {
+            try {
+                conn.close();
+                cs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void setParameters(CallableStatement cs, Object... parameters) {
+        try {
+            int index = 1;
+            for (Object param : parameters) {
+                if (param instanceof String) {
+                    cs.setString(index, (String) param);
+                } else if (param instanceof Integer) {
+                    cs.setInt(index, (Integer) param);
+                } else if (param instanceof Float) {
+                    cs.setFloat(index, (Float) param);
+                } else if (param instanceof Boolean) {
+                    cs.setBoolean(index, (Boolean) param);
+                }
+                index++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -5,16 +5,17 @@
  */
 package bkap.dao;
 
-import bkap.model.CategoryService;
+import bkap.model.Customer;
 import java.util.List;
 
 /**
  *
  * @author THUY
  */
-public interface ICategoryService extends GenericDAO<CategoryService>{
-    void add(CategoryService c);
-    void delete(int id);
-    void edit(CategoryService c);
-    List<CategoryService> findAll();
+public interface ICustomer extends GenericDAO<Customer>{
+    void add(Customer cus);
+    void edit(Customer cus);
+    void delete(String phone);
+    List<Customer> findAll();
+    List<Customer> findByPhone(String phone);
 }

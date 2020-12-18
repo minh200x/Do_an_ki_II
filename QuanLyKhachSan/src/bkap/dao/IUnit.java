@@ -5,16 +5,13 @@
  */
 package bkap.dao;
 
-import bkap.model.CategoryService;
+import bkap.model.Unit;
 import java.util.List;
 
 /**
  *
  * @author THUY
  */
-public interface ICategoryService extends GenericDAO<CategoryService>{
-    void add(CategoryService c);
-    void delete(int id);
-    void edit(CategoryService c);
-    List<CategoryService> findAll();
+public interface IUnit extends GenericDAO<Unit>{
+    List<Unit> findAll();
 }

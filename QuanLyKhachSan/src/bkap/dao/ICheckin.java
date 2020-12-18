@@ -5,16 +5,15 @@
  */
 package bkap.dao;
 
-import bkap.model.CategoryService;
+import bkap.model.Checkin;
 import java.util.List;
 
 /**
  *
  * @author THUY
  */
-public interface ICategoryService extends GenericDAO<CategoryService>{
-    void add(CategoryService c);
+public interface ICheckin extends GenericDAO<Checkin>{
+    void add(Checkin c);
     void delete(int id);
-    void edit(CategoryService c);
-    List<CategoryService> findAll();
+    List<Checkin> findAll();
 }
