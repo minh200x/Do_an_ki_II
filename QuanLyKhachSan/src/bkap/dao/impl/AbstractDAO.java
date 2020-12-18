@@ -7,6 +7,7 @@ package bkap.dao.impl;
 
 import bkap.dao.GenericDAO;
 import bkap.mapper.RowMapper;
+import bkap.utils.SystemConstant;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,10 +28,8 @@ public class AbstractDAO<T> implements GenericDAO<T> {
     public Connection getConnect() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            return DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databasename=QuanLyKhachSan;username=sa;password=1234$");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            return DriverManager.getConnection("jdbc:sqlserver://" + SystemConstant.host + ":" + SystemConstant.port + ";databasename=" + SystemConstant.databasename + ";username=" + SystemConstant.username + ";password=" + SystemConstant.password);
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
