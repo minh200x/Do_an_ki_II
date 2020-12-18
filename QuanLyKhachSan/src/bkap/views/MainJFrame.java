@@ -5,6 +5,7 @@
  */
 package bkap.views;
 
+import bkap.views.internalFrame.BookRoomIF;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
@@ -48,6 +49,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
+        jButton1 = new javax.swing.JButton();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -60,6 +62,12 @@ public class MainJFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
 
         jToolBar1.setRollover(true);
+
+        jButton1.setIcon(new javax.swing.ImageIcon("D:\\Sem II\\Do an ki II\\Tai lieu\\Do_an_ki_II\\QuanLyKhachSan\\src\\bkap\\images\\icons8_calendar_plus_20px.png")); // NOI18N
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton1);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -145,6 +153,7 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
