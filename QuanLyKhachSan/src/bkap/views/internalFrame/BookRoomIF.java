@@ -58,6 +58,12 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         jButton5 = new javax.swing.JButton();
         btnBookRoom = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Đặt phòng");
+
         jLabel1.setText("Họ tên khách hàng");
 
         jLabel2.setText("Số điện thoại");
@@ -206,7 +212,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton5))
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnBookRoom)
                 .addContainerGap())
         );
