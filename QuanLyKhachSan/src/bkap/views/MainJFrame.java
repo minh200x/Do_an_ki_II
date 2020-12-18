@@ -19,8 +19,14 @@ public class MainJFrame extends javax.swing.JFrame {
      */
     public MainJFrame() {
         initComponents();
+        setLogo();
     }
-
+    public void setLogo(){
+        ImageIcon imageIcon = new ImageIcon("D:\\Sem II\\Do an ki II\\Tai lieu\\Do_an_ki_II\\QuanLyKhachSan\\src\\bkap\\images\\logo.jpg"); // load the image to a imageIcon
+        Image image = imageIcon.getImage(); // transform it 
+        Image newimg = image.getScaledInstance(40, txtLogo.getHeight(), java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+        txtLogo.setIcon(new ImageIcon(newimg)); // transform it back
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,7 +37,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        btnLogo = new javax.swing.JButton();
+        txtLogo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
@@ -39,24 +45,24 @@ public class MainJFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnLogo.setText("HOTEL");
-        btnLogo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogoActionPerformed(evt);
-            }
-        });
+        txtLogo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        txtLogo.setText("HOTEL");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(btnLogo)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(txtLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButton2.setText("Thêm mới");
@@ -73,8 +79,9 @@ public class MainJFrame extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jButton2)
-                .addGap(0, 18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -87,7 +94,7 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 432, Short.MAX_VALUE))
+                .addGap(0, 428, Short.MAX_VALUE))
         );
 
         jButton1.setText("Đặt phòng");
@@ -108,20 +115,13 @@ public class MainJFrame extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jButton1)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnLogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoActionPerformed
-        // TODO add your handling code here:
-//        ImageIcon imageIcon = new ImageIcon("images/logo.jpg"); // load the image to a imageIcon
-//        Image image = imageIcon.getImage(); // transform it 
-//        Image newimg = image.getScaledInstance(20, btnLogo.getHeight(), java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
-//        btnLogo.setIcon(new ImageIcon(newimg)); // transform it back
-    }//GEN-LAST:event_btnLogoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -134,7 +134,7 @@ public class MainJFrame extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -159,11 +159,11 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnLogo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel txtLogo;
     // End of variables declaration//GEN-END:variables
 }
