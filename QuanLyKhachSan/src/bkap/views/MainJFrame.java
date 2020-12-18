@@ -31,7 +31,7 @@ public class MainJFrame extends javax.swing.JFrame {
         setLogo();
     }
     public void setLogo(){
-        ImageIcon imageIcon = new ImageIcon("D:\\Sem II\\Do an ki II\\Tai lieu\\Do_an_ki_II\\QuanLyKhachSan\\src\\bkap\\images\\logo.png"); // load the image to a imageIcon
+        ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("bkap/images/logo.png")); // load the image to a imageIcon 
         Image image = imageIcon.getImage(); // transform it 
         Image newimg = image.getScaledInstance(30, txtLogo.getHeight(), java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
         txtLogo.setIcon(new ImageIcon(newimg)); // transform it back
@@ -265,7 +265,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addComponent(btnBookRoom)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(426, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jSeparator2)
                 .addContainerGap())
@@ -346,16 +346,6 @@ public class MainJFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnBookRoomActionPerformed
 
-    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
-        // TODO add your handling code here:
-        btnBookRoomActionPerformed(null);
-    }//GEN-LAST:event_jPanel7MouseClicked
-
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jLabel4MouseClicked
-
     private void pnlQuanLyHeThongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlQuanLyHeThongMouseClicked
         // TODO add your handling code here:
         pnlShowContent.removeAll();
@@ -368,6 +358,16 @@ public class MainJFrame extends javax.swing.JFrame {
         pnlShowContent.add(new Button("Lịch sử"));
         pnlShowContent.validate();
     }//GEN-LAST:event_pnlQuanLyHeThongMouseClicked
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+        // TODO add your handling code here:
+        btnBookRoomActionPerformed(null);
+    }//GEN-LAST:event_jPanel7MouseClicked
 
     /**
      * @param args the command line arguments
