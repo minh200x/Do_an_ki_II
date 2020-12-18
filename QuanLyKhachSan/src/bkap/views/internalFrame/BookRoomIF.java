@@ -5,6 +5,8 @@
  */
 package bkap.views.internalFrame;
 
+import bkap.views.ListRoomEmptyJDialog;
+
 /**
  *
  * @author THUY
@@ -230,7 +232,8 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGetRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetRoomActionPerformed
-
+        ListRoomEmptyJDialog listRoom = new ListRoomEmptyJDialog(null, true);
+        listRoom.setVisible(true);
     }//GEN-LAST:event_btnGetRoomActionPerformed
 
 
