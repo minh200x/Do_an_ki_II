@@ -63,7 +63,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        jButton1.setIcon(new javax.swing.ImageIcon("D:\\Sem II\\Do an ki II\\Tai lieu\\Do_an_ki_II\\QuanLyKhachSan\\src\\bkap\\images\\icons8_calendar_plus_20px.png")); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icons8_calendar_plus_20px.png"))); // NOI18N
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
