@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,6 +46,8 @@ public class UserIF extends javax.swing.JInternalFrame {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     private int userId = 0;
+    private String nameImg = "";
+    private String pathDirImage = "src\\bkap\\images\\users\\";
 
     /**
      * Creates new form UserIF
@@ -371,38 +374,54 @@ public class UserIF extends javax.swing.JInternalFrame {
 
     private void btnChooseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImageActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("jpeg", "jpg", "png");
-        
-        fileChooser.setFileFilter(imgFilter);
-        fileChooser.setMultiSelectionEnabled(false);
-        
-        if (fileChooser.showOpenDialog(jPanel1) == JFileChooser.APPROVE_OPTION) {
-            File orgFileImg = fileChooser.getSelectedFile();
-            String nameOrgFileImg = orgFileImg.getAbsolutePath();
-            String nameImg = nameOrgFileImg.substring(nameOrgFileImg.indexOf("\\" + (nameOrgFileImg.length() - 1)), nameOrgFileImg.length());
+//        FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("jpeg", "jpg", "png");
+//
+//        fileChooser.setFileFilter(imgFilter);
+//        fileChooser.setMultiSelectionEnabled(false);
+
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            System.out.println("choosen");
+            File fileImg = fileChooser.getSelectedFile();
+            String pathFileImage = fileImg.getAbsolutePath();
+            System.out.println("path file img: " + pathFileImage);
             
-            File desDirection = new File("bkap\\images");
-            
-            Path orgPathFileImg = orgFileImg.toPath();
-            Path desPath = desDirection.toPath();
-            
-            containImg.setIcon(new ImageIcon(orgFileImg.getAbsolutePath()));
-            try {
-                Files.copy(orgPathFileImg, desPath, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException ex) {
-                Logger.getLogger(UserIF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            File dir = new File(pathDirImage);
+            if (dir.exists()) {
+                Path sourceDirectory = Paths.get(pathFileImage);
+                Path targetDirectory = Paths.get(pathDirImage + sourceDirectory.getFileName());
+                nameImg = sourceDirectory.getFileName().toString();
+                System.out.println("name img : " + sourceDirectory.getFileName());
+                System.out.println("name img: " + nameImg);
+                try {
+                    //copy source to target using Files Class
+                    Files.copy(sourceDirectory, targetDirectory, StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                    Logger.getLogger(UserIF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+                System.out.println("dir thon tai");
+            } else {
+                System.out.println("dir khong ton tai");
             }
+            
+            // set image
+            ImageIcon imgIcon = new ImageIcon(pathFileImage);
+            Image img = imgIcon.getImage();
+            Image newImage = img.getScaledInstance(containImg.getWidth(), containImg.getHeight(), Image.SCALE_SMOOTH);
+            imgIcon = new ImageIcon(newImage);
+
+            containImg.setIcon(imgIcon);
+
         }
     }//GEN-LAST:event_btnChooseImageActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String fullname = txtFullname.getText();
         String username = txtUsername.getText();
-        String password = txtPassword.getPassword().toString();
+        String password = txtPassword.getText().toString();
         String phone = txtPhone.getText();
         String levelName = cbLevel.getSelectedItem().toString();
         String address = txtAddress.getText();
-        String image = "";
+        String image = nameImg;
         String descript = txtDescript.getText();
 
         Date birthday = txtBirthday.getDate();
@@ -440,7 +459,7 @@ public class UserIF extends javax.swing.JInternalFrame {
                 }
             }
             u.setAddress(address);
-            u.setImage(image);
+            u.setImage(pathDirImage + image);
             if (optionFemail.isSelected()) {
                 u.setGender(SystemConstant.GENDER_FEMALE);
             } else {
@@ -543,11 +562,6 @@ public class UserIF extends javax.swing.JInternalFrame {
         listUser = userDAO.findAll();
         setDataTable(listUser);
     }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private boolean checkNullValueFields() {
-
-        return true;
-    }
 
     private void setComboxModelLevel(List<Level> list) {
         for (Level l : list) {
