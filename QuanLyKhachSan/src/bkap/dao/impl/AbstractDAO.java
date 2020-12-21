@@ -13,7 +13,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,8 +59,10 @@ public class AbstractDAO<T> implements GenericDAO<T> {
             Logger.getLogger(AbstractDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                conn.close();
-                cs.close();
+                if (conn != null) {
+                    conn.close();
+                    cs.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -88,8 +92,10 @@ public class AbstractDAO<T> implements GenericDAO<T> {
             }
         } finally {
             try {
-                conn.close();
-                cs.close();
+                if (conn != null) {
+                    conn.close();
+                    cs.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -118,8 +124,10 @@ public class AbstractDAO<T> implements GenericDAO<T> {
             }
         } finally {
             try {
-                conn.close();
-                cs.close();
+                if (conn != null) {
+                    conn.close();
+                    cs.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -138,6 +146,11 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                     cs.setFloat(index, (Float) param);
                 } else if (param instanceof Boolean) {
                     cs.setBoolean(index, (Boolean) param);
+                } else if (param instanceof Date) {
+                    java.sql.Date date = new java.sql.Date(((Date) param).getTime());
+                    cs.setDate(index, date);
+                } else if (param == null) {
+                    cs.setNull(index, Types.NULL);
                 }
                 index++;
             }

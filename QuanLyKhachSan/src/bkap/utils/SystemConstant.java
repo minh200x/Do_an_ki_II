@@ -12,13 +12,16 @@ package bkap.utils;
 public class SystemConstant {
     public final static String host = "localhost";
     public final static String port = "1433";
-    public final static String databasename = "QuanLyKhachHang";
+    public final static String databasename = "QuanLyKhachSan";
     public final static String username = "sa";
     public final static String password = "1234$";
     
     public final static boolean GENDER_FEMALE = true;
     public final static boolean GENDER_MALE = false;
     
+    public final static String STATUS_TXT_ROOM_EMPTY = "Phòng trống";
+    public final static String STATUS_TXT_ROOM_USING = "Phòng có khách";
+    public final static String STATUS_TXT_ROOM_REPAIRING = "Đang bảo dưỡng";
     public final static int STATUS_ROOM_EMPTY = 0;
     public final static int STATUS_ROOM_USING = 1;
     public final static int STATUS_ROOM_REPAIRING = 2;
@@ -29,9 +32,14 @@ public class SystemConstant {
     public final static int STATUS_PRODUCT_NORMAL = 0;
     public final static int STATUS_PRODUCT_ABNORMAl = 1;
     
+    public final static String CONFIRM_DELETE = "Bạn có muốn xóa không?";
+    public final static String CONFIRM_UPDATE = "Bạn có muốn cập nhật không?";
+    
     public final static String MSG_SUCCESSFUL_UPDATE = "Cập nhật dữ liệu thành công";
     public final static String MSG_SUCCESSFUL_LOGIN = "Đăng nhập liệu thành công";
     
     public final static String MSG_ERROR_UPDATE = "Cập nhật dữ liệu thất bại";
     public final static String MSG_ERROR_LOGIN = "Đăng nhập thất bại";
+    
+    public final static String MSG_ERROR_CHOOSE_ROW_TABLE = "Vui lòng chọn đối tượng cần cập nhật!";
 }

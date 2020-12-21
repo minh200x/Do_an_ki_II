@@ -5,17 +5,51 @@
  */
 package bkap.views.internalFrame;
 
+import bkap.dao.impl.CategoryRoomDAO;
+import bkap.dao.impl.RoomDAO;
+import bkap.model.CategoryRoom;
+import bkap.model.Room;
+import bkap.utils.SystemConstant;
+import java.awt.Color;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author hongb
  */
 public class CategoryRoomIF extends javax.swing.JInternalFrame {
 
+    private List<CategoryRoom> listCategoryRoom;
+    private List<Room> listRoom;
+
+    private CategoryRoomDAO catRoomDAO = new CategoryRoomDAO();
+    private RoomDAO roomDAO = new RoomDAO();
+
+    private DefaultTableModel modelCategoryRoom;
+
+    private int indexSelected = 0;
+    private int catRoomId = 0;
+
+    Locale localeVN = new Locale("vi", "VN");
+    NumberFormat vn = NumberFormat.getInstance(localeVN);
+
     /**
      * Creates new form CategoryRoomIF
      */
     public CategoryRoomIF() {
         initComponents();
+
+        listCategoryRoom = catRoomDAO.findAll();
+        listRoom = roomDAO.findAll();
+
+        modelCategoryRoom = (DefaultTableModel) tblCategoryRoom.getModel();
+
+        setDataTable(listCategoryRoom);
     }
 
     /**
@@ -29,14 +63,15 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtCategoryRoomName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtPrice = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        tblCategoryRoom = new javax.swing.JTable();
+        btnAdd = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        msgInformation = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -48,7 +83,7 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Giá phòng");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCategoryRoom.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -56,13 +91,37 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
                 "Loại phòng", "Giá phòng"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblCategoryRoom.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCategoryRoomMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblCategoryRoom);
 
-        jButton1.setText("Thêm");
+        btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Sửa");
+        btnUpdate.setText("Sửa");
+        btnUpdate.setEnabled(false);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Xóa");
+        btnDelete.setText("Xóa");
+        btnDelete.setEnabled(false);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        msgInformation.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -78,15 +137,16 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2)))
+                            .addComponent(txtCategoryRoomName)
+                            .addComponent(txtPrice)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(btnDelete)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(btnUpdate)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(btnAdd))
+                    .addComponent(msgInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -95,18 +155,20 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCategoryRoomName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -124,17 +186,136 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tblCategoryRoomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategoryRoomMouseClicked
+        btnAdd.setEnabled(false);
+        btnUpdate.setEnabled(true);
+        btnDelete.setEnabled(true);
+
+        int indexSelected = tblCategoryRoom.getSelectedRow();
+
+        CategoryRoom c = listCategoryRoom.get(indexSelected);
+        catRoomId = c.getId();
+        txtCategoryRoomName.setText(c.getName());
+        txtPrice.setText((int) c.getPrice() + "");
+    }//GEN-LAST:event_tblCategoryRoomMouseClicked
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        String categoryRoomName = txtCategoryRoomName.getText();
+        String roomPrice = txtPrice.getText();
+
+        if (categoryRoomName.isEmpty()) {
+            setMessageInformation("Vui lòng nhập tên loại phòng!", false);
+        } else if (roomPrice.isEmpty()) {
+            setMessageInformation("Vui lòng nhập giá phòng!", false);
+        } else if (!roomPrice.isEmpty() && !roomPrice.matches("^[0-9]+$")) {
+            setMessageInformation("Vui lòng nhập giá là số!", false);
+        } else {
+            CategoryRoom c = new CategoryRoom();
+            c.setName(categoryRoomName);
+            c.setPrice(Float.parseFloat(roomPrice));
+
+            catRoomDAO.add(c);
+            setNullFields();
+            setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+
+            listCategoryRoom = catRoomDAO.findAll();
+            setDataTable(listCategoryRoom);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_DELETE);
+
+        if (reply == 0) {
+            indexSelected = tblCategoryRoom.getSelectedRow();
+
+            if (indexSelected == -1) {
+                setMessageInformation(SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+            } else {
+                boolean check = true;
+                
+                for (Room r : listRoom) {
+                    for (CategoryRoom l : listCategoryRoom) {
+                        if (r.getTypeId() == l.getId()) {
+                            setMessageInformation("Bạn không thể xóa loại phòng này!", false);
+                            check = false;
+                        }
+                    }
+                }
+
+                if (check) {
+                    catRoomDAO.delete(catRoomId);
+                    setNullFields();
+                    setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                    listCategoryRoom = catRoomDAO.findAll();
+                    setDataTable(listCategoryRoom);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_UPDATE);
+
+        if (reply == 0) {
+            indexSelected = tblCategoryRoom.getSelectedRow();
+
+            if (indexSelected == -1) {
+                setMessageInformation(SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+            } else {
+                CategoryRoom c = new CategoryRoom();
+                c.setId(catRoomId);
+                c.setName(txtCategoryRoomName.getText());
+                c.setPrice(Float.parseFloat(txtPrice.getText()));
+
+                catRoomDAO.edit(c);
+                setNullFields();
+                setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                listCategoryRoom = catRoomDAO.findAll();
+                setDataTable(listCategoryRoom);
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void setMessageInformation(String msg, Boolean status) {
+        if (status == false) {
+            msgInformation.setForeground(Color.RED);
+            msgInformation.setText(msg);
+        } else {
+            msgInformation.setForeground(Color.BLUE);
+            msgInformation.setText(msg);
+        }
+    }
+
+    private void setNullFields() {
+        btnAdd.setEnabled(true);
+        btnDelete.setEnabled(false);
+        btnUpdate.setEnabled(false);
+
+        txtCategoryRoomName.setText("");
+        txtPrice.setText("");
+    }
+
+    private void setDataTable(List<CategoryRoom> list) {
+        modelCategoryRoom.setRowCount(0);
+        for (CategoryRoom c : list) {
+            modelCategoryRoom.addRow(new Object[]{
+                c.getName(), vn.format(c.getPrice())
+            });
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel msgInformation;
+    private javax.swing.JTable tblCategoryRoom;
+    private javax.swing.JTextField txtCategoryRoomName;
+    private javax.swing.JTextField txtPrice;
     // End of variables declaration//GEN-END:variables
 }

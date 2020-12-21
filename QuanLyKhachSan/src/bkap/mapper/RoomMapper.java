@@ -15,25 +15,23 @@ import java.util.logging.Logger;
  *
  * @author THUY
  */
-public class RoomMapper implements RowMapper<Room>{
+public class RoomMapper implements RowMapper<Room> {
 
     @Override
     public Room mapRow(ResultSet rs) {
         try {
-            while (rs.next()) {
-                Room r = new Room();
-                r.setRoomId(rs.getInt("roomId"));
-                r.setType(rs.getInt("typeId"));
-                r.setImage(rs.getString("image"));
-                r.setDescript(rs.getString("descript"));
-                r.setStatus(rs.getInt("status"));
-                
-                return r;
-            }
+            Room r = new Room();
+            r.setRoomId(rs.getInt("roomId"));
+            r.setTypeId(rs.getInt("typeId"));
+            r.setImage(rs.getString("image"));
+            r.setDescript(rs.getString("descript"));
+            r.setStatus(rs.getInt("status"));
+
+            return r;
         } catch (SQLException ex) {
             Logger.getLogger(RoomMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
+
 }

@@ -16,23 +16,21 @@ import java.util.logging.Logger;
  * @author THUY
  */
 public class CheckinServiceDetailsMapper implements RowMapper<CheckinServiceDetails> {
-    
+
     @Override
     public CheckinServiceDetails mapRow(ResultSet rs) {
         try {
-            while (rs.next()) {
-                CheckinServiceDetails c = new CheckinServiceDetails();
-                c.setIdService(rs.getInt("idService"));
-                c.setIdCheckinDetails(rs.getInt("idCheckinDetails"));
-                c.setQuantity(rs.getInt("quantity"));
-                
-                return c;
-            }
-            
+            CheckinServiceDetails c = new CheckinServiceDetails();
+            c.setIdService(rs.getInt("idService"));
+            c.setIdCheckinDetails(rs.getInt("idCheckinDetails"));
+            c.setQuantity(rs.getInt("quantity"));
+
+            return c;
+
         } catch (SQLException ex) {
             Logger.getLogger(CheckinServiceDetailsMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
+
 }

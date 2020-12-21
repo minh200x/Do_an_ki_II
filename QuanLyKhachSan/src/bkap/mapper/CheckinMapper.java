@@ -20,17 +20,15 @@ public class CheckinMapper implements RowMapper<Checkin> {
     @Override
     public Checkin mapRow(ResultSet rs) {
         try {
-            while (rs.next()) {
-                Checkin c = new Checkin();
-                c.setId(rs.getInt("id"));
-                c.setCusPhone(rs.getString("cusPhone"));
-                c.setTotalPeople(rs.getInt("totalPeople"));
-                c.setTotalMoney(rs.getFloat("totalMoney"));
-                c.setTotalServicePrice(rs.getFloat("totalServicePrice"));
-                c.setDescript(rs.getString("descript"));
+            Checkin c = new Checkin();
+            c.setId(rs.getInt("id"));
+            c.setCusPhone(rs.getString("cusPhone"));
+            c.setTotalPeople(rs.getInt("totalPeople"));
+            c.setTotalMoney(rs.getFloat("totalMoney"));
+            c.setTotalServicePrice(rs.getFloat("totalServicePrice"));
+            c.setDescript(rs.getString("descript"));
 
-                return c;
-            }
+            return c;
         } catch (SQLException ex) {
             Logger.getLogger(CheckinMapper.class.getName()).log(Level.SEVERE, null, ex);
         }

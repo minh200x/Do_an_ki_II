@@ -5,17 +5,42 @@
  */
 package bkap.views.internalFrame;
 
+import bkap.dao.impl.CustomerDAO;
+import bkap.model.Customer;
+import bkap.utils.SystemConstant;
+import bkap.utils.Utils;
+import java.awt.Color;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author hongb
  */
 public class CustomerIF extends javax.swing.JInternalFrame {
 
+    private CustomerDAO cusDAO = new CustomerDAO();
+
+    private List<Customer> listCustomer;
+
+    private DefaultTableModel modelCustomer;
+
+    private int indexSelected = 0;
+    private String cusPhone = "";
+
     /**
      * Creates new form CustomerIF
      */
     public CustomerIF() {
         initComponents();
+
+        listCustomer = cusDAO.findAll();
+
+        modelCustomer = (DefaultTableModel) tblCustomer.getModel();
+
+        setDataTable(listCustomer);
     }
 
     /**
@@ -27,37 +52,38 @@ public class CustomerIF extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroupGender = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtFullname = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtPhone = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtAddress = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        optionMale = new javax.swing.JRadioButton();
+        optionFemale = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtIdentityCard = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        txtDescript = new javax.swing.JTextArea();
+        btnDelete = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblCustomer = new javax.swing.JTable();
+        msgInformation = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
         setTitle("Khách hàng");
+        setRequestFocusEnabled(false);
 
         jLabel1.setText("Họ và tên");
 
@@ -67,36 +93,50 @@ public class CustomerIF extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Địa chỉ");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(2);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtAddress.setColumns(20);
+        txtAddress.setRows(2);
+        jScrollPane1.setViewportView(txtAddress);
 
         jLabel5.setText("Giới tính");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Chưa xác định");
+        buttonGroupGender.add(optionMale);
+        optionMale.setText("Nam");
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Nam");
-
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Nữ");
+        buttonGroupGender.add(optionFemale);
+        optionFemale.setText("Nữ");
 
         jLabel6.setText("Thẻ CMND/ CCCD");
 
         jLabel7.setText("Ghi chú");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        txtDescript.setColumns(20);
+        txtDescript.setRows(5);
+        jScrollPane2.setViewportView(txtDescript);
 
-        jButton3.setText("Xóa");
+        btnDelete.setText("Xóa");
+        btnDelete.setEnabled(false);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Sửa");
+        btnUpdate.setText("Sửa");
+        btnUpdate.setEnabled(false);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Thêm");
+        btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCustomer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -104,7 +144,14 @@ public class CustomerIF extends javax.swing.JInternalFrame {
                 "Họ và tên", "Số điện thoại", "Email", "Địa chỉ", "Giới tính", "CMND/ CCCD", "Mô tả", "Ngày tạo", "Cập nhật gần đây"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        tblCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCustomerMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblCustomer);
+
+        msgInformation.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -119,40 +166,43 @@ public class CustomerIF extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
-                        .addGap(36, 36, 36)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jRadioButton1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jRadioButton2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jRadioButton3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextField1)
+                                .addGap(36, 36, 36)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtFullname)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel3)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtEmail))
+                                    .addComponent(jScrollPane1)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(44, 44, 44)
+                                .addComponent(optionMale)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField3))
-                            .addComponent(jScrollPane1)))
+                                .addComponent(optionFemale)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(jLabel7))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField4)
+                            .addComponent(txtIdentityCard)
                             .addComponent(jScrollPane2)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton3)
+                                .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDelete)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton2)
+                                .addComponent(btnUpdate)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton1))
+                                .addComponent(btnAdd))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
@@ -162,13 +212,13 @@ public class CustomerIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFullname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -177,24 +227,24 @@ public class CustomerIF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRadioButton1)
-                        .addComponent(jRadioButton2)
-                        .addComponent(jRadioButton3)))
+                        .addComponent(optionMale)
+                        .addComponent(optionFemale)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdentityCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnAdd)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete)
+                    .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -208,18 +258,175 @@ public class CustomerIF extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 18, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        String fullname = txtFullname.getText();
+        String phone = txtPhone.getText();
+        String identityCard = txtIdentityCard.getText();
+        String descript = txtDescript.getText();
+        String address = txtAddress.getText();
+        String email = txtEmail.getText();
 
+        if (fullname.isEmpty()) {
+            setMessageInformation("Vui lòng nhập tên khách hàng!", false);
+        } else if (phone.isEmpty()) {
+            setMessageInformation("Vui lòng nhập số điện thoại!", false);
+        } else if (!phone.matches("^[0-9]{10}+$")) {
+            setMessageInformation("Vui lòng nhập số điện thoại đúng định dạng!", false);
+        } else if (!email.isEmpty() && !email.matches("^[a-z][a-z0-9_\\.]{5,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$")) {
+            setMessageInformation("Vui lòng nhập đúng định dạng email!", false);
+        } else if (address.isEmpty()) {
+            setMessageInformation("Vui lòng nhập đỉa chị khách hàng!", false);
+        } else if (!optionFemale.isSelected() && !optionMale.isSelected()) {
+            setMessageInformation("Vui lòng chọn giới tính!", false);
+        } else if (identityCard.isEmpty()) {
+            setMessageInformation("Vui lòng nhập số chứng minh thư!", false);
+        } else {
+            Customer c = new Customer();
+            c.setPhone(phone);
+            c.setFullname(fullname);
+            c.setEmail(email);
+            c.setAddress(address);
+            if (optionFemale.isSelected()) {
+                c.setGender(SystemConstant.GENDER_FEMALE);
+            } else {
+                c.setGender(SystemConstant.GENDER_MALE);
+            }
+            c.setNumIdentityCard(Integer.parseInt(identityCard));
+            c.setDescript(descript);
+            c.setCreatedAt(Utils.getCurrentTime());
+            c.setUpdatedAt(Utils.getCurrentTime());
+
+            cusDAO.add(c);
+            setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            setNullValueFields();
+
+            listCustomer = cusDAO.findAll();
+            setDataTable(listCustomer);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_DELETE);
+
+        if (reply == 0) {
+            indexSelected = tblCustomer.getSelectedRow();
+
+            if (indexSelected == -1) {
+                setMessageInformation(SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+            } else {
+                cusDAO.delete(cusPhone);
+                setNullValueFields();
+                setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                listCustomer = cusDAO.findAll();
+                setDataTable(listCustomer);
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tblCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustomerMouseClicked
+        btnAdd.setEnabled(false);
+        btnUpdate.setEnabled(true);
+        btnDelete.setEnabled(true);
+
+        indexSelected = tblCustomer.getSelectedRow();
+
+        Customer c = listCustomer.get(indexSelected);
+        cusPhone = c.getPhone();
+        txtFullname.setText(c.getFullname());
+        txtPhone.setText(c.getPhone());
+        txtEmail.setText(c.getEmail());
+        txtAddress.setText(c.getAddress());
+        txtIdentityCard.setText(c.getNumIdentityCard() + "");
+        txtDescript.setText(c.getDescript());
+
+        if (c.isGender() == SystemConstant.GENDER_FEMALE) {
+            optionFemale.setSelected(true);
+        } else {
+            optionMale.setSelected(true);
+        }
+
+    }//GEN-LAST:event_tblCustomerMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_UPDATE);
+
+        if (reply == 0) {
+            indexSelected = tblCustomer.getSelectedRow();
+
+            if (indexSelected == -1) {
+                setMessageInformation(SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+            } else {
+                Customer c = new Customer();
+                c.setPhone(cusPhone);
+                c.setFullname(txtFullname.getText());
+                c.setEmail(txtEmail.getText());
+                c.setAddress(txtAddress.getText());
+                if (optionFemale.isSelected()) {
+                    c.setGender(SystemConstant.GENDER_FEMALE);
+                } else {
+                    c.setGender(SystemConstant.GENDER_MALE);
+                }
+                c.setNumIdentityCard(Integer.parseInt(txtIdentityCard.getText()));
+                c.setDescript(txtDescript.getText());
+                c.setCreatedAt(Utils.getCurrentTime());
+                c.setUpdatedAt(Utils.getCurrentTime());
+
+                cusDAO.edit(c);
+                setNullValueFields();
+                setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                listCustomer = cusDAO.findAll();
+                setDataTable(listCustomer);
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void setNullValueFields() {
+        btnAdd.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+
+        txtFullname.setText("");
+        txtPhone.setText("");
+        txtEmail.setText("");
+        txtAddress.setText("");
+        txtIdentityCard.setText("");
+        txtDescript.setText("");
+        if (optionFemale.isSelected()) {
+            optionFemale.setSelected(false);
+        } else {
+            optionMale.setSelected(false);
+        }
+    }
+
+    private void setDataTable(List<Customer> list) {
+        modelCustomer.setRowCount(0);
+        for (Customer c : list) {
+            modelCustomer.addRow(new Object[]{
+                c.getFullname(), c.getPhone(), c.getEmail(), c.getAddress(), c.isGender() == SystemConstant.GENDER_FEMALE ? "Nữ" : "Nam", c.getNumIdentityCard(), c.getDescript(), c.getCreatedAt(), c.getUpdatedAt()
+            });
+        }
+    }
+
+    private void setMessageInformation(String msg, Boolean status) {
+        if (status == false) {
+            msgInformation.setForeground(Color.RED);
+            msgInformation.setText(msg);
+        } else {
+            msgInformation.setForeground(Color.BLUE);
+            msgInformation.setText(msg);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.ButtonGroup buttonGroupGender;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -228,18 +435,18 @@ public class CustomerIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel msgInformation;
+    private javax.swing.JRadioButton optionFemale;
+    private javax.swing.JRadioButton optionMale;
+    private javax.swing.JTable tblCustomer;
+    private javax.swing.JTextArea txtAddress;
+    private javax.swing.JTextArea txtDescript;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtFullname;
+    private javax.swing.JTextField txtIdentityCard;
+    private javax.swing.JTextField txtPhone;
     // End of variables declaration//GEN-END:variables
 }

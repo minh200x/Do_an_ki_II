@@ -11,8 +11,7 @@ package bkap.model;
  */
 public class Room {    
     private int roomId;
-    private int type;
-    private float price;
+    private int typeId;
     private String image;
     private String descript;
     private int status;
@@ -20,13 +19,20 @@ public class Room {
     public Room() {
     }
 
-    public Room(int roomId, int type, float price, String image, String descript, int status) {
+    public Room(int roomId, int typeId, String image, String descript, int status) {
         this.roomId = roomId;
-        this.type = type;
-        this.price = price;
+        this.typeId = typeId;
         this.image = image;
         this.descript = descript;
         this.status = status;
+    }
+
+    public int getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
 
     public int getRoomId() {
@@ -35,22 +41,6 @@ public class Room {
 
     public void setRoomId(int roomId) {
         this.roomId = roomId;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
     }
 
     public String getImage() {

@@ -19,13 +19,11 @@ public class LevelMapper implements RowMapper<Level> {
     @Override
     public Level mapRow(ResultSet rs) {
         try {
-            while (rs.next()) {
-                Level l = new Level();
-                l.setId(rs.getInt("id"));
-                l.setName(rs.getString("name"));
+            Level l = new Level();
+            l.setId(rs.getInt("id"));
+            l.setName(rs.getString("name"));
 
-                return l;
-            }
+            return l;
         } catch (SQLException ex) {
             Logger.getLogger(LevelMapper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
