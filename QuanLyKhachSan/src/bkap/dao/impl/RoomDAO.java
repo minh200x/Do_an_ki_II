@@ -18,14 +18,14 @@ public class RoomDAO extends AbstractDAO<Room> implements IRoom{
 
     @Override
     public void add(Room r) {
-        String sql = "{call room_insert(?,?,?,?,?)}";
-        insert(sql, r.getRoomId(), r.getType(), r.getImage(), r.getDescript(), r.getStatus());
+        String sql = "{call room_insert(?,?,?,?)}";
+        insert(sql, r.getTypeId(), r.getImage(), r.getDescript(), r.getStatus());
     }
 
     @Override
     public void edit(Room r) {
-        String sql = "{call roomm_update(?,?,?,?,?)}";
-        update(sql, r.getRoomId(), r.getType(), r.getImage(), r.getDescript(), r.getStatus());
+        String sql = "{call room_update(?,?,?,?,?)}";
+        update(sql, r.getRoomId(), r.getTypeId(), r.getImage(), r.getDescript(), r.getStatus());
     }
 
     @Override

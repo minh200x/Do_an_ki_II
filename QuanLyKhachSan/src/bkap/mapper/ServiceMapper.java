@@ -20,16 +20,14 @@ public class ServiceMapper implements RowMapper<Service> {
     @Override
     public Service mapRow(ResultSet rs) {
         try {
-            while (rs.next()) {
-                Service s = new Service();
-                s.setId(rs.getInt("id"));
-                s.setName(rs.getString("name"));
-                s.setPrice(rs.getFloat("price"));
-                s.setUnit(rs.getInt("unit"));
-                s.setCatService(rs.getInt("catService"));
+            Service s = new Service();
+            s.setId(rs.getInt("id"));
+            s.setName(rs.getString("name"));
+            s.setPrice(rs.getFloat("price"));
+            s.setUnit(rs.getInt("unit"));
+            s.setCatService(rs.getInt("catService"));
 
-                return s;
-            }
+            return s;
         } catch (SQLException ex) {
             Logger.getLogger(ServiceMapper.class.getName()).log(Level.SEVERE, null, ex);
         }

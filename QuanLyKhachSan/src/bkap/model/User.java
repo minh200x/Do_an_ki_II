@@ -12,6 +12,7 @@ import java.util.Date;
  * @author THUY
  */
 public class User {
+
     private int id;
     private String fullname;
     private String username;
@@ -158,6 +159,5 @@ public class User {
     public void setStatus(int status) {
         this.status = status;
     }
-    
-    
+
 }

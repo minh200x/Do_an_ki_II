@@ -15,29 +15,27 @@ import java.util.logging.Logger;
  *
  * @author THUY
  */
-public class CustomerMapper implements RowMapper<Customer>{
+public class CustomerMapper implements RowMapper<Customer> {
 
     @Override
     public Customer mapRow(ResultSet rs) {
         try {
-            while (rs.next()) {
-                Customer c = new Customer();
-                c.setPhone(rs.getString("phone"));
-                c.setFullname(rs.getString("fullname"));
-                c.setEmail(rs.getString("email"));
-                c.setAddress(rs.getString("address"));
-                c.setGender(rs.getBoolean("gender"));
-                c.setNumIdentityCard(rs.getInt("numIdentityCard"));
-                c.setDescript(rs.getString("descript"));
-                c.setCreatedAt(rs.getDate("createdAt"));
-                c.setUpdatedAt(rs.getDate("updatedAt"));
-                
-                return c;
-            }
+            Customer c = new Customer();
+            c.setPhone(rs.getString("phone"));
+            c.setFullname(rs.getString("fullname"));
+            c.setEmail(rs.getString("email"));
+            c.setAddress(rs.getString("address"));
+            c.setGender(rs.getBoolean("gender"));
+            c.setNumIdentityCard(rs.getInt("numIdentityCard"));
+            c.setDescript(rs.getString("descript"));
+            c.setCreatedAt(rs.getDate("createdAt"));
+            c.setUpdatedAt(rs.getDate("updatedAt"));
+
+            return c;
         } catch (SQLException ex) {
             Logger.getLogger(CustomerMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
+
 }

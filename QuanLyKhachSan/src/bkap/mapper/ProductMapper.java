@@ -20,13 +20,11 @@ public class ProductMapper implements RowMapper<Product> {
     @Override
     public Product mapRow(ResultSet rs) {
         try {
-            while (rs.next()) {
-                Product p = new Product();
-                p.setId(rs.getInt("id"));
-                p.setName(rs.getString("name"));
-                p.setQuantity(rs.getInt("quantity"));
-                return p;
-            }
+            Product p = new Product();
+            p.setId(rs.getInt("id"));
+            p.setName(rs.getString("name"));
+            p.setQuantity(rs.getInt("quantity"));
+            return p;
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
         }

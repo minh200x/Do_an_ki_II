@@ -1,16 +1,24 @@
-create database QuanLyKhachSan
+﻿create database QuanLyKhachSan
 go
 use QuanLyKhachSan
 go
 
-create table tblRoomPrice(
+create table tblCategoryRoom(
 	id int identity(1,1) primary key not null,
+	name nvarchar(255) not null,
 	price float not null
 )
+go
 
+INSERT INTO tblCategoryRoom(name, price) VALUES('Phòng đơn', 370000)
+INSERT INTO tblCategoryRoom(name, price) VALUES('Phòng đôi', 400000)
+
+
+-----------
+-----------
 create table tblRoom(
 	roomId int identity(1,1) primary key not null,
-	typeId int foreign key references tblRoomPrice(id) not null,
+	typeId int foreign key references tblCategoryRoom(id) not null,
 	image nvarchar(255) null,
 	descript text null,
 	status tinyint default(0)
@@ -19,6 +27,20 @@ go
 
 ALTER TABLE tblRoom
 ADD UNIQUE (roomId);
+go
+
+
+INSERT INTO tblRoom(typeId, image, descript, status) VALUES(1, null, null, 0)
+INSERT INTO tblRoom(typeId, image, descript, status) VALUES(1, null, null, 2)
+INSERT INTO tblRoom(typeId, image, descript, status) VALUES(2, null, 'view dep', 1)
+INSERT INTO tblRoom(typeId, image, descript, status) VALUES(2, null, null, 0)
+INSERT INTO tblRoom(typeId, image, descript, status) VALUES(1, null, null, 0)
+
+
+
+
+-----------
+-----------
 
 
 create table tblLevel(
@@ -27,9 +49,15 @@ create table tblLevel(
 )
 go
 
+INSERT INTO tblLevel(name) VALUES('Admin')
+INSERT INTO tblLevel(name) VALUES('Nhân viên')
 
+
+
+-----------
+-----------
 create table tblUser(
-	id int primary key not null,
+	id int primary key identity(1,1) not null,
 	username nvarchar(255) not null,
 	password nvarchar(255) not null,
 	levelId int foreign key references tblLevel(id) not null,
@@ -47,7 +75,15 @@ create table tblUser(
 go
 
 
+INSERT INTO tblUser(username, password, levelId, fullname, startDate, endDate) VALUES('congTua', '123456', 2, 'Công Chúa', GETDATE(), GETDATE())
+INSERT INTO tblUser(username, password, levelId, fullname, startDate, endDate) VALUES('hoangTu', '123456', 2, 'Hoàng Tử', GETDATE(), GETDATE())
+
+
+
+-----------
+-----------
 create table tblCustomer(
+	id int identity(1,1) not null,
 	phone nvarchar(255) primary key not null,
 	fullname nvarchar(255) not null,
 	email nvarchar(255) null,
@@ -60,22 +96,36 @@ create table tblCustomer(
 )
 go
 
+
 ALTER TABLE tblCustomer
 ADD UNIQUE (phone);
 
+INSERT INTO tblCustomer(phone, fullname, numIdentityCard, createdAt, updatedAt) VALUES('0354422847', 'Kang Daniel', '12789546', GETDATE(), GETDATE())
+INSERT INTO tblCustomer(phone, fullname, numIdentityCard, createdAt, updatedAt) VALUES('0156452205', 'Donal Trump', '56015500', GETDATE(), GETDATE())
 
+
+
+-----------
+-----------
 create table tblCupon(
 	id int primary key identity(1,1) not null,
 	name nvarchar(255) not null,
 	discount float not null,
 	maxQuantity int null,
 	status tinyint default(0) not null,
+	startDate date null,
+	endDate date null,
 	createdAt date not null,
 	updatedAt date not null
 )
 go
 
+INSERT INTO tblCupon(name, discount, maxQuantity, startDate, endDate, createdAt, updatedAt) VALUES('Tri ân khách hàng', 25, 50, null, null, GETDATE(), GETDATE())
 
+
+
+-----------
+-----------
 create table tblCheckin(
 	id int identity(1,1) primary key not null,
 	cusPhone nvarchar(255) foreign key references tblCustomer(phone) not null,
@@ -88,6 +138,9 @@ create table tblCheckin(
 go
 
 
+
+-----------
+-----------
 create table tblCheckinDetails(
 	detailId int identity(1,1) primary key not null,
 	checkinId int foreign key references tblCheckin(id),
@@ -277,15 +330,14 @@ go
 
 -- PROC tblRoom
 
-create proc room_insert(@roomId int,
-						@typeId int,
+create proc room_insert(@typeId int,
 						@image nvarchar(255),
 						@descript text,
 						@status tinyint)
 as
 begin
-	insert into tblRoom(roomId, typeId, image, descript, status) 
-	values(@roomId, @typeId, @image, @descript, @status)
+	insert into tblRoom(typeId, image, descript, status) 
+	values(@typeId, @image, @descript, @status)
 end
 go
 
@@ -355,7 +407,6 @@ go
 
 
 -- PROC tblCustomer
-
 create proc customer_insert(@phone nvarchar(255),
 							@fullname nvarchar(255),
 							@email nvarchar(255),
@@ -373,12 +424,13 @@ end
 go
 
 
-create proc customer_delete(@phone nvarchar)
+create proc customer_delete(@phone nvarchar(255))
 as
 begin
 	delete from tblCustomer where phone=@phone
 end
 go
+
 
 create proc customer_update(@phone nvarchar(255),
 							@fullname nvarchar(255),
@@ -391,7 +443,7 @@ create proc customer_update(@phone nvarchar(255),
 							@updatedAt date)
 as
 begin
-	update tblCustomer set phone=@phone, fullname=@fullname, email=@email, address=@address, gender=@gender, numIdentityCard=@numIdentityCard,
+	update tblCustomer set fullname=@fullname, email=@email, address=@address, gender=@gender, numIdentityCard=@numIdentityCard,
 							descript=@descript, createdAt=@createdAt, updatedAt=@updatedAt
 	where phone=@phone
 end
@@ -421,12 +473,14 @@ create proc cupon_insert(@name nvarchar(255),
 						@discount float,
 						@maxQuantity int,
 						@status bit,
+						@startDate date,
+						@endDate date,
 						@createdAt date,
 						@updatedAt date)
 as
 begin
-	insert into tblCupon(name, discount, maxQuantity, status, createdAt, updatedAt)
-	values(@name, @discount, @maxQuantity, @status, @createdAt, @updatedAt)
+	insert into tblCupon(name, discount, maxQuantity, status, startDate, endDate, createdAt, updatedAt)
+	values(@name, @discount, @maxQuantity, @status, @startDate, @endDate, @createdAt, @updatedAt)
 end
 go
 
@@ -436,11 +490,13 @@ create proc cupon_update(@id int,
 						@discount float,
 						@maxQuantity int,
 						@status bit,
+						@startDate date,
+						@endDate date,
 						@createdAt date,
 						@updatedAt date)
 as
 begin
-	update tblCupon set name=@name, discount=@discount, maxQuantity=@maxQuantity, status=@status, createdAt=@createdAt, updatedAt=@updatedAt
+	update tblCupon set name=@name, discount=@discount, maxQuantity=@maxQuantity, status=@status, startDate=@startDate, endDate=@endDate, createdAt=@createdAt, updatedAt=@updatedAt
 	where id=@id
 end
 go
@@ -594,9 +650,46 @@ go
 
 -- PROC tblUnit
 
-create proc lunit_findAll
+create proc unit_findAll
 as
 begin
 	select * from tblUnit
+end
+go
+
+
+-- PROC tblCategoryRoom
+create proc categoryRoom_findAll
+as
+begin
+	select * from tblCategoryRoom
+end
+go
+
+
+create proc categoryRoom_insert(@name nvarchar(255), 
+								@price float)
+as
+begin
+	insert into tblCategoryRoom(name, price) values(@name, @price)
+end
+go
+
+
+create proc categoryRoom_delete(@id int)
+as
+begin
+	delete from tblCategoryRoom where id=@id
+end
+go
+
+
+create proc categoryRoom_update(@id int,
+								@name nvarchar(255), 
+								@price float)
+as
+begin
+	update tblCategoryRoom set name=@name, price=@price 
+	where id=@id
 end
 go

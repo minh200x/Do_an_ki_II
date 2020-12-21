@@ -20,13 +20,11 @@ public class UnitMapper implements RowMapper<Unit> {
     @Override
     public Unit mapRow(ResultSet rs) {
         try {
-            while (rs.next()) {
-                Unit u = new Unit();
-                u.setId(rs.getInt("id"));
-                u.setName(rs.getString("name"));
+            Unit u = new Unit();
+            u.setId(rs.getInt("id"));
+            u.setName(rs.getString("name"));
 
-                return u;
-            }
+            return u;
         } catch (SQLException ex) {
             Logger.getLogger(UnitMapper.class.getName()).log(Level.SEVERE, null, ex);
         }

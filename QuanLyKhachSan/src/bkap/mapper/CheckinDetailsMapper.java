@@ -20,19 +20,17 @@ public class CheckinDetailsMapper implements RowMapper<CheckinDetails> {
     @Override
     public CheckinDetails mapRow(ResultSet rs) {
         try {
-            while (rs.next()) {
-                CheckinDetails c = new CheckinDetails();
-                c.setDetailId(rs.getInt("detailId"));
-                c.setCheckinId(rs.getInt("checkinId"));
-                c.setRoomId(rs.getInt("roomId"));
-                c.setTotalServicePrice(rs.getFloat("totalServicePrice"));
-                c.setPrice(rs.getFloat("price"));
-                c.setStartDate(rs.getDate("startDate"));
-                c.setEndDate(rs.getDate("endDate"));
-                c.setStatus(rs.getInt("status"));
+            CheckinDetails c = new CheckinDetails();
+            c.setDetailId(rs.getInt("detailId"));
+            c.setCheckinId(rs.getInt("checkinId"));
+            c.setRoomId(rs.getInt("roomId"));
+            c.setTotalServicePrice(rs.getFloat("totalServicePrice"));
+            c.setPrice(rs.getFloat("price"));
+            c.setStartDate(rs.getDate("startDate"));
+            c.setEndDate(rs.getDate("endDate"));
+            c.setStatus(rs.getInt("status"));
 
-                return c;
-            }
+            return c;
         } catch (SQLException ex) {
             Logger.getLogger(CheckinDetailsMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
