@@ -232,15 +232,15 @@ public class UserIF extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(containImg, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(47, 47, 47))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(10, 10, 10)
                                                 .addComponent(jLabel7))
                                             .addComponent(btnChooseImage))
-                                        .addGap(68, 68, 68))))))
+                                        .addGap(68, 68, 68))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(containImg, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(47, 47, 47))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -315,7 +315,7 @@ public class UserIF extends javax.swing.JInternalFrame {
                                 .addComponent(btnAdd)
                                 .addComponent(btnUpdate))))
                     .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         tblUser.setModel(new javax.swing.table.DefaultTableModel(
@@ -378,8 +378,10 @@ public class UserIF extends javax.swing.JInternalFrame {
         
         if (fileChooser.showOpenDialog(jPanel1) == JFileChooser.APPROVE_OPTION) {
             File orgFileImg = fileChooser.getSelectedFile();
+            String nameOrgFileImg = orgFileImg.getAbsolutePath();
+            String nameImg = nameOrgFileImg.substring(nameOrgFileImg.indexOf("\\" + (nameOrgFileImg.length() - 1)), nameOrgFileImg.length());
             
-            File desDirection = new File("\\bkap\\images");
+            File desDirection = new File("bkap\\images");
             
             Path orgPathFileImg = orgFileImg.toPath();
             Path desPath = desDirection.toPath();
