@@ -30,6 +30,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 /**
@@ -40,14 +42,36 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private ImageIcon imgLogo;
     private BufferedImage backgroundImage;
+//    private boolean isLogin = false;
 
 
     /**
      * Creates new form MainJFrame
      */
     public MainJFrame() {
-        initComponents();
+        showLogin();
         setCss();
+    }
+    
+    private void showLogin(){
+        LoginDialog loginForm = new LoginDialog(this, true);
+        this.setVisible(false);
+        loginForm.setVisible(true);
+        loginForm.validate();
+        
+        if(LoginDialog.isLogin == true){
+            initComponents();
+        }
+    }
+    
+    private boolean checkOnly(JInternalFrame innerFrame) {
+        JInternalFrame[] arrFrame = dkpMain.getAllFrames();
+        for (JInternalFrame frame : arrFrame) {
+            if (frame.getClass().getName() == innerFrame.getClass().getName()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setCss() {
@@ -57,25 +81,6 @@ public class MainJFrame extends javax.swing.JFrame {
         imgLogo = new ImageIcon(newimg);
         setIconImage(imgLogo.getImage());
         setTitle("HOTEL - Quản lý khách sạn");
-//        try {
-//            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("bkap/images/bgdskMain.jpg"));
-////              backgroundImage = ImageIO.read(new File("bkap/images/bgdskMain.jpg"));
-//
-//        } catch (IOException ex) {
-//            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        dkpMain = new JDesktopPane() {
-//            @Override
-//            protected void paintComponent(Graphics grphcs) {
-//                super.paintComponent(grphcs);
-//                grphcs.drawImage(backgroundImage, 0, 0, null);
-//            }
-//
-//            @Override
-//            public Dimension getPreferredSize() {
-//                return new Dimension(backgroundImage.getWidth(), backgroundImage.getHeight());
-//            }
-//        };
         
         
     }
@@ -234,9 +239,7 @@ public class MainJFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(dkpMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(dkpMain)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,7 +364,6 @@ public class MainJFrame extends javax.swing.JFrame {
             public void run() {
                 MainJFrame main = new MainJFrame();
                 main.setVisible(true);
-
             }
         });
     }

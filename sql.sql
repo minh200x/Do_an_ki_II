@@ -693,3 +693,11 @@ begin
 	where id=@id
 end
 go
+
+create proc login(@username nvarchar(255), @password nvarchar(255))
+as
+begin 
+	select * from tblUser
+	where username = @username and password = @password
+end
+go

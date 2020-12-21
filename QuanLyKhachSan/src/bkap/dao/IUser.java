@@ -16,6 +16,7 @@ public interface IUser extends GenericDAO<User>{
     void add(User user);
     void delete(int id);
     void edit(User user);
+    User login(String username, String password);
     List<User> findAll();
     List<User> findByUsername(String username);
     List<User> findByFullname(String fullname);
