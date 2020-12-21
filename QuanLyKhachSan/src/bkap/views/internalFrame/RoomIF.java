@@ -10,6 +10,8 @@ import bkap.dao.impl.RoomDAO;
 import bkap.model.CategoryRoom;
 import bkap.model.Room;
 import bkap.utils.SystemConstant;
+import bkap.views.MainJFrame;
+import bkap.views.ServiceJDialog;
 import java.awt.Color;
 import java.text.NumberFormat;
 import java.util.List;
@@ -34,7 +36,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
     private DefaultComboBoxModel cbModelCategoryRoom;
     private DefaultComboBoxModel cbModelStatusRoom;
     private DefaultTableModel modelRoom;
-
+    public static boolean checkFormPro = false;
     private int indexSelected = 0;
 
     Locale localeVN = new Locale("vi", "VN");
@@ -83,6 +85,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         cbStatusRoom = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
+        btnAddProduct = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblRoom = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
@@ -135,6 +138,13 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
         jLabel4.setText("đ");
 
+        btnAddProduct.setText("Thêm phụ kiện trong phòng");
+        btnAddProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddProductActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -162,7 +172,8 @@ public class RoomIF extends javax.swing.JInternalFrame {
                         .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddProduct)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -178,16 +189,17 @@ public class RoomIF extends javax.swing.JInternalFrame {
                     .addComponent(cbCategoryRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtPrice)
-                        .addComponent(jLabel4)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtPrice)
+                                .addComponent(jLabel4)))
                         .addGap(20, 20, 20)
                         .addComponent(jLabel6))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addComponent(btnAddProduct)
+                        .addGap(9, 9, 9)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnChooseImg)
                             .addComponent(jLabel7))))
@@ -442,6 +454,15 @@ public class RoomIF extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tblRoomMouseClicked
 
+    
+    private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "vào");
+        checkFormPro = true;
+    }//GEN-LAST:event_btnAddProductActionPerformed
+    public static Boolean getCheckFormPro(){
+        return checkFormPro;
+    }
     private void setComboxStatusRoom() {
         cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_EMPTY);
         cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_USING);
@@ -466,6 +487,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JToggleButton btnAddProduct;
     private javax.swing.JButton btnChooseImg;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnUpdate;
