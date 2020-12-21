@@ -18,8 +18,18 @@ import bkap.views.internalFrame.UserIF;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -30,6 +40,8 @@ import javax.swing.JPanel;
 public class MainJFrame extends javax.swing.JFrame {
 
     private ImageIcon imgLogo;
+    private BufferedImage backgroundImage;
+
 
     /**
      * Creates new form MainJFrame
@@ -46,8 +58,28 @@ public class MainJFrame extends javax.swing.JFrame {
         imgLogo = new ImageIcon(newimg);
         setIconImage(imgLogo.getImage());
         setTitle("HOTEL - Quản lý khách sạn");
+//        try {
+//            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("bkap/images/bgdskMain.jpg"));
+////              backgroundImage = ImageIO.read(new File("bkap/images/bgdskMain.jpg"));
+//
+//        } catch (IOException ex) {
+//            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        dkpMain = new JDesktopPane() {
+//            @Override
+//            protected void paintComponent(Graphics grphcs) {
+//                super.paintComponent(grphcs);
+//                grphcs.drawImage(backgroundImage, 0, 0, null);
+//            }
+//
+//            @Override
+//            public Dimension getPreferredSize() {
+//                return new Dimension(backgroundImage.getWidth(), backgroundImage.getHeight());
+//            }
+//        };
+        
+        
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
