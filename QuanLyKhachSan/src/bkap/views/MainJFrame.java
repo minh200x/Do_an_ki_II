@@ -15,25 +15,10 @@ import bkap.views.internalFrame.RoomIF;
 import bkap.views.internalFrame.ServiceIF;
 import bkap.views.internalFrame.UnitIF;
 import bkap.views.internalFrame.UserIF;
-import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 /**
  *
  * @author hongb
