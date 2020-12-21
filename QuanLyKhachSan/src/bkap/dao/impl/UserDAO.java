@@ -68,4 +68,11 @@ public class UserDAO extends AbstractDAO<User> implements IUser {
         String sql = "{call user_findByPhone(?)}";
         return query(sql, new UserMapper(), phone);
     }
+
+    @Override
+    public User login(String username, String password) {
+        String sql = "{call login(?,?)}";
+        List<User> list = query(sql, new UserMapper(),username, password);
+        return list.isEmpty() ? null : list.get(0);
+    }
 }

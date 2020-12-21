@@ -18,6 +18,7 @@ import bkap.views.internalFrame.UserIF;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+import javax.swing.JInternalFrame;
 /**
  *
  * @author hongb
@@ -26,14 +27,36 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private ImageIcon imgLogo;
     private BufferedImage backgroundImage;
+//    private boolean isLogin = false;
 
 
     /**
      * Creates new form MainJFrame
      */
     public MainJFrame() {
-        initComponents();
+        showLogin();
         setCss();
+    }
+    
+    private void showLogin(){
+        LoginDialog loginForm = new LoginDialog(this, true);
+        this.setVisible(false);
+        loginForm.setVisible(true);
+        loginForm.validate();
+        
+        if(LoginDialog.isLogin == true){
+            initComponents();
+        }
+    }
+    
+    private boolean checkOnly(JInternalFrame innerFrame) {
+        JInternalFrame[] arrFrame = dkpMain.getAllFrames();
+        for (JInternalFrame frame : arrFrame) {
+            if (frame.getClass().getName() == innerFrame.getClass().getName()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setCss() {
@@ -43,25 +66,6 @@ public class MainJFrame extends javax.swing.JFrame {
         imgLogo = new ImageIcon(newimg);
         setIconImage(imgLogo.getImage());
         setTitle("HOTEL - Quản lý khách sạn");
-//        try {
-//            backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("bkap/images/bgdskMain.jpg"));
-////              backgroundImage = ImageIO.read(new File("bkap/images/bgdskMain.jpg"));
-//
-//        } catch (IOException ex) {
-//            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        dkpMain = new JDesktopPane() {
-//            @Override
-//            protected void paintComponent(Graphics grphcs) {
-//                super.paintComponent(grphcs);
-//                grphcs.drawImage(backgroundImage, 0, 0, null);
-//            }
-//
-//            @Override
-//            public Dimension getPreferredSize() {
-//                return new Dimension(backgroundImage.getWidth(), backgroundImage.getHeight());
-//            }
-//        };
         
         
     }
@@ -345,7 +349,6 @@ public class MainJFrame extends javax.swing.JFrame {
             public void run() {
                 MainJFrame main = new MainJFrame();
                 main.setVisible(true);
-
             }
         });
     }
