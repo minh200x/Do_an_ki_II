@@ -22,7 +22,7 @@ public class UserMapper implements RowMapper<User> {
         try {
             User u = new User();
             u.setId(rs.getInt("id"));
-            u.setUsername(rs.getString("username"));            
+            u.setUsername(rs.getString("username"));
             u.setPassword(rs.getString("password"));
             u.setFullname(rs.getString("fullname"));
             u.setLevelId(rs.getInt("levelId"));
@@ -30,10 +30,14 @@ public class UserMapper implements RowMapper<User> {
             u.setAddress(rs.getString("address"));
             u.setImage(rs.getString("image"));
             u.setGender(rs.getBoolean("gender"));
-            u.setBirthday(rs.getDate("birthday"));
+            if (rs.getDate("birthday") != null) {
+                u.setBirthday(rs.getDate("birthday"));
+            }
             u.setDescript(rs.getString("descript"));
             u.setStartDate(rs.getDate("startDate"));
-            u.setEndDate(rs.getDate("endDate"));
+            if (rs.getDate("endDate") != null) {
+                u.setEndDate(rs.getDate("endDate"));
+            }
             u.setStatus(rs.getInt("status"));
 
             return u;

@@ -70,7 +70,7 @@ create table tblUser(
 	descript text null,
 	status tinyint default(0),
 	startDate date not null,
-	endDate date not null
+	endDate date null
 )
 go
 

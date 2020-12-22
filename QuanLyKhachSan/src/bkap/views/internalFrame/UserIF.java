@@ -10,6 +10,7 @@ import bkap.dao.impl.UserDAO;
 import bkap.model.Level;
 import bkap.model.User;
 import bkap.utils.SystemConstant;
+import bkap.utils.Utils;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
@@ -25,6 +26,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -49,6 +51,18 @@ public class UserIF extends javax.swing.JInternalFrame {
     private String nameImg = "";
     private String pathDirImage = "src\\bkap\\images\\users\\";
 
+    private String fullname;
+    private String username;
+    private String password;
+    private String phone;
+    private String levelName;
+    private String address;
+    private String image;
+    private String descript;
+    private Date birthday = null;
+    private Date startDate = null;
+    private Date endDate = null;
+
     /**
      * Creates new form UserIF
      */
@@ -62,7 +76,8 @@ public class UserIF extends javax.swing.JInternalFrame {
         cbModelLevel = (DefaultComboBoxModel) cbLevel.getModel();
 
         setComboxModelLevel(listLevel);
-        setDataTable(listUser);
+//        setDataTable(listUser);
+//Utils.setDataTable(modelUser, listUser, parameters);
     }
 
     /**
@@ -242,7 +257,7 @@ public class UserIF extends javax.swing.JInternalFrame {
                                             .addComponent(btnChooseImage))
                                         .addGap(68, 68, 68))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(containImg, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(containImg, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(47, 47, 47))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -318,7 +333,7 @@ public class UserIF extends javax.swing.JInternalFrame {
                                 .addComponent(btnAdd)
                                 .addComponent(btnUpdate))))
                     .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         tblUser.setModel(new javax.swing.table.DefaultTableModel(
@@ -380,107 +395,40 @@ public class UserIF extends javax.swing.JInternalFrame {
 //        fileChooser.setMultiSelectionEnabled(false);
 
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            System.out.println("choosen");
             File fileImg = fileChooser.getSelectedFile();
             String pathFileImage = fileImg.getAbsolutePath();
-            System.out.println("path file img: " + pathFileImage);
-            
+
             File dir = new File(pathDirImage);
             if (dir.exists()) {
                 Path sourceDirectory = Paths.get(pathFileImage);
                 Path targetDirectory = Paths.get(pathDirImage + sourceDirectory.getFileName());
                 nameImg = sourceDirectory.getFileName().toString();
-                System.out.println("name img : " + sourceDirectory.getFileName());
-                System.out.println("name img: " + nameImg);
                 try {
                     //copy source to target using Files Class
                     Files.copy(sourceDirectory, targetDirectory, StandardCopyOption.REPLACE_EXISTING);
                 } catch (IOException ex) {
                     Logger.getLogger(UserIF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
-                System.out.println("dir thon tai");
-            } else {
-                System.out.println("dir khong ton tai");
             }
-            
+
             // set image
-            ImageIcon imgIcon = new ImageIcon(pathFileImage);
-            Image img = imgIcon.getImage();
-            Image newImage = img.getScaledInstance(containImg.getWidth(), containImg.getHeight(), Image.SCALE_SMOOTH);
-            imgIcon = new ImageIcon(newImage);
-
-            containImg.setIcon(imgIcon);
-
+            Utils.setImage(containImg, pathFileImage);
         }
     }//GEN-LAST:event_btnChooseImageActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        String fullname = txtFullname.getText();
-        String username = txtUsername.getText();
-        String password = txtPassword.getText().toString();
-        String phone = txtPhone.getText();
-        String levelName = cbLevel.getSelectedItem().toString();
-        String address = txtAddress.getText();
-        String image = nameImg;
-        String descript = txtDescript.getText();
+        getValueOfFields();
 
-        Date birthday = txtBirthday.getDate();
-        Date startDate = txtStartDate.getDate();
-        Date endDate = txtEndDate.getDate();
-        Date currentTime = new Date();
-
-        if (fullname.isEmpty()) {
-            setMessageInformation("Vui lòng nhập họ và tên!", false);
-        } else if (!fullname.matches("^[a-zA-Z\\s]+$")) {
-            setMessageInformation("Vui lòng họ tên không nhập kí tự đặc biệt!", false);
-        } else if (username.isEmpty()) {
-            setMessageInformation("Vui lòng nhập tên tài khoản!", false);
-        } else if (password.isEmpty()) {
-            setMessageInformation("Vui lòng nhập mật khẩu!", false);
-        } else if (phone.isEmpty()) {
-            setMessageInformation("Vui lòng nhập số điện thoại!", false);
-        } else if (!phone.matches("^[0-9]{10}+$")) {
-            setMessageInformation("Vui lòng nhập đúng định dạng số điện thoại!", isMaximum);
-        } else if (!optionFemail.isSelected() && !optionMale.isSelected()) {
-            setMessageInformation("Vui lòng chọn giới tính!", false);
-        } else if (startDate == null) {
-            setMessageInformation("Vui lòng chọn ngày bắt đầu! ", false);
-        } else if (currentTime.compareTo(startDate) > 0) {
-            setMessageInformation("Vui lòng không chọn ngày trước ngày hiện tại!", false);
-        } else {
-            User u = new User();
-            u.setFullname(fullname);
-            u.setUsername(username);
-            u.setPassword(password);
-            u.setPhone(phone);
-            for (Level l : listLevel) {
-                if (l.getName().equals(levelName)) {
-                    u.setLevelId(l.getId());
-                }
-            }
-            u.setAddress(address);
-            u.setImage(pathDirImage + image);
-            if (optionFemail.isSelected()) {
-                u.setGender(SystemConstant.GENDER_FEMALE);
-            } else {
-                u.setGender(SystemConstant.GENDER_MALE);
-            }
-            u.setBirthday(birthday);
-            u.setDescript(descript);
-            u.setStartDate(startDate);
-            if (endDate == null) {
-                u.setEndDate(null);
-            } else {
-                u.setEndDate(endDate);
-            }
-
+        if (checkValidate()) {
+            User u = setPropertiesForObject();
             userDAO.add(u);
-            setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
             setNullValueFields();
             listUser = userDAO.findAll();
             setDataTable(listUser);
         }
     }//GEN-LAST:event_btnAddActionPerformed
+
 
     private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
         btnAdd.setEnabled(false);
@@ -491,16 +439,13 @@ public class UserIF extends javax.swing.JInternalFrame {
         User u = listUser.get(indexSelected);
         userId = u.getId();
         txtFullname.setText(u.getFullname());
+        txtPhone.setText(u.getPhone());
         txtUsername.setText(u.getUsername());
         txtPassword.setText(u.getPassword());
         txtDescript.setText(u.getDescript());
         txtAddress.setText(u.getAddress());
 
-        if (u.isGender() == SystemConstant.GENDER_FEMALE) {
-            optionFemail.setSelected(true);
-        } else {
-            optionMale.setSelected(true);
-        }
+        buttonGroupGender.clearSelection();
 
         for (Level l : listLevel) {
             if (l.getId() == u.getLevelId()) {
@@ -513,24 +458,60 @@ public class UserIF extends javax.swing.JInternalFrame {
         txtEndDate.setDate(u.getEndDate());
 
         // set image avatar
+        System.out.println("name img: " + u.getImage());
+        Utils.setImage(containImg, u.getImage());
     }//GEN-LAST:event_tblUserMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        String fullname = txtFullname.getText();
-        String username = txtUsername.getText();
-        String password = txtPassword.getPassword().toString();
-        String phone = txtPhone.getText();
-        String levelName = cbLevel.getSelectedItem().toString();
-        String address = txtAddress.getText();
-        String image = "";
-        String descript = txtDescript.getText();
+        getValueOfFields();
 
-        Date birthday = txtBirthday.getDate();
-        Date startDate = txtStartDate.getDate();
-        Date endDate = txtEndDate.getDate();
+        if (checkValidate()) {
+            User u = setPropertiesForObject();
 
+            userDAO.edit(u);
+            Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            setNullValueFields();
+            listUser = userDAO.findAll();
+            setDataTable(listUser);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private boolean checkValidate() {
+        boolean check = false;
+        getValueOfFields();
+
+        if (fullname.isEmpty()) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập họ và tên!", false);
+        } else if (!fullname.matches("^[a-zA-Z\\s]+$")) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng họ tên không nhập kí tự đặc biệt!", false);
+        } else if (username.isEmpty()) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập tên tài khoản!", false);
+        } else if (password.isEmpty()) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập mật khẩu!", false);
+        } else if (phone.isEmpty()) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập số điện thoại!", false);
+        } else if (!phone.matches("^[0-9]{10}+$")) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập đúng định dạng số điện thoại!", isMaximum);
+        } else if (!optionFemail.isSelected() && !optionMale.isSelected()) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng chọn giới tính!", false);
+        } else if (startDate == null) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng chọn ngày bắt đầu! ", false);
+        } else if (startDate.equals(endDate)) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng không chọn ngày nghỉ trùng với ngày bắt đầu làm việc!", false);
+        } else {
+            check = true;
+        }
+        return check;
+    }
+
+    private void setComboxModelLevel(List<Level> list) {
+        for (Level l : list) {
+            cbLevel.addItem(l.getName());
+        }
+    }
+
+    private User setPropertiesForObject() {
         User u = new User();
-        u.setId(userId);
         u.setFullname(fullname);
         u.setUsername(username);
         u.setPassword(password);
@@ -541,7 +522,7 @@ public class UserIF extends javax.swing.JInternalFrame {
             }
         }
         u.setAddress(address);
-        u.setImage(image);
+        u.setImage(pathDirImage + image);
         if (optionFemail.isSelected()) {
             u.setGender(SystemConstant.GENDER_FEMALE);
         } else {
@@ -550,23 +531,24 @@ public class UserIF extends javax.swing.JInternalFrame {
         u.setBirthday(birthday);
         u.setDescript(descript);
         u.setStartDate(startDate);
-        if (endDate == null) {
-            u.setEndDate(null);
-        } else {
-            u.setEndDate(endDate);
-        }
+        u.setEndDate(endDate);
 
-        userDAO.edit(u);
-        setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
-        setNullValueFields();
-        listUser = userDAO.findAll();
-        setDataTable(listUser);
-    }//GEN-LAST:event_btnUpdateActionPerformed
+        return u;
+    }
 
-    private void setComboxModelLevel(List<Level> list) {
-        for (Level l : list) {
-            cbLevel.addItem(l.getName());
-        }
+    private void getValueOfFields() {
+        fullname = txtFullname.getText();
+        username = txtUsername.getText();
+        password = txtPassword.getText().toString();
+        phone = txtPhone.getText();
+        levelName = cbLevel.getSelectedItem().toString();
+        address = txtAddress.getText();
+        image = nameImg;
+        descript = txtDescript.getText();
+
+        birthday = txtBirthday.getDate();
+        startDate = txtStartDate.getDate();
+        endDate = txtEndDate.getDate();
     }
 
     private void setNullValueFields() {
@@ -583,6 +565,9 @@ public class UserIF extends javax.swing.JInternalFrame {
         txtBirthday.setDate(null);
         txtStartDate.setDate(null);
         txtEndDate.setDate(null);
+
+        nameImg = "";
+        Utils.setImage(containImg, nameImg);
     }
 
     private void setDataTable(List<User> users) {
@@ -598,15 +583,6 @@ public class UserIF extends javax.swing.JInternalFrame {
         }
     }
 
-    private void setMessageInformation(String msg, Boolean status) {
-        if (status == false) {
-            msgInformation.setForeground(Color.RED);
-            msgInformation.setText(msg);
-        } else {
-            msgInformation.setForeground(Color.BLUE);
-            msgInformation.setText(msg);
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
