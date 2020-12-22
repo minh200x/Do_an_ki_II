@@ -27,6 +27,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private ImageIcon imgLogo;
     private BufferedImage backgroundImage;
+    private RoomIF room;
 //    private boolean isLogin = false;
 
 
@@ -36,6 +37,10 @@ public class MainJFrame extends javax.swing.JFrame {
     public MainJFrame() {
         showLogin();
         setCss();
+//        if(room.isClosed()){
+//            pro.dispose();
+//            
+//        }
     }
     
     private void showLogin(){
@@ -239,11 +244,10 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        RoomIF room = new RoomIF();
+        room = new RoomIF();
         dkpMain.add(room);
         room.setVisible(true);
         room.validate(); 
-                
     }//GEN-LAST:event_jMenuItem1ActionPerformed
     
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed

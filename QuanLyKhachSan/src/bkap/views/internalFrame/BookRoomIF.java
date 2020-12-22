@@ -6,6 +6,7 @@
 package bkap.views.internalFrame;
 
 import bkap.views.ListRoomEmptyJDialog;
+import bkap.views.ListServiceJDialog;
 
 /**
  *
@@ -128,6 +129,11 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         jLabel14.setText("Số người");
 
         jButton1.setText("Dịch vụ");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel15.setText("List dịch vụ");
 
@@ -275,6 +281,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     private void btnGetRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetRoomActionPerformed
         ListRoomEmptyJDialog listRoom = new ListRoomEmptyJDialog(null, true);
         listRoom.setVisible(true);
+        listRoom.validate();
     }//GEN-LAST:event_btnGetRoomActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -284,6 +291,13 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        ListServiceJDialog listService = new ListServiceJDialog(null, true);
+        listService.setVisible(true);
+        listService.validate();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
