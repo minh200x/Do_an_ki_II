@@ -13,9 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -138,28 +136,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
         try {
             int index = 1;
             for (Object param : parameters) {
-                if (param instanceof String) {
-                    cs.setString(index, (String) param);
-                } else if (param instanceof Integer) {
-                    cs.setInt(index, (Integer) param);
-                } else if (param instanceof Float) {
-                    cs.setFloat(index, (Float) param);
-                } else if (param instanceof Boolean) {
-                    cs.setBoolean(index, (Boolean) param);
-                } else if (param instanceof Date) {
-                    java.sql.Date date = new java.sql.Date(((Date) param).getTime());
-                    cs.setDate(index, date);
-                } else if (param == null) {
-//                    Object obj = param.getClass();
-//                    if (obj instanceof String) {
-//                        cs.setNull(index, Types.NVARCHAR);
-//                    } else if (obj instanceof Date) {
-//                        cs.setNull(index, Types.DATE);
-//                    } else {
-//                        
-//                    }
-                    cs.setNull(index, Types.NULL);
-                }
+                cs.setObject(index, param);
                 index++;
             }
         } catch (SQLException e) {

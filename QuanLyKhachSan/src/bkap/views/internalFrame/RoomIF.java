@@ -10,6 +10,7 @@ import bkap.dao.impl.RoomDAO;
 import bkap.model.CategoryRoom;
 import bkap.model.Room;
 import bkap.utils.SystemConstant;
+import bkap.utils.Utils;
 import bkap.views.MainJFrame;
 import bkap.views.ServiceJDialog;
 import java.awt.Color;
@@ -40,8 +41,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
     private int indexSelected = 0;
     
     public static boolean checkClose = false;
-    Locale localeVN = new Locale("vi", "VN");
-    NumberFormat vn = NumberFormat.getInstance(localeVN);
+    
 
     /**
      * Creates new form RoomFrame
@@ -86,7 +86,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
         txtDescript = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
         btnChooseImg = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        txtNumOfImg = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         cbStatusRoom = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
@@ -149,7 +149,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel7.setText("List ảnh");
+        txtNumOfImg.setText("List ảnh");
 
         jLabel8.setText("Trạng thái");
 
@@ -177,8 +177,8 @@ public class RoomIF extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -192,22 +192,24 @@ public class RoomIF extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnChooseImg)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(txtNumOfImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel4))
-                                    .addComponent(txtRoomId, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbCategoryRoom, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
-                                    .addComponent(cbStatusRoom, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(cbCategoryRoom, javax.swing.GroupLayout.Alignment.LEADING, 0, 386, Short.MAX_VALUE)
+                                        .addComponent(txtRoomId, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(cbStatusRoom, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(565, 565, 565))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)))
-                .addGap(565, 565, 565))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,7 +236,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
                         .addGap(32, 32, 32)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnChooseImg)
-                            .addComponent(jLabel7))))
+                            .addComponent(txtNumOfImg, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
@@ -244,7 +246,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
                     .addComponent(cbStatusRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -280,11 +282,6 @@ public class RoomIF extends javax.swing.JInternalFrame {
         jLabel10.setText("Trạng thái");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
-            }
-        });
 
         jLabel11.setText("Mô tả");
 
@@ -355,7 +352,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 563, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -373,19 +370,21 @@ public class RoomIF extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(msgInformation)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDelete)
-                .addGap(18, 18, 18)
-                .addComponent(btnUpdate)
-                .addGap(18, 18, 18)
-                .addComponent(btnAdd)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(msgInformation)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 965, Short.MAX_VALUE)
+                        .addComponent(btnDelete)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUpdate)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAdd))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -393,7 +392,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnAdd)
@@ -407,7 +406,6 @@ public class RoomIF extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnChooseImgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImgActionPerformed
-        // TODO add your handling code here:
         JFileChooser f = new JFileChooser();
         f.showOpenDialog(f);
     }//GEN-LAST:event_btnChooseImgActionPerformed
@@ -428,7 +426,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
         roomDAO.add(r);
         setNullFields();
-        setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+        Utils.setMessageInformation(msgInformation,SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
 
         listRoom = roomDAO.findAll();
         setDataTable(listRoom);
@@ -448,7 +446,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             for (CategoryRoom c : listCategoryRoom) {
                 if (c.getId() == r.getTypeId()) {
                     modelRoom.addRow(new Object[]{
-                        r.getRoomId(), c.getName(), vn.format(c.getPrice()), r.getDescript()
+                        r.getRoomId(), c.getName(), Utils.formatPrice(c.getPrice()), r.getDescript()
                     });
                 }
             }
@@ -472,7 +470,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
         for (CategoryRoom c : listCategoryRoom) {
             if (c.getName().equals(catRoomSelected)) {
-                txtPrice.setText(vn.format(c.getPrice()));
+                txtPrice.setText(Utils.formatPrice(c.getPrice()));
             }
         }
     }//GEN-LAST:event_cbCategoryRoomItemStateChanged
@@ -483,12 +481,12 @@ public class RoomIF extends javax.swing.JInternalFrame {
             indexSelected = tblRoom.getSelectedRow();
 
             if (indexSelected == -1) {
-                setMessageInformation(SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+                Utils.setMessageInformation(msgInformation,SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
             } else {
                 int roomId = listRoom.get(indexSelected).getRoomId();
                 roomDAO.delete(roomId);
                 setNullFields();
-                setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                Utils.setMessageInformation(msgInformation,SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
 
                 listRoom = roomDAO.findAll();
                 setDataTable(listRoom);
@@ -504,7 +502,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             indexSelected = tblRoom.getSelectedRow();
 
             if (indexSelected == -1) {
-                setMessageInformation(SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+                Utils.setMessageInformation(msgInformation,SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
             } else {
                 String roomId = txtRoomId.getText();
                 String typeRoom = cbCategoryRoom.getSelectedItem().toString();
@@ -529,7 +527,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
                 roomDAO.edit(r);
                 setNullFields();
-                setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
 
                 listRoom = roomDAO.findAll();
                 setDataTable(listRoom);
@@ -564,11 +562,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tblRoomMouseClicked
 
-    
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
-    public static Boolean getCheckFormPro(){
+        public static Boolean getCheckFormPro(){
         return checkFormPro;
     }
     private void setComboxStatusRoom() {
@@ -583,15 +577,6 @@ public class RoomIF extends javax.swing.JInternalFrame {
         }
     }
 
-    private void setMessageInformation(String msg, Boolean status) {
-        if (status == false) {
-            msgInformation.setForeground(Color.RED);
-            msgInformation.setText(msg);
-        } else {
-            msgInformation.setForeground(Color.BLUE);
-            msgInformation.setText(msg);
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -611,7 +596,6 @@ public class RoomIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -627,6 +611,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel msgInformation;
     private javax.swing.JTable tblRoom;
     private javax.swing.JTextArea txtDescript;
+    private javax.swing.JLabel txtNumOfImg;
     private javax.swing.JLabel txtPrice;
     private javax.swing.JTextField txtRoomId;
     // End of variables declaration//GEN-END:variables

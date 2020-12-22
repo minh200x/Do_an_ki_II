@@ -30,29 +30,6 @@ public class UserDAO extends AbstractDAO<User> implements IUser {
         String sql = "{call user_insert(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
             insert(sql, u.getUsername(), u.getPassword(), u.getFullname(), u.getLevelId(), u.getPhone(), u.getAddress(),
                     u.getImage(), u.isGender(), u.getBirthday(), u.getDescript(), u.getStartDate(), u.getEndDate(), u.getStatus());
-//        try {
-//            
-//            Connection conn = getConnect();
-//            CallableStatement cs = conn.prepareCall(sql);
-//            cs.setString(1, u.getUsername());
-//            cs.setString(2, u.getPassword());
-//            cs.setString(3, u.getFullname());
-//            cs.setInt(4, u.getLevelId());
-//            cs.setString(5, u.getPhone());
-//            cs.setString(6, u.getAddress());
-//            cs.setString(7, u.getImage());
-//            cs.setBoolean(8, u.isGender());
-//            cs.setNull(9, Types.DATE);
-//            cs.setNull(10, Types.NVARCHAR);
-//            java.sql.Date date = new java.sql.Date(u.getStartDate().getTime());
-//            cs.setDate(11, date);
-//            cs.setNull(12, Types.DATE);
-//            cs.setInt(13, u.getStatus());
-//            cs.executeUpdate();
-//            
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }
     
     @Override

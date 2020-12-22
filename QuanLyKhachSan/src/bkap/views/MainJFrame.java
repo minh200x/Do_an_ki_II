@@ -18,7 +18,6 @@ import bkap.views.internalFrame.UserIF;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
-import javax.swing.JInternalFrame;
 /**
  *
  * @author hongb

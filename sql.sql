@@ -657,6 +657,8 @@ begin
 	select * from tblUnit
 end
 go
+
+
 create proc unit_insert(@name nvarchar(255))
 as
 begin
@@ -677,6 +679,7 @@ begin
 	update tblUnit set name=@name where id = @id
 end
 go
+
 
 -- PROC tblCategoryRoom
 create proc categoryRoom_findAll
