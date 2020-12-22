@@ -37,10 +37,6 @@ public class MainJFrame extends javax.swing.JFrame {
     public MainJFrame() {
         showLogin();
         setCss();
-//        if(room.isClosed()){
-//            pro.dispose();
-//            
-//        }
     }
     
     private void showLogin(){

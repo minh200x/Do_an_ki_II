@@ -7,6 +7,7 @@ package bkap.views.internalFrame;
 
 import bkap.dao.impl.CategoryServiceDAO;
 import bkap.model.CategoryService;
+import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +21,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
     private CategoryServiceDAO catServiceDao = new CategoryServiceDAO();
     private List<CategoryService> listCatService;
     private DefaultTableModel modelCatService;
+    private String name;
     /** 
      * Creates new form CategoryServiceIF
      */
@@ -27,6 +29,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         initComponents();
         listCatService = catServiceDao.findAll();
         modelCatService = (DefaultTableModel) tblCatService.getModel();
+        setDataTable(listCatService);
     }
     
     public void setDataTable(List<CategoryService> catSer){
@@ -50,9 +53,9 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         txtInfo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCatService = new javax.swing.JTable();
@@ -65,18 +68,26 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Dịch vụ");
 
-        jButton1.setText("Thêm");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Sửa");
+        btnEdit.setText("Sửa");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Xóa");
-
-        txtInfo.setText("jLabel2");
+        btnDelete.setText("Xóa");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -88,11 +99,11 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
                     .addComponent(txtInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(btnDelete)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(btnEdit)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1))
+                        .addComponent(btnAdd))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
@@ -109,10 +120,10 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnEdit)
+                    .addComponent(btnDelete))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(txtInfo)
                 .addContainerGap())
         );
@@ -125,6 +136,11 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
                 "ID", "Loại dịch vụ"
             }
         ));
+        tblCatService.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCatServiceMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblCatService);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -149,21 +165,80 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        String name = txtName.getText();
+        getValueOfFields();
+        if(checkValidate()){
+            CategoryService cat = setPropertiesForObject();
+            catServiceDao.add(cat);
+            Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            setNullValueFields();
+            listCatService = catServiceDao.findAll();
+            setDataTable(listCatService);
+        }
+        
+        
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        getValueOfFields();
+        if(checkValidate()){
+            CategoryService catService = setPropertiesForObject();
+            catServiceDao.edit(catService);
+            Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            setNullValueFields();
+            listCatService = catServiceDao.findAll();
+            setDataTable(listCatService);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void tblCatServiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCatServiceMouseClicked
+        // TODO add your handling code here:
+        btnAdd.setEnabled(false);
+        btnEdit.setEnabled(true);
+        
+        int indexSelected = tblCatService.getSelectedRow();
+        CategoryService catSer = listCatService.get(indexSelected);
+        txtName.setText(catSer.getName());
+        
+    }//GEN-LAST:event_tblCatServiceMouseClicked
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnDeleteActionPerformed
+    
+    public boolean checkValidate(){
+        boolean check = false;
+        getValueOfFields();
         if (name.isEmpty()) {
             Utils.setMessageInformation(txtInfo,"Vui lòng nhập họ và tên!", false);
-        } else if (!name.matches("^[a-zA-Z\\s]+$")) {
-            Utils.setMessageInformation(txtInfo,"Vui lòng họ tên không nhập kí tự đặc biệt!", false);
+        } else if (!name.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")) {
+            Utils.setMessageInformation(txtInfo,"Vui lòng tên dịch vụ không nhập kí tự đặc biệt!", false);
+        }else{
+            check = true;
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-
+        return check;
+    }
+    public void getValueOfFields(){
+        name = txtName.getText();
+    }
+    private CategoryService setPropertiesForObject(){
+        CategoryService catService = new CategoryService();
+        catService.setName(name);
+        return catService;
+    }
+    private void setNullValueFields(){
+        btnAdd.setEnabled(true);
+        btnEdit.setEnabled(false);
+        txtName.setText("");
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
