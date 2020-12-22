@@ -7,10 +7,17 @@ package bkap.views.internalFrame;
 
 import bkap.dao.impl.CategoryServiceDAO;
 import bkap.dao.impl.ServiceDAO;
+import bkap.dao.impl.UnitDAO;
 import bkap.model.CategoryService;
 import bkap.model.Service;
+import bkap.model.Unit;
+import bkap.utils.SystemConstant;
+import bkap.utils.Utils;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,20 +26,27 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ServiceIF extends javax.swing.JInternalFrame {
 
-    private CategoryServiceDAO catServiceDao;
-    private ServiceDAO serviceDao;
-    
+    private CategoryServiceDAO catServiceDao = new CategoryServiceDAO();
+    private ServiceDAO serviceDao = new ServiceDAO();
+    private UnitDAO unitDao = new UnitDAO();
+
     private List<CategoryService> listCatSer;
     private List<Service> listSer;
-    
+    private List<Unit> listUnit;
+
     private DefaultTableModel modelService;
     private DefaultComboBoxModel modelCatService;
-    
+    private DefaultComboBoxModel modelUnit;
+
     private int id;
     private String name;
-    private int catService;
-    private float price;
-    private int unit;
+    private String catSerName;
+    private String price;
+    private String unitName;
+    
+    Locale localeVN = new Locale("vi", "VN");
+    NumberFormat vn = NumberFormat.getInstance(localeVN);
+
     /**
      * Creates new form ServiceIF
      */
@@ -40,15 +54,44 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         initComponents();
         listCatSer = catServiceDao.findAll();
         listSer = serviceDao.findAll();
+        listUnit = unitDao.findAll();
         modelService = (DefaultTableModel) tblSer.getModel();
         modelCatService = (DefaultComboBoxModel) cbCatSer.getModel();
-        
+        modelUnit = (DefaultComboBoxModel) cbUnit.getModel();
         setComboxModel(listCatSer);
+        setComboxModel(listUnit);
+        setDataTable(listSer);
     }
-    
-    private void setComboxModel(List<CategoryService> listCatSer){
-        for (CategoryService listCatSer1 : listCatSer) {
-            cbCatSer.addItem(listCatSer1.getName());
+
+    private <T> void setComboxModel(List<T> list) {
+        if (list.get(0) instanceof CategoryService) {
+            List<CategoryService> data = (List<CategoryService>) list;
+            for (CategoryService item : data) {
+                modelCatService.addElement(item.getName());
+            }
+        }
+        if (list.get(0) instanceof Unit) {
+            List<Unit> data = (List<Unit>) list;
+            for (Unit item : data) {
+                modelUnit.addElement(item.getName());
+            }
+        }
+    }
+
+    private void setDataTable(List<Service> listS) {
+        modelService.setRowCount(0);
+        for (Service data : listS) {
+            for (CategoryService listCat : listCatSer) {
+                if (data.getCatService() == listCat.getId()) {
+                    for (Unit listU : listUnit) {
+                        if (data.getUnit() == listU.getId()) {
+                            modelService.addRow(new Object[]{
+                                data.getName(), listCat.getName(), vn.format(data.getPrice()), listU.getName()
+                            });
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -63,18 +106,19 @@ public class ServiceIF extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         cbCatSer = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtPrice = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        cbUnit = new javax.swing.JComboBox();
+        btnAdd = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSer = new javax.swing.JTable();
+        txtInfo = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -84,21 +128,27 @@ public class ServiceIF extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Tên menu");
 
-        jLabel2.setText("Loại menu");
-
-        cbCatSer.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabel2.setText("Loại dịch vụ");
 
         jLabel3.setText("Giá");
 
         jLabel4.setText("Đơn vị");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Thêm");
+        btnDelete.setText("Xóa");
 
-        jButton3.setText("Xóa");
-
-        jButton2.setText("Sửa");
+        btnUpdate.setText("Sửa");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -114,21 +164,21 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                             .addComponent(jLabel3))
                         .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1)
+                            .addComponent(txtName)
                             .addComponent(cbCatSer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField2)
+                                .addComponent(txtPrice)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(cbUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(btnDelete)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(btnUpdate)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(btnAdd)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -137,7 +187,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -145,14 +195,14 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnAdd)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -164,6 +214,11 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                 "Tên menu", "Loại menu", "Giá", "Đơn vị"
             }
         ));
+        tblSer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSerMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblSer);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -173,36 +228,141 @@ public class ServiceIF extends javax.swing.JInternalFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtInfo)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtInfo)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        getValueOfFields();
+        if (checkValidate()) {
+            Service s = setPropertiesForObject();
+            serviceDao.add(s);
+            Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            setNullValueFields();
+            listSer = serviceDao.findAll();
+            setDataTable(listSer);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void tblSerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSerMouseClicked
+        // TODO add your handling code here:
+        btnAdd.setEnabled(false);
+        btnUpdate.setEnabled(true);
+        int indexSelected = tblSer.getSelectedRow();
+        Service ser = listSer.get(indexSelected);
+        
+        txtName.setText(ser.getName());
+        txtPrice.setText((int)ser.getPrice() + "");
+        for (CategoryService listC : listCatSer) {
+            if(ser.getCatService() == listC.getId()){
+                cbCatSer.setSelectedItem(listC.getName());
+            }
+        }
+        for (Unit listU : listUnit) {
+            if(ser.getUnit() == listU.getId()){
+                cbUnit.setSelectedItem(listU.getName());
+            }
+        }
+        
+    }//GEN-LAST:event_tblSerMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        getValueOfFields();
+        if (checkValidate()) {
+            Service ser = setPropertiesForObject();
+//            JOptionPane.showMessageDialog(cbUnit, ser.getId()+ser.getName()+ser.getPrice()+ser.getCatService()+ser.getUnit());
+            serviceDao.edit(ser);
+            Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            setNullValueFields();
+            listSer = serviceDao.findAll();
+            setDataTable(listSer);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void getValueOfFields() {
+        id = id;
+        name = txtName.getText();
+        price = txtPrice.getText();
+        catSerName = cbCatSer.getSelectedItem().toString();
+        unitName = cbUnit.getSelectedItem().toString();
+    }
+
+    private boolean checkValidate() {
+        boolean check = false;
+        getValueOfFields();
+        if (name.isEmpty()) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng nhập tên dịch vụ!", false);
+        } else if (!name.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng tên dịch vụ không nhập kí tự đặc biệt!", false);
+        } else if (!price.matches("^[0-9]+$")) {
+            Utils.setMessageInformation(txtInfo, "Giá tiền không hợp lệ!", false);
+        } else {
+            check = true;
+        }
+        return check;
+    }
+
+    private Service setPropertiesForObject() {
+        Service u = new Service();
+        u.setId(id);
+        u.setName(name);
+        u.setPrice(Float.parseFloat(price));
+        for (CategoryService listCatSer1 : listCatSer) {
+            if (listCatSer1.getName().equals(catSerName)) {
+                u.setCatService(listCatSer1.getId());
+            }
+        }
+        for (Unit listUnit1 : listUnit) {
+            if (listUnit1.getName().equals(unitName)) {
+                u.setUnit(listUnit1.getId());
+            }
+        }
+        return u;
+    }
+
+    private void setNullValueFields() {
+        btnAdd.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        txtName.setText("");
+        txtPrice.setText("");
+        cbCatSer.setSelectedIndex(0);
+        cbUnit.setSelectedIndex(0);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox cbCatSer;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox cbUnit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTable tblSer;
+    private javax.swing.JLabel txtInfo;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtPrice;
     // End of variables declaration//GEN-END:variables
 }
