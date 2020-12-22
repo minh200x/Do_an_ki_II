@@ -35,7 +35,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         setDataTable(listCatService);
     }
 
-    public void setDataTable(List<CategoryService> catSer) {
+    private void setDataTable(List<CategoryService> catSer) {
         modelCatService.setRowCount(0);
         for (CategoryService catSer1 : catSer) {
             modelCatService.addRow(new Object[]{
@@ -225,7 +225,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    public boolean checkValidate() {
+    private boolean checkValidate() {
         boolean check = false;
         getValueOfFields();
         if (name.isEmpty()) {
@@ -238,7 +238,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         return check;
     }
 
-    public void getValueOfFields() {
+    private void getValueOfFields() {
         name = txtName.getText();
         id = id;
     }

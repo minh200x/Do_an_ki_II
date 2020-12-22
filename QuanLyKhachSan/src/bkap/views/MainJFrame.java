@@ -11,6 +11,7 @@ import bkap.views.internalFrame.CategoryServiceIF;
 import bkap.views.internalFrame.CuponIF;
 import bkap.views.internalFrame.CustomerIF;
 import bkap.views.internalFrame.LevelIF;
+import bkap.views.internalFrame.ProductIF;
 import bkap.views.internalFrame.RoomIF;
 import bkap.views.internalFrame.ServiceIF;
 import bkap.views.internalFrame.UnitIF;
@@ -34,8 +35,8 @@ public class MainJFrame extends javax.swing.JFrame {
      * Creates new form MainJFrame
      */
     public MainJFrame() {
-        showLogin();
         setCss();
+        showLogin();
     }
     
     private void showLogin(){
@@ -43,7 +44,6 @@ public class MainJFrame extends javax.swing.JFrame {
         this.setVisible(false);
         loginForm.setVisible(true);
         loginForm.validate();
-        
         if(LoginDialog.isLogin == true){
             initComponents();
         }
@@ -94,6 +94,8 @@ public class MainJFrame extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -199,6 +201,22 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem9);
+
+        jMenuItem10.setText("Dịch vụ");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem10);
+
+        jMenuItem11.setText("Danh mục thiết bị");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem11);
 
         jMenuBar1.add(jMenu4);
 
@@ -317,6 +335,22 @@ public class MainJFrame extends javax.swing.JFrame {
         bookRoom.validate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+        ServiceIF service = new ServiceIF();
+        dkpMain.add(service);
+        service.setVisible(true);
+        service.validate();
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+        ProductIF pro = new ProductIF();
+        dkpMain.add(pro);
+        pro.setVisible(true);
+        pro.validate();
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -364,6 +398,8 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

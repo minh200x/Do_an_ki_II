@@ -26,7 +26,7 @@ public class LoginDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setResizable(false);
-        setTitle("Login");
+        setTitle("HOTEL - Quản lý khách sạn");
         setLocationRelativeTo(null);
     }
 

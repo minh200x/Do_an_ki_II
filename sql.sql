@@ -588,7 +588,9 @@ create proc service_update(@id int,
 							@catService int)
 as
 begin
-	update tblService set name=@name, price=@price, unit=@unit, catService=@catService where id=@id
+	update tblService 
+	set name=@name, price=@price, unit=@unit, catService=@catService 
+	where id=@id
 end
 go
 
