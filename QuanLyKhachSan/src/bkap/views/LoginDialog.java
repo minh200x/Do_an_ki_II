@@ -161,11 +161,9 @@ public class LoginDialog extends javax.swing.JDialog {
         username = txtUserName.getText();
         password = txtPassword.getText().toString();
         if(userDao.login(username, password) != null){
-            JOptionPane.showMessageDialog(this, "true");
             this.isLogin = true;
             dispose();
         }else{
-            JOptionPane.showMessageDialog(this, "false");
             isLogin = false;
         }
         
