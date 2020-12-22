@@ -43,7 +43,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     private String catSerName;
     private String price;
     private String unitName;
-    
+
     Locale localeVN = new Locale("vi", "VN");
     NumberFormat vn = NumberFormat.getInstance(localeVN);
 
@@ -142,6 +142,11 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         });
 
         btnDelete.setText("Xóa");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Sửa");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -268,20 +273,20 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         btnUpdate.setEnabled(true);
         int indexSelected = tblSer.getSelectedRow();
         Service ser = listSer.get(indexSelected);
-        
+        id = ser.getId();
         txtName.setText(ser.getName());
-        txtPrice.setText((int)ser.getPrice() + "");
+        txtPrice.setText((int) ser.getPrice() + "");
         for (CategoryService listC : listCatSer) {
-            if(ser.getCatService() == listC.getId()){
+            if (ser.getCatService() == listC.getId()) {
                 cbCatSer.setSelectedItem(listC.getName());
             }
         }
         for (Unit listU : listUnit) {
-            if(ser.getUnit() == listU.getId()){
+            if (ser.getUnit() == listU.getId()) {
                 cbUnit.setSelectedItem(listU.getName());
             }
         }
-        
+
     }//GEN-LAST:event_tblSerMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -289,14 +294,29 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         getValueOfFields();
         if (checkValidate()) {
             Service ser = setPropertiesForObject();
-//            JOptionPane.showMessageDialog(cbUnit, ser.getId()+ser.getName()+ser.getPrice()+ser.getCatService()+ser.getUnit());
-            serviceDao.edit(ser);
+            int i = JOptionPane.showConfirmDialog(cbUnit, SystemConstant.CONFIRM_UPDATE);
+            if (i == 0) {
+                serviceDao.edit(ser);
+                Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                setNullValueFields();
+                listSer = serviceDao.findAll();
+                setDataTable(listSer);
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        Service ser = setPropertiesForObject();
+        int i = JOptionPane.showConfirmDialog(cbUnit, SystemConstant.CONFIRM_DELETE);
+        if (i == 0) {
+            serviceDao.delete(ser.getId());
             Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
             setNullValueFields();
             listSer = serviceDao.findAll();
             setDataTable(listSer);
         }
-    }//GEN-LAST:event_btnUpdateActionPerformed
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void getValueOfFields() {
         id = id;
@@ -322,21 +342,21 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     }
 
     private Service setPropertiesForObject() {
-        Service u = new Service();
-        u.setId(id);
-        u.setName(name);
-        u.setPrice(Float.parseFloat(price));
-        for (CategoryService listCatSer1 : listCatSer) {
-            if (listCatSer1.getName().equals(catSerName)) {
-                u.setCatService(listCatSer1.getId());
+        Service s = new Service();
+        s.setId(id);
+        s.setName(name);
+        s.setPrice(Float.parseFloat(price));
+        for (CategoryService row : listCatSer) {
+            if (row.getName().equals(catSerName)) {
+                s.setCatService(row.getId());
             }
         }
-        for (Unit listUnit1 : listUnit) {
-            if (listUnit1.getName().equals(unitName)) {
-                u.setUnit(listUnit1.getId());
+        for (Unit row : listUnit) {
+            if (row.getName().equals(unitName)) {
+                s.setUnit(row.getId());
             }
         }
-        return u;
+        return s;
     }
 
     private void setNullValueFields() {
