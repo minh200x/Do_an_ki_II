@@ -10,6 +10,7 @@ import bkap.model.CategoryService;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,7 +23,9 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
     private List<CategoryService> listCatService;
     private DefaultTableModel modelCatService;
     private String name;
-    /** 
+    private int id;
+
+    /**
      * Creates new form CategoryServiceIF
      */
     public CategoryServiceIF() {
@@ -31,8 +34,8 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         modelCatService = (DefaultTableModel) tblCatService.getModel();
         setDataTable(listCatService);
     }
-    
-    public void setDataTable(List<CategoryService> catSer){
+
+    public void setDataTable(List<CategoryService> catSer) {
         modelCatService.setRowCount(0);
         for (CategoryService catSer1 : catSer) {
             modelCatService.addRow(new Object[]{
@@ -168,7 +171,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
         getValueOfFields();
-        if(checkValidate()){
+        if (checkValidate()) {
             CategoryService cat = setPropertiesForObject();
             catServiceDao.add(cat);
             Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
@@ -176,20 +179,24 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
             listCatService = catServiceDao.findAll();
             setDataTable(listCatService);
         }
-        
-        
+
+
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
         getValueOfFields();
-        if(checkValidate()){
+        if (checkValidate()) {
             CategoryService catService = setPropertiesForObject();
-            catServiceDao.edit(catService);
-            Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
-            setNullValueFields();
-            listCatService = catServiceDao.findAll();
-            setDataTable(listCatService);
+            int i = JOptionPane.showConfirmDialog(this, SystemConstant.CONFIRM_UPDATE);
+            if (i == 0) {
+                catServiceDao.edit(catService);
+                Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                setNullValueFields();
+                listCatService = catServiceDao.findAll();
+                setDataTable(listCatService);
+            }
+
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
@@ -197,44 +204,58 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         btnAdd.setEnabled(false);
         btnEdit.setEnabled(true);
-        
+
         int indexSelected = tblCatService.getSelectedRow();
         CategoryService catSer = listCatService.get(indexSelected);
         txtName.setText(catSer.getName());
-        
+        id = catSer.getId();
+
     }//GEN-LAST:event_tblCatServiceMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        
+        CategoryService catService = setPropertiesForObject();
+        int i = JOptionPane.showConfirmDialog(this, SystemConstant.CONFIRM_DELETE);
+        if (i == 0) {
+            catServiceDao.delete(catService.getId());
+            setNullValueFields();
+            listCatService = catServiceDao.findAll();
+            setDataTable(listCatService);
+        }
+
     }//GEN-LAST:event_btnDeleteActionPerformed
-    
-    public boolean checkValidate(){
+
+    public boolean checkValidate() {
         boolean check = false;
         getValueOfFields();
         if (name.isEmpty()) {
-            Utils.setMessageInformation(txtInfo,"Vui lòng nhập họ và tên!", false);
+            Utils.setMessageInformation(txtInfo, "Vui lòng nhập họ và tên!", false);
         } else if (!name.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")) {
-            Utils.setMessageInformation(txtInfo,"Vui lòng tên dịch vụ không nhập kí tự đặc biệt!", false);
-        }else{
+            Utils.setMessageInformation(txtInfo, "Vui lòng tên dịch vụ không nhập kí tự đặc biệt!", false);
+        } else {
             check = true;
         }
         return check;
     }
-    public void getValueOfFields(){
+
+    public void getValueOfFields() {
         name = txtName.getText();
+        id = id;
     }
-    private CategoryService setPropertiesForObject(){
+
+    private CategoryService setPropertiesForObject() {
         CategoryService catService = new CategoryService();
         catService.setName(name);
+        catService.setId(id);
         return catService;
     }
-    private void setNullValueFields(){
+
+    private void setNullValueFields() {
         btnAdd.setEnabled(true);
         btnEdit.setEnabled(false);
         txtName.setText("");
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;

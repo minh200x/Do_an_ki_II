@@ -657,7 +657,26 @@ begin
 	select * from tblUnit
 end
 go
+create proc unit_insert(@name nvarchar(255))
+as
+begin
+	insert into tblUnit(name) values(@name)
+end
+go
 
+create proc unit_delete(@id int)
+as
+begin
+	delete from tblUnit where id = @id
+end
+go
+
+create proc unit_update(@id int, @name nvarchar(255))
+as
+begin
+	update tblUnit set name=@name where id = @id
+end
+go
 
 -- PROC tblCategoryRoom
 create proc categoryRoom_findAll

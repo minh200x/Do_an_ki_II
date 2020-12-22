@@ -13,5 +13,8 @@ import java.util.List;
  * @author THUY
  */
 public interface IUnit extends GenericDAO<Unit>{
+    void add(Unit u);
+    void delete(int id);
+    void edit(Unit u);
     List<Unit> findAll();
 }

@@ -5,18 +5,37 @@
  */
 package bkap.views.internalFrame;
 
+import bkap.dao.impl.UnitDAO;
+import bkap.model.Unit;
+import bkap.utils.SystemConstant;
+import bkap.utils.Utils;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author hongb
  */
 public class UnitIF extends javax.swing.JInternalFrame {
+    
+    private UnitDAO unitDao = new UnitDAO();
+    private List<Unit> list;
+    private DefaultTableModel modelUnit;
+    private int id;
+    private String name;
 
     /**
      * Creates new form UnitIF
      */
     public UnitIF() {
         initComponents();
+        list = unitDao.findAll();
+        modelUnit = (DefaultTableModel) tblUnit.getModel();
+        setDataTable(list);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,12 +48,13 @@ public class UnitIF extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        txtName = new javax.swing.JTextField();
+        btnDelete = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblUnit = new javax.swing.JTable();
+        txtInfo = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -44,13 +64,28 @@ public class UnitIF extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Đơn vị");
 
-        jButton3.setText("Xóa");
+        btnDelete.setText("Xóa");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Sửa");
+        btnUpdate.setText("Sửa");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Thêm");
+        btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblUnit.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -58,7 +93,15 @@ public class UnitIF extends javax.swing.JInternalFrame {
                 "ID", "Đơn vị"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblUnit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblUnitMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tblUnitMouseEntered(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblUnit);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -70,15 +113,18 @@ public class UnitIF extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1))
+                        .addComponent(txtName))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 54, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(btnDelete)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(btnUpdate)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(btnAdd))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtInfo)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -87,15 +133,17 @@ public class UnitIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnAdd)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(txtInfo)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -112,15 +160,110 @@ public class UnitIF extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        getValueOfFields();
+        if (checkValidate()) {
+            Unit u = setPropertiesForObject();
+            unitDao.add(u);
+            Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            setNullValueFields();
+            list = unitDao.findAll();
+            setDataTable(list);
+        }
+        
+    }//GEN-LAST:event_btnAddActionPerformed
 
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        getValueOfFields();
+        if (checkValidate()) {
+            Unit u = setPropertiesForObject();
+            int i = JOptionPane.showConfirmDialog(this, SystemConstant.CONFIRM_UPDATE);
+            if (i == 0) {
+                unitDao.edit(u);
+                Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                setNullValueFields();
+                list = unitDao.findAll();
+                setDataTable(list);
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void tblUnitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUnitMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblUnitMouseEntered
+
+    private void tblUnitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUnitMouseClicked
+        // TODO add your handling code here:
+        btnAdd.setEnabled(false);
+        btnUpdate.setEnabled(true);
+        int indexSelected = tblUnit.getSelectedRow();
+        Unit u = list.get(indexSelected);
+        txtName.setText(u.getName());
+        id = u.getId();
+    }//GEN-LAST:event_tblUnitMouseClicked
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        Unit u = setPropertiesForObject();
+        int i = JOptionPane.showConfirmDialog(this, SystemConstant.CONFIRM_DELETE);
+        if (i == 0) {
+            unitDao.delete(u.getId());
+            setNullValueFields();
+            list = unitDao.findAll();
+            setDataTable(list);
+        }
+
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void setDataTable(List<Unit> listUnit) {
+        modelUnit.setRowCount(0);
+        for (Unit u : listUnit) {
+            modelUnit.addRow(new Object[]{
+                u.getId(), u.getName()
+            });
+        }
+    }
+    
+    private void getValueOfFields() {
+        name = txtName.getText();
+        id = id;
+    }
+    
+    private boolean checkValidate() {
+        boolean check = false;
+        if (name.isEmpty()) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng nhập tên đơn vị!", false);
+        } else if (!name.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng tên đơn vị không nhập kí tự đặc biệt!", false);
+        } else {
+            check = true;
+        }
+        return check;
+    }
+    
+    private Unit setPropertiesForObject() {
+        Unit u = new Unit();
+        u.setId(id);
+        u.setName(name);
+        return u;
+    }
+
+    private void setNullValueFields() {
+        btnAdd.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        txtName.setText("");
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tblUnit;
+    private javax.swing.JLabel txtInfo;
+    private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 }

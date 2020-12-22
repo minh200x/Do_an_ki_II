@@ -15,7 +15,25 @@ import java.util.List;
  * @author THUY
  */
 public class UnitDAO extends AbstractDAO<Unit> implements IUnit {
+    
+    @Override
+    public void add(Unit u) {
+        String sql = "{call unit_insert(?)}";
+        insert(sql, u.getName());
+    }
 
+    @Override
+    public void delete(int id) {
+        String sql = "{call unit_delete(?)}";
+        update(sql, id);
+    }
+
+    @Override
+    public void edit(Unit u) {
+        String sql = "{call unit_update(?,?)}";
+        update(sql, u.getId(), u.getName());
+    }
+    
     @Override
     public List<Unit> findAll() {
         String sql = "{call unit_findAll()}";

@@ -5,17 +5,51 @@
  */
 package bkap.views.internalFrame;
 
+import bkap.dao.impl.CategoryServiceDAO;
+import bkap.dao.impl.ServiceDAO;
+import bkap.model.CategoryService;
+import bkap.model.Service;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author hongb
  */
 public class ServiceIF extends javax.swing.JInternalFrame {
 
+    private CategoryServiceDAO catServiceDao;
+    private ServiceDAO serviceDao;
+    
+    private List<CategoryService> listCatSer;
+    private List<Service> listSer;
+    
+    private DefaultTableModel modelService;
+    private DefaultComboBoxModel modelCatService;
+    
+    private int id;
+    private String name;
+    private int catService;
+    private float price;
+    private int unit;
     /**
      * Creates new form ServiceIF
      */
     public ServiceIF() {
         initComponents();
+        listCatSer = catServiceDao.findAll();
+        listSer = serviceDao.findAll();
+        modelService = (DefaultTableModel) tblSer.getModel();
+        modelCatService = (DefaultComboBoxModel) cbCatSer.getModel();
+        
+        setComboxModel(listCatSer);
+    }
+    
+    private void setComboxModel(List<CategoryService> listCatSer){
+        for (CategoryService listCatSer1 : listCatSer) {
+            cbCatSer.addItem(listCatSer1.getName());
+        }
     }
 
     /**
@@ -31,7 +65,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        cbCatSer = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -40,7 +74,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSer = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -52,7 +86,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Loại menu");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCatSer.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel3.setText("Giá");
 
@@ -81,7 +115,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                         .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbCatSer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jTextField2)
                                 .addGap(18, 18, 18)
@@ -107,7 +141,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbCatSer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -122,7 +156,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -130,7 +164,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                 "Tên menu", "Loại menu", "Giá", "Đơn vị"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblSer);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,10 +190,10 @@ public class ServiceIF extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox cbCatSer;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -167,8 +201,8 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable tblSer;
     // End of variables declaration//GEN-END:variables
 }
