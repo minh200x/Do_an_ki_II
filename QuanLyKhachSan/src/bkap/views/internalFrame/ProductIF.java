@@ -33,6 +33,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
         initComponents();
         listPro = proDao.findAll();
         modelPro = (DefaultTableModel) tblPro.getModel();
+        setDataTable(listPro);
         
     }
     private void setDataTable(List<Product> listUnit) {
@@ -65,6 +66,12 @@ public class ProductIF extends javax.swing.JInternalFrame {
         txtInfo = new javax.swing.JLabel();
         txtQuantity = new javax.swing.JTextField();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Thiết bị trong phòng");
+
         jLabel1.setText("Tên sản phẩm");
 
         jLabel2.setText("Số lượng");
@@ -77,6 +84,11 @@ public class ProductIF extends javax.swing.JInternalFrame {
                 "STT", "Tên ", "Số lượng"
             }
         ));
+        tblPro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblPro);
 
         btnDelete.setText("Xóa");
@@ -207,6 +219,17 @@ public class ProductIF extends javax.swing.JInternalFrame {
             setDataTable(listPro);
         }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void tblProMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProMouseClicked
+        // TODO add your handling code here:
+        btnAdd.setEnabled(false);
+        btnUpdate.setEnabled(true);
+        int indexSelected = tblPro.getSelectedRow();
+        Product p = listPro.get(indexSelected);
+        txtName.setText(p.getName());
+        txtQuantity.setText(p.getQuantity()+"");
+        id = p.getId();
+    }//GEN-LAST:event_tblProMouseClicked
 
     private void getValueOfFields() {
         name = txtName.getText();
