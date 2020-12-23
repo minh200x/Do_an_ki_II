@@ -21,5 +21,23 @@ public class LevelDAO extends AbstractDAO<Level> implements ILevel{
         String sql = "{call level_findAll()}";
         return query(sql, new LevelMapper());
     }
+
+    @Override
+    public void add(Level l) {
+        String sql = "{call level_insert(?)}";
+        insert(sql, l.getName());
+    }
+
+    @Override
+    public void edit(Level l) {
+        String sql = "{call level_update(?,?)}";
+        update(sql, l.getId(), l.getName());
+    }
+
+    @Override
+    public void delete(int id) {
+        String sql = "{call level_delete(?)}";
+        update(sql, id);
+    }
     
 }

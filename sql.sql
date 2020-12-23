@@ -650,6 +650,30 @@ end
 go
 
 
+create proc level_insert(@name nvarchar(255))
+as
+begin
+	insert into tblLevel(name) values(@name)
+end
+go
+
+
+create proc level_update(@id int, @name nvarchar(255))
+as
+begin
+	update tblLevel set name=@name where id=@id
+end
+go
+
+
+create proc level_delete(@id int)
+as
+begin
+	delete from tblLevel where id=@id
+end
+go
+
+
 
 -- PROC tblUnit
 

@@ -15,9 +15,16 @@ import bkap.views.MainJFrame;
 import bkap.views.ServiceJDialog;
 import java.awt.Color;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -50,6 +57,11 @@ public class RoomIF extends javax.swing.JInternalFrame {
     private String image;
     private String descript;
     private String statusRoom;
+
+    private final String pathDirImage = "src\\bkap\\images\\room\\";
+    private List<String> fileImg = new ArrayList<>();
+    private List<String> nameImg = new ArrayList<>();
+    private List<String> pathFileImg = new ArrayList<>();
 
     /**
      * Creates new form RoomFrame
@@ -420,10 +432,29 @@ public class RoomIF extends javax.swing.JInternalFrame {
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("jpeg", "jpg", "png");
         fileChooser.setFileFilter(imgFilter);
         fileChooser.setMultiSelectionEnabled(true);
-        
+
         if (fileChooser.showOpenDialog(jPanel1) == JFileChooser.APPROVE_OPTION) {
             File[] files = fileChooser.getSelectedFiles();
-            
+
+            File dir = new File(pathDirImage);
+            if (dir.exists()) {
+                Path sourceDirectory = null;
+                Path targetDirectory = null;
+
+                for (int i = 0; i < files.length; i++) {
+                    sourceDirectory = Paths.get(files[i].getAbsolutePath());
+                    targetDirectory = Paths.get(pathDirImage + sourceDirectory.getFileName());
+                    nameImg.add(sourceDirectory.getFileName().toString());
+//                    image = nameImg[i];
+//                    System.out.println(image);
+                    try {
+                        //copy source to target using Files Class
+                        Files.copy(sourceDirectory, targetDirectory, StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException ex) {
+                        Logger.getLogger(UserIF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    }
+                }                        
+            }
         }
     }//GEN-LAST:event_btnChooseImgActionPerformed
 

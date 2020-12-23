@@ -457,11 +457,11 @@ public class UserIF extends javax.swing.JInternalFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_UPDATE);
 
-        if (reply == 0) {
+        if (reply == 0) {  
             getValueOfFields();
-            if (checkValidate()) {
-                User u = setPropertiesForObject();
+            if (checkValidate()) {                
                 saveImage();
+                User u = setPropertiesForObject();                
                 userDAO.edit(u);
                 Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
                 setNullValueFields();
@@ -519,6 +519,7 @@ public class UserIF extends javax.swing.JInternalFrame {
         }
         u.setAddress(address);
         u.setImage(pathDirImage + image);
+        System.out.println(pathDirImage + image);
         if (optionFemail.isSelected()) {
             u.setGender(SystemConstant.GENDER_FEMALE);
         } else {
@@ -539,7 +540,6 @@ public class UserIF extends javax.swing.JInternalFrame {
         phone = txtPhone.getText();
         levelName = cbLevel.getSelectedItem().toString();
         address = txtAddress.getText();
-        image = nameImg;
         descript = txtDescript.getText();
 
         birthday = txtBirthday.getDate();
@@ -572,6 +572,7 @@ public class UserIF extends javax.swing.JInternalFrame {
             Path sourceDirectory = Paths.get(pathFileImage);
             Path targetDirectory = Paths.get(pathDirImage + sourceDirectory.getFileName());
             nameImg = sourceDirectory.getFileName().toString();
+            image = nameImg;
             try {
                 //copy source to target using Files Class
                 Files.copy(sourceDirectory, targetDirectory, StandardCopyOption.REPLACE_EXISTING);

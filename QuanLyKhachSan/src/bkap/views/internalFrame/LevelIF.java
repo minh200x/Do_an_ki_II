@@ -5,17 +5,38 @@
  */
 package bkap.views.internalFrame;
 
+import bkap.dao.impl.LevelDAO;
+import bkap.model.Level;
+import bkap.utils.SystemConstant;
+import bkap.utils.Utils;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author hongb
  */
 public class LevelIF extends javax.swing.JInternalFrame {
 
+    private LevelDAO levelDAO = new LevelDAO();
+    private List<Level> listLevel;
+    private DefaultTableModel modelLevel;
+
+    private int indexSelected = 0;
+    private int levelId;
+
     /**
      * Creates new form LevelIF
      */
     public LevelIF() {
         initComponents();
+
+        listLevel = levelDAO.findAll();
+
+        modelLevel = (DefaultTableModel) tblLevel.getModel();
+
+        setDataTable(listLevel);
     }
 
     /**
@@ -29,12 +50,13 @@ public class LevelIF extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        txtLevelName = new javax.swing.JTextField();
+        btnDelete = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblLevel = new javax.swing.JTable();
+        msgInfomation = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -44,13 +66,28 @@ public class LevelIF extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Chức vụ");
 
-        jButton3.setText("Xóa");
+        btnDelete.setText("Xóa");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Sửa");
+        btnUpdate.setText("Sửa");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Thêm");
+        btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblLevel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -58,7 +95,12 @@ public class LevelIF extends javax.swing.JInternalFrame {
                 "ID", "Chức vụ"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblLevel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblLevelMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblLevel);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -67,18 +109,19 @@ public class LevelIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnDelete)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUpdate)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAdd))
+                    .addComponent(msgInfomation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtLevelName, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -88,15 +131,17 @@ public class LevelIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLevelName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(18, 18, 18)
+                    .addComponent(btnAdd)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
+                .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(msgInfomation, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -113,15 +158,85 @@ public class LevelIF extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_DELETE);
+        if (reply == 0) {
+            levelDAO.delete(levelId);
+            setNullValueFields();
+            Utils.setMessageInformation(msgInfomation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+
+            listLevel = levelDAO.findAll();
+            setDataTable(listLevel);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tblLevelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLevelMouseClicked
+        indexSelected = tblLevel.getSelectedRow();
+        Level l = listLevel.get(indexSelected);
+        levelId = l.getId();
+        txtLevelName.setText(l.getName());
+    }//GEN-LAST:event_tblLevelMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_UPDATE);
+        if (reply == 0) {
+            String levelName = txtLevelName.getText();
+            if (levelName.isEmpty()) {
+                Utils.setMessageInformation(msgInfomation, "Vui lòng nhập tên chức vụ!", false);
+            } else {
+                Level l = new Level();
+                l.setId(levelId);
+                l.setName(levelName);
+
+                levelDAO.edit(l);
+                setNullValueFields();
+                Utils.setMessageInformation(msgInfomation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+
+                listLevel = levelDAO.findAll();
+                setDataTable(listLevel);
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        String levelName = txtLevelName.getText();
+        if (levelName.isEmpty()) {
+            Utils.setMessageInformation(msgInfomation, "Vui lòng nhập tên chức vụ!", false);
+        } else {
+            Level l = new Level();
+            l.setName(levelName);
+
+            levelDAO.add(l);
+            setNullValueFields();
+            Utils.setMessageInformation(msgInfomation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+
+            listLevel = levelDAO.findAll();
+            setDataTable(listLevel);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void setNullValueFields() {
+        txtLevelName.setText("");
+    }
+
+    private void setDataTable(List<Level> list) {
+        modelLevel.setRowCount(0);
+        for (Level l : list) {
+            modelLevel.addRow(new Object[]{
+                l.getId(), l.getName()
+            });
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel msgInfomation;
+    private javax.swing.JTable tblLevel;
+    private javax.swing.JTextField txtLevelName;
     // End of variables declaration//GEN-END:variables
 }
