@@ -36,7 +36,8 @@ public class MainJFrame extends javax.swing.JFrame {
      */
     public MainJFrame() {
         setCss();
-        showLogin();
+        initComponents();
+//        showLogin();
     }
     
     private void showLogin(){

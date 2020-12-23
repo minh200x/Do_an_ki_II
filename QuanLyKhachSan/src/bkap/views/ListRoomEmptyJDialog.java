@@ -5,8 +5,13 @@
  */
 package bkap.views;
 
+import bkap.dao.impl.RoomDAO;
+import bkap.model.Room;
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -15,23 +20,42 @@ import javax.swing.JPanel;
  */
 public class ListRoomEmptyJDialog extends javax.swing.JDialog {
 
+    private RoomDAO roomDao = new RoomDAO();
+    private List<Room> listRoom;
+    private Button b;
     /**
      * Creates new form ListRoomEmptyJDialog
      */
     public ListRoomEmptyJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        loadTable();
+        listRoom = roomDao.findAll();
+        pnlShowRoom.setLayout(new GridLayout(3, 5));
+        loadTable(listRoom);
     }
     
-    public void loadTable(){
-        Button b;
-        pnlShowRoom.setLayout(new GridLayout(3, 5));
-        for (int i = 0; i < 20; i++) {
-            b = new Button("P00"+i);
+    private void loadTable(List<Room> listR){
+        pnlShowRoom.removeAll();
+        pnlShowRoom.setVisible(true);
+        pnlShowRoom.validate();
+        pnlShowRoom.repaint();
+        for (Room data : listR) {
+            b = new Button();
             pnlShowRoom.add(b);
-        }
-        
+            if(data.getStatus() == 0){
+                b.setLabel("P "+data.getRoomId()+" (Trống)");
+                b.setBackground(Color.decode("#80bfff"));
+                b.setEnabled(true);
+            }else if(data.getStatus() == 1){
+                b.setLabel("P "+data.getRoomId()+" (Có khách)");
+                b.setBackground(Color.decode("#5ABD96"));
+                b.setEnabled(false);
+            }else if(data.getStatus() == 2){
+                b.setLabel("P "+data.getRoomId()+" (Đang bảo dưỡng)");
+                b.setBackground(Color.gray);
+                b.setEnabled(false);
+            }
+        } 
     }
 
     /**
@@ -45,28 +69,38 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnGetAll = new javax.swing.JButton();
+        btnGetSingle = new javax.swing.JButton();
+        btnGetDouble = new javax.swing.JButton();
         pnlShowRoom = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton1.setText("Tất cả");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnGetAll.setText("Tất cả");
+        btnGetAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnGetAllActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
+        jPanel1.add(btnGetAll);
 
-        jButton2.setText("Phòng đơn");
-        jPanel1.add(jButton2);
+        btnGetSingle.setText("Phòng đơn");
+        btnGetSingle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGetSingleActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGetSingle);
 
-        jButton3.setText("Phòng đôi");
-        jPanel1.add(jButton3);
+        btnGetDouble.setText("Phòng đôi");
+        btnGetDouble.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGetDoubleActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGetDouble);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,9 +120,35 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnGetAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetAllActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        listRoom = roomDao.findAll();
+        loadTable(listRoom);
+    }//GEN-LAST:event_btnGetAllActionPerformed
+
+    private void btnGetSingleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetSingleActionPerformed
+        // TODO add your handling code here:
+        listRoom = roomDao.findAll();
+        List<Room> listSingle = new ArrayList<>();
+        for (Room data : listRoom) {
+            if(data.getTypeId() == 1){
+                listSingle.add(data);
+            }
+        }
+        loadTable(listSingle);
+    }//GEN-LAST:event_btnGetSingleActionPerformed
+
+    private void btnGetDoubleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetDoubleActionPerformed
+        // TODO add your handling code here:
+        listRoom = roomDao.findAll();
+        List<Room> listDouble = new ArrayList<>();
+        for (Room data : listRoom) {
+            if(data.getTypeId() == 2){
+                listDouble.add(data);
+            }
+        }
+        loadTable(listDouble);
+    }//GEN-LAST:event_btnGetDoubleActionPerformed
 
     /**
      * @param args the command line arguments
@@ -133,10 +193,10 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGetAll;
+    private javax.swing.JButton btnGetDouble;
+    private javax.swing.JButton btnGetSingle;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel pnlShowRoom;
     // End of variables declaration//GEN-END:variables
