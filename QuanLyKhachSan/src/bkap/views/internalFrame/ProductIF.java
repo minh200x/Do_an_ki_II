@@ -34,7 +34,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
         listPro = proDao.findAll();
         modelPro = (DefaultTableModel) tblPro.getModel();
         setDataTable(listPro);
-        
+        // commits
     }
     private void setDataTable(List<Product> listUnit) {
         modelPro.setRowCount(0);
