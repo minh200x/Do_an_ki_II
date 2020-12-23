@@ -27,6 +27,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -50,6 +51,8 @@ public class UserIF extends javax.swing.JInternalFrame {
     private int userId = 0;
     private String nameImg = "";
     private String pathDirImage = "src\\bkap\\images\\users\\";
+    private String pathFileImage = "";
+    private File fileImg = null;
 
     private String fullname;
     private String username;
@@ -76,8 +79,7 @@ public class UserIF extends javax.swing.JInternalFrame {
         cbModelLevel = (DefaultComboBoxModel) cbLevel.getModel();
 
         setComboxModelLevel(listLevel);
-//        setDataTable(listUser);
-//Utils.setDataTable(modelUser, listUser, parameters);
+        setDataTable(listUser);
     }
 
     /**
@@ -389,28 +391,14 @@ public class UserIF extends javax.swing.JInternalFrame {
 
     private void btnChooseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImageActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-//        FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("jpeg", "jpg", "png");
-//
-//        fileChooser.setFileFilter(imgFilter);
-//        fileChooser.setMultiSelectionEnabled(false);
+        FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("jpeg", "jpg", "png");
+
+        fileChooser.setFileFilter(imgFilter);
+        fileChooser.setMultiSelectionEnabled(false);
 
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File fileImg = fileChooser.getSelectedFile();
-            String pathFileImage = fileImg.getAbsolutePath();
-
-            File dir = new File(pathDirImage);
-            if (dir.exists()) {
-                Path sourceDirectory = Paths.get(pathFileImage);
-                Path targetDirectory = Paths.get(pathDirImage + sourceDirectory.getFileName());
-                nameImg = sourceDirectory.getFileName().toString();
-                try {
-                    //copy source to target using Files Class
-                    Files.copy(sourceDirectory, targetDirectory, StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException ex) {
-                    Logger.getLogger(UserIF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                }
-            }
-
+            fileImg = fileChooser.getSelectedFile();
+            pathFileImage = fileImg.getAbsolutePath();
             // set image
             Utils.setImage(containImg, pathFileImage);
         }
@@ -421,6 +409,7 @@ public class UserIF extends javax.swing.JInternalFrame {
 
         if (checkValidate()) {
             User u = setPropertiesForObject();
+            saveImage();
             userDAO.add(u);
             Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
             setNullValueFields();
@@ -445,7 +434,11 @@ public class UserIF extends javax.swing.JInternalFrame {
         txtDescript.setText(u.getDescript());
         txtAddress.setText(u.getAddress());
 
-        buttonGroupGender.clearSelection();
+        if (u.isGender() == SystemConstant.GENDER_FEMALE) {
+            optionFemail.setSelected(true);
+        } else {
+            optionMale.setSelected(true);
+        }
 
         for (Level l : listLevel) {
             if (l.getId() == u.getLevelId()) {
@@ -458,21 +451,23 @@ public class UserIF extends javax.swing.JInternalFrame {
         txtEndDate.setDate(u.getEndDate());
 
         // set image avatar
-        System.out.println("name img: " + u.getImage());
         Utils.setImage(containImg, u.getImage());
     }//GEN-LAST:event_tblUserMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        getValueOfFields();
+        int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_UPDATE);
 
-        if (checkValidate()) {
-            User u = setPropertiesForObject();
-
-            userDAO.edit(u);
-            Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
-            setNullValueFields();
-            listUser = userDAO.findAll();
-            setDataTable(listUser);
+        if (reply == 0) {
+            getValueOfFields();
+            if (checkValidate()) {
+                User u = setPropertiesForObject();
+                saveImage();
+                userDAO.edit(u);
+                Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                setNullValueFields();
+                listUser = userDAO.findAll();
+                setDataTable(listUser);
+            }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -512,6 +507,7 @@ public class UserIF extends javax.swing.JInternalFrame {
 
     private User setPropertiesForObject() {
         User u = new User();
+        u.setId(userId);
         u.setFullname(fullname);
         u.setUsername(username);
         u.setPassword(password);
@@ -568,6 +564,21 @@ public class UserIF extends javax.swing.JInternalFrame {
 
         nameImg = "";
         Utils.setImage(containImg, nameImg);
+    }
+
+    private void saveImage() {
+        File dir = new File(pathDirImage);
+        if (dir.exists()) {
+            Path sourceDirectory = Paths.get(pathFileImage);
+            Path targetDirectory = Paths.get(pathDirImage + sourceDirectory.getFileName());
+            nameImg = sourceDirectory.getFileName().toString();
+            try {
+                //copy source to target using Files Class
+                Files.copy(sourceDirectory, targetDirectory, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
+                Logger.getLogger(UserIF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
     }
 
     private void setDataTable(List<User> users) {

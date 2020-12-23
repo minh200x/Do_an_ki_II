@@ -19,8 +19,8 @@ public class SystemConstant {
     public final static boolean GENDER_FEMALE = true;
     public final static boolean GENDER_MALE = false;
     
-    public final static String STATUS_TXT_ROOM_EMPTY = "Phòng trống";
-    public final static String STATUS_TXT_ROOM_USING = "Phòng có khách";
+    public final static String STATUS_TXT_ROOM_EMPTY = "Trống";
+    public final static String STATUS_TXT_ROOM_USING = "Có khách";
     public final static String STATUS_TXT_ROOM_REPAIRING = "Đang bảo dưỡng";
     public final static int STATUS_ROOM_EMPTY = 0;
     public final static int STATUS_ROOM_USING = 1;

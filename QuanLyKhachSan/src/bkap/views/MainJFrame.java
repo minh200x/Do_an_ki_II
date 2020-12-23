@@ -19,7 +19,6 @@ import bkap.views.internalFrame.UserIF;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
-import javax.swing.JInternalFrame;
 /**
  *
  * @author hongb
@@ -121,11 +120,11 @@ public class MainJFrame extends javax.swing.JFrame {
         dkpMain.setLayout(dkpMainLayout);
         dkpMainLayout.setHorizontalGroup(
             dkpMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1073, Short.MAX_VALUE)
+            .addGap(0, 1392, Short.MAX_VALUE)
         );
         dkpMainLayout.setVerticalGroup(
             dkpMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 649, Short.MAX_VALUE)
+            .addGap(0, 712, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Trang chủ");

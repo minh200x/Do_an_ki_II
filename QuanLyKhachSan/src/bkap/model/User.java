@@ -5,6 +5,8 @@
  */
 package bkap.model;
 
+import bkap.utils.Utils;
+import java.lang.reflect.Field;
 import java.util.Date;
 
 /**
@@ -159,5 +161,4 @@ public class User {
     public void setStatus(int status) {
         this.status = status;
     }
-
 }

@@ -5,10 +5,18 @@
  */
 package bkap.utils;
 
+import bkap.model.User;
+import bkap.views.internalFrame.UserIF;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
+import java.lang.reflect.Field;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +32,13 @@ public class Utils {
         return currentTime;
     }
 
+    public static String formatPrice(Float price) {
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat vn = NumberFormat.getInstance(localeVN);
+        String formated = vn.format(price);
+        return formated;
+    }
+
     public static void setImage(JLabel lbContainImg, String pathImg) {
         ImageIcon imgIcon = new ImageIcon(pathImg);
         Image img = imgIcon.getImage();
@@ -34,6 +49,8 @@ public class Utils {
     }
 
     public static void setMessageInformation(JLabel label, String msg, Boolean status) {
+        Font font = new Font("Tahoma", Font.ITALIC, 13);
+        label.setFont(font);
         if (status == false) {
             label.setForeground(Color.RED);
             label.setText(msg);
@@ -43,18 +60,4 @@ public class Utils {
         }
     }
 
-    public static <T> void setDataTable(DefaultTableModel model, List<T> list, Object... parameters) {
-        model.setRowCount(0);
-        
-        int indexRow = 0;
-        int indexColumn = 0;
-        
-        for (T t : list) {            
-            for (Object param : parameters) {
-                model.setValueAt(param, indexRow, indexColumn);
-                indexColumn++;
-            }
-            indexRow++;
-        }
-    }
 }
