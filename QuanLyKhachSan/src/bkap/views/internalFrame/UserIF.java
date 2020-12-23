@@ -51,6 +51,8 @@ public class UserIF extends javax.swing.JInternalFrame {
     private int userId = 0;
     private String nameImg = "";
     private String pathDirImage = "src\\bkap\\images\\users\\";
+    private String pathFileImage = "";
+    private File fileImg = null;
 
     private String fullname;
     private String username;
@@ -395,22 +397,8 @@ public class UserIF extends javax.swing.JInternalFrame {
         fileChooser.setMultiSelectionEnabled(false);
 
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File fileImg = fileChooser.getSelectedFile();
-            String pathFileImage = fileImg.getAbsolutePath();
-
-            File dir = new File(pathDirImage);
-            if (dir.exists()) {
-                Path sourceDirectory = Paths.get(pathFileImage);
-                Path targetDirectory = Paths.get(pathDirImage + sourceDirectory.getFileName());
-                nameImg = sourceDirectory.getFileName().toString();
-                try {
-                    //copy source to target using Files Class
-                    Files.copy(sourceDirectory, targetDirectory, StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException ex) {
-                    Logger.getLogger(UserIF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                }
-            }
-
+            fileImg = fileChooser.getSelectedFile();
+            pathFileImage = fileImg.getAbsolutePath();
             // set image
             Utils.setImage(containImg, pathFileImage);
         }
@@ -421,6 +409,7 @@ public class UserIF extends javax.swing.JInternalFrame {
 
         if (checkValidate()) {
             User u = setPropertiesForObject();
+            saveImage();
             userDAO.add(u);
             Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
             setNullValueFields();
@@ -472,7 +461,7 @@ public class UserIF extends javax.swing.JInternalFrame {
             getValueOfFields();
             if (checkValidate()) {
                 User u = setPropertiesForObject();
-
+                saveImage();
                 userDAO.edit(u);
                 Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
                 setNullValueFields();
@@ -575,6 +564,21 @@ public class UserIF extends javax.swing.JInternalFrame {
 
         nameImg = "";
         Utils.setImage(containImg, nameImg);
+    }
+
+    private void saveImage() {
+        File dir = new File(pathDirImage);
+        if (dir.exists()) {
+            Path sourceDirectory = Paths.get(pathFileImage);
+            Path targetDirectory = Paths.get(pathDirImage + sourceDirectory.getFileName());
+            nameImg = sourceDirectory.getFileName().toString();
+            try {
+                //copy source to target using Files Class
+                Files.copy(sourceDirectory, targetDirectory, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
+                Logger.getLogger(UserIF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
     }
 
     private void setDataTable(List<User> users) {

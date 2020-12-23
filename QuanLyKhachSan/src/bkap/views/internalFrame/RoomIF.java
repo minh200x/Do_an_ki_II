@@ -14,12 +14,14 @@ import bkap.utils.Utils;
 import bkap.views.MainJFrame;
 import bkap.views.ServiceJDialog;
 import java.awt.Color;
+import java.io.File;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -37,11 +39,17 @@ public class RoomIF extends javax.swing.JInternalFrame {
     private DefaultComboBoxModel cbModelCategoryRoom;
     private DefaultComboBoxModel cbModelStatusRoom;
     private DefaultTableModel modelRoom;
+
     public static boolean checkFormPro = false;
-    private int indexSelected = 0;
-    
     public static boolean checkClose = false;
-    
+    private int indexSelected = 0;
+
+    private String roomId;
+    private String typeRoom;
+    private String priceRoom;
+    private String image;
+    private String descript;
+    private String statusRoom;
 
     /**
      * Creates new form RoomFrame
@@ -59,9 +67,10 @@ public class RoomIF extends javax.swing.JInternalFrame {
         setDataComboxCategoryRoom();
         setComboxStatusRoom();
         setDataTable(listRoom);
-        
+
     }
-    public static boolean getStatus(){
+
+    public static boolean getStatus() {
         return checkClose;
     }
 
@@ -246,7 +255,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
                     .addComponent(cbStatusRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -344,7 +353,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
                     .addComponent(jLabel11)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -389,6 +398,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -399,71 +409,36 @@ public class RoomIF extends javax.swing.JInternalFrame {
                         .addComponent(btnUpdate)
                         .addComponent(btnDelete))
                     .addComponent(msgInformation))
-                .addGap(41, 41, 41))
+                .addGap(29, 29, 29))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnChooseImgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImgActionPerformed
-        JFileChooser f = new JFileChooser();
-        f.showOpenDialog(f);
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("jpeg", "jpg", "png");
+        fileChooser.setFileFilter(imgFilter);
+        fileChooser.setMultiSelectionEnabled(true);
+        
+        if (fileChooser.showOpenDialog(jPanel1) == JFileChooser.APPROVE_OPTION) {
+            File[] files = fileChooser.getSelectedFiles();
+            
+        }
     }//GEN-LAST:event_btnChooseImgActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        String typeRoom = cbCategoryRoom.getSelectedItem().toString();
-        String descript = txtDescript.getText();
-
-        Room r = new Room();
-        for (CategoryRoom c : listCategoryRoom) {
-            if (c.getName().equals(typeRoom)) {
-                r.setTypeId(c.getId());
-            }
-        }
-        r.setImage(null);
-        r.setDescript(descript);
-        r.setStatus(SystemConstant.STATUS_ROOM_EMPTY);
+        getValueOfFields();
+        Room r = setPropertiesForObject();
 
         roomDAO.add(r);
         setNullFields();
-        Utils.setMessageInformation(msgInformation,SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+        Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
 
         listRoom = roomDAO.findAll();
         setDataTable(listRoom);
     }//GEN-LAST:event_btnAddActionPerformed
 
-    private void setNullFields() {
-        btnAdd.setEnabled(true);
-        btnDelete.setEnabled(false);
-        btnUpdate.setEnabled(false);
-        
-        txtDescript.setText("");
-    }
-
-    private void setDataTable(List<Room> list) {
-        modelRoom.setRowCount(0);
-        for (Room r : list) {
-            for (CategoryRoom c : listCategoryRoom) {
-                if (c.getId() == r.getTypeId()) {
-                    modelRoom.addRow(new Object[]{
-                        r.getRoomId(), c.getName(), Utils.formatPrice(c.getPrice()), r.getDescript()
-                    });
-                }
-            }
-        }
-        
-        int row = 0;
-        for (Room r : list) {
-            if (r.getStatus() == SystemConstant.STATUS_ROOM_EMPTY) {
-                modelRoom.setValueAt(SystemConstant.STATUS_TXT_ROOM_EMPTY, row, 4);
-            } else if (r.getStatus() == SystemConstant.STATUS_ROOM_USING) {
-                modelRoom.setValueAt(SystemConstant.STATUS_TXT_ROOM_USING, row, 4);
-            } else {
-                modelRoom.setValueAt(SystemConstant.STATUS_TXT_ROOM_REPAIRING, row, 4);
-            }
-            row++;
-        }
-    }
 
     private void cbCategoryRoomItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCategoryRoomItemStateChanged
         String catRoomSelected = cbCategoryRoom.getSelectedItem().toString();
@@ -481,12 +456,11 @@ public class RoomIF extends javax.swing.JInternalFrame {
             indexSelected = tblRoom.getSelectedRow();
 
             if (indexSelected == -1) {
-                Utils.setMessageInformation(msgInformation,SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+                Utils.setMessageInformation(msgInformation, SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
             } else {
-                int roomId = listRoom.get(indexSelected).getRoomId();
-                roomDAO.delete(roomId);
+                roomDAO.delete(Integer.parseInt(roomId));
                 setNullFields();
-                Utils.setMessageInformation(msgInformation,SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
 
                 listRoom = roomDAO.findAll();
                 setDataTable(listRoom);
@@ -495,35 +469,17 @@ public class RoomIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-  
+
         int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_UPDATE);
-        
+
         if (reply == 0) {
             indexSelected = tblRoom.getSelectedRow();
 
             if (indexSelected == -1) {
-                Utils.setMessageInformation(msgInformation,SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+                Utils.setMessageInformation(msgInformation, SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
             } else {
-                String roomId = txtRoomId.getText();
-                String typeRoom = cbCategoryRoom.getSelectedItem().toString();
-                String descript = txtDescript.getText();
-                String statusRoom = cbStatusRoom.getSelectedItem().toString();
-
-                Room r = new Room();
-                r.setRoomId(Integer.parseInt(roomId));
-                for (CategoryRoom c : listCategoryRoom) {
-                    if (c.getName().equals(typeRoom)) {
-                        r.setTypeId(c.getId());
-                    }
-                }
-                r.setDescript(descript);
-                if (statusRoom.equals(SystemConstant.STATUS_TXT_ROOM_EMPTY)) {
-                    r.setStatus(SystemConstant.STATUS_ROOM_EMPTY);
-                } else if (statusRoom.equals(SystemConstant.STATUS_TXT_ROOM_USING)) {
-                    r.setStatus(SystemConstant.STATUS_ROOM_USING);
-                } else {
-                    r.setStatus(SystemConstant.STATUS_ROOM_REPAIRING);
-                }
+                getValueOfFields();
+                Room r = setPropertiesForObject();
 
                 roomDAO.edit(r);
                 setNullFields();
@@ -540,19 +496,19 @@ public class RoomIF extends javax.swing.JInternalFrame {
         btnDelete.setEnabled(true);
         btnUpdate.setEnabled(true);
         cbStatusRoom.setEnabled(true);
-        
+
         int indexSelected = tblRoom.getSelectedRow();
-        
+
         Room r = listRoom.get(indexSelected);
-        txtRoomId.setText(r.getRoomId()+"");
+        txtRoomId.setText(r.getRoomId() + "");
         txtDescript.setText(r.getDescript());
-        
+
         for (CategoryRoom c : listCategoryRoom) {
             if (c.getId() == r.getTypeId()) {
                 cbCategoryRoom.setSelectedItem(c.getName());
             }
         }
-        
+
         if (r.getStatus() == SystemConstant.STATUS_ROOM_EMPTY) {
             cbStatusRoom.setSelectedItem(SystemConstant.STATUS_TXT_ROOM_EMPTY);
         } else if (r.getStatus() == SystemConstant.STATUS_ROOM_USING) {
@@ -562,9 +518,74 @@ public class RoomIF extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tblRoomMouseClicked
 
-        public static Boolean getCheckFormPro(){
+    public static Boolean getCheckFormPro() {
         return checkFormPro;
     }
+
+    private void setNullFields() {
+        btnAdd.setEnabled(true);
+        btnDelete.setEnabled(false);
+        btnUpdate.setEnabled(false);
+
+        txtDescript.setText("");
+    }
+
+    private void getValueOfFields() {
+        roomId = txtRoomId.getText();
+        typeRoom = cbModelCategoryRoom.getSelectedItem().toString();
+        image = txtNumOfImg.getText();
+        priceRoom = txtPrice.getText().replace(".", "");
+        descript = txtDescript.getText();
+        statusRoom = cbStatusRoom.getSelectedItem().toString();
+    }
+
+    private void setDataTable(List<Room> list) {
+        modelRoom.setRowCount(0);
+        for (Room r : list) {
+            for (CategoryRoom c : listCategoryRoom) {
+                if (c.getId() == r.getTypeId()) {
+                    modelRoom.addRow(new Object[]{
+                        r.getRoomId(), c.getName(), Utils.formatPrice(c.getPrice()), r.getDescript()
+                    });
+                }
+            }
+        }
+
+        int row = 0;
+        for (Room r : list) {
+            if (r.getStatus() == SystemConstant.STATUS_ROOM_EMPTY) {
+                modelRoom.setValueAt(SystemConstant.STATUS_TXT_ROOM_EMPTY, row, 4);
+            } else if (r.getStatus() == SystemConstant.STATUS_ROOM_USING) {
+                modelRoom.setValueAt(SystemConstant.STATUS_TXT_ROOM_USING, row, 4);
+            } else {
+                modelRoom.setValueAt(SystemConstant.STATUS_TXT_ROOM_REPAIRING, row, 4);
+            }
+            row++;
+        }
+    }
+
+    private Room setPropertiesForObject() {
+        Room r = new Room();
+        if (!roomId.isEmpty()) {
+            r.setRoomId(Integer.parseInt(roomId));
+        }
+        for (CategoryRoom c : listCategoryRoom) {
+            if (c.getName().equals(typeRoom)) {
+                r.setTypeId(c.getId());
+            }
+        }
+        r.setImage(image);
+        r.setDescript(descript);
+        if (statusRoom.equals(SystemConstant.STATUS_TXT_ROOM_EMPTY)) {
+            r.setStatus(SystemConstant.STATUS_ROOM_EMPTY);
+        } else if (statusRoom.equals(SystemConstant.STATUS_TXT_ROOM_USING)) {
+            r.setStatus(SystemConstant.STATUS_ROOM_USING);
+        } else {
+            r.setStatus(SystemConstant.STATUS_ROOM_REPAIRING);
+        }
+        return r;
+    }
+
     private void setComboxStatusRoom() {
         cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_EMPTY);
         cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_USING);

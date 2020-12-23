@@ -32,7 +32,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
     public ProductIF() {
         initComponents();
         listPro = proDao.findAll();
-        modelPro = (DefaultTableModel) tblPro.getModel();
+        modelPro = (DefaultTableModel) tblProduct.getModel();
         
     }
     private void setDataTable(List<Product> listUnit) {
@@ -55,21 +55,21 @@ public class ProductIF extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
+        txtProName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtQuantity = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblPro = new javax.swing.JTable();
+        tblProduct = new javax.swing.JTable();
         btnDelete = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
-        txtInfo = new javax.swing.JLabel();
+        msgInfomation = new javax.swing.JLabel();
 
         jLabel1.setText("Tên sản phẩm");
 
         jLabel2.setText("Số lượng");
 
-        tblPro.setModel(new javax.swing.table.DefaultTableModel(
+        tblProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -77,7 +77,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
                 "STT", "Tên ", "Số lượng"
             }
         ));
-        jScrollPane1.setViewportView(tblPro);
+        jScrollPane1.setViewportView(tblProduct);
 
         btnDelete.setText("Xóa");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -114,7 +114,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2))
                         .addGap(50, 50, 50)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtName)
+                            .addComponent(txtProName)
                             .addComponent(txtQuantity)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -123,9 +123,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
                         .addComponent(btnUpdate)
                         .addGap(18, 18, 18)
                         .addComponent(btnAdd))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtInfo)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(msgInfomation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -133,7 +131,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtProName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -147,10 +145,10 @@ public class ProductIF extends javax.swing.JInternalFrame {
                     .addComponent(btnAdd)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addComponent(txtInfo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(msgInfomation, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -188,7 +186,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
             int i = JOptionPane.showConfirmDialog(this, SystemConstant.CONFIRM_UPDATE);
             if (i == 0) {
                 proDao.edit(p);
-                Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                Utils.setMessageInformation(msgInfomation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
                 setNullValueFields();
                 listPro = proDao.findAll();
                 setDataTable(listPro);
@@ -202,7 +200,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
         if (checkValidate()) {
             Product p = setPropertiesForObject();
             proDao.add(p);
-            Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            Utils.setMessageInformation(msgInfomation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
             setNullValueFields();
             listPro = proDao.findAll();
             setDataTable(listPro);
@@ -210,7 +208,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void getValueOfFields() {
-        name = txtName.getText();
+        name = txtProName.getText();
         quantity = txtQuantity.getToolTipText();
         id = id;
     }
@@ -224,9 +222,9 @@ public class ProductIF extends javax.swing.JInternalFrame {
     private boolean checkValidate() {
         boolean check = false;
         if (name.isEmpty()) {
-            Utils.setMessageInformation(txtInfo, "Vui lòng nhập tên đơn vị!", false);
+            Utils.setMessageInformation(msgInfomation, "Vui lòng nhập tên đơn vị!", false);
         } else if (!name.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")) {
-            Utils.setMessageInformation(txtInfo, "Vui lòng tên đơn vị không nhập kí tự đặc biệt!", false);
+            Utils.setMessageInformation(msgInfomation, "Vui lòng tên đơn vị không nhập kí tự đặc biệt!", false);
         } else {
             check = true;
         }
@@ -235,7 +233,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
     private void setNullValueFields() {
         btnAdd.setEnabled(true);
         btnUpdate.setEnabled(false);
-        txtName.setText("");
+        txtProName.setText("");
         txtQuantity.setToolTipText("0");
     }
 
@@ -247,9 +245,9 @@ public class ProductIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblPro;
-    private javax.swing.JLabel txtInfo;
-    private javax.swing.JTextField txtName;
+    private javax.swing.JLabel msgInfomation;
+    private javax.swing.JTable tblProduct;
+    private javax.swing.JTextField txtProName;
     private javax.swing.JSpinner txtQuantity;
     // End of variables declaration//GEN-END:variables
 }
