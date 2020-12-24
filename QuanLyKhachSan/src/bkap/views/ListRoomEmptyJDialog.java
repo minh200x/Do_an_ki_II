@@ -8,8 +8,11 @@ package bkap.views;
 import bkap.dao.impl.RoomDAO;
 import bkap.model.Room;
 import java.awt.Button;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
@@ -22,7 +25,11 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
 
     private RoomDAO roomDao = new RoomDAO();
     private List<Room> listRoom;
+    private List<Integer> listSelected = new ArrayList<>();
+    private int id;
     private Button b;
+    boolean checkRemove = false;
+
     /**
      * Creates new form ListRoomEmptyJDialog
      */
@@ -30,32 +37,67 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         listRoom = roomDao.findAll();
-        pnlShowRoom.setLayout(new GridLayout(3, 5));
-        loadTable(listRoom);
+        pnlShowRoom.setLayout(new CardLayout());
+        loadTable(pnlAll, listRoom);
     }
-    
-    private void loadTable(List<Room> listR){
+
+    private void loadTable(JPanel pnlShow, List<Room> listR) {
+
+        pnlShow.removeAll();
+        pnlShow.setLayout(new GridLayout(3, 5));
         pnlShowRoom.removeAll();
-        pnlShowRoom.setVisible(true);
-        pnlShowRoom.validate();
-        pnlShowRoom.repaint();
         for (Room data : listR) {
             b = new Button();
-            pnlShowRoom.add(b);
-            if(data.getStatus() == 0){
-                b.setLabel("P "+data.getRoomId()+" (Trống)");
+            pnlShow.add(b);
+            if (data.getStatus() == 0) {
+                b.setLabel("P " + data.getRoomId()+System.getProperty("line.separator")+ " (Trống)");
                 b.setBackground(Color.decode("#80bfff"));
                 b.setEnabled(true);
-            }else if(data.getStatus() == 1){
-                b.setLabel("P "+data.getRoomId()+" (Có khách)");
+                b.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (listSelected != null) {
+                            Boolean check = true;
+
+                            for (Integer dataSelected : listSelected) {
+                                if (data.getRoomId() == dataSelected) {
+                                    listSelected.remove(dataSelected);
+                                    listSelected = listSelected;
+                                    check = false;
+                                    loadTable(pnlShow, listR);
+                                }
+                            }
+                            if (check == true) {
+                                listSelected.add(data.getRoomId());
+                            }
+                        } else {
+                            listSelected.add(data.getRoomId());
+                        }
+                        checkRemove = true;
+                        loadTable(pnlShow, listR);
+                    }
+                });
+                for (Integer dataSelected : listSelected) {
+                    if (dataSelected == data.getRoomId()) {
+                        b.setBackground(Color.decode("#9999ff"));
+                    }
+                }
+            } else if (data.getStatus() == 1) {
+                b.setLabel("P " + data.getRoomId() + " (Có khách)");
                 b.setBackground(Color.decode("#5ABD96"));
                 b.setEnabled(false);
-            }else if(data.getStatus() == 2){
-                b.setLabel("P "+data.getRoomId()+" (Đang bảo dưỡng)");
+            } else if (data.getStatus() == 2) {
+                b.setLabel("P " + data.getRoomId() + " (Đang bảo dưỡng)");
                 b.setBackground(Color.gray);
                 b.setEnabled(false);
             }
-        } 
+        }
+        pnlShowRoom.add(pnlShow);
+        pnlShow.setVisible(true);
+        pnlShow.validate();
+        if (checkRemove) {
+//            re
+        }
     }
 
     /**
@@ -73,6 +115,10 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
         btnGetSingle = new javax.swing.JButton();
         btnGetDouble = new javax.swing.JButton();
         pnlShowRoom = new javax.swing.JPanel();
+        pnlSingle = new javax.swing.JPanel();
+        pnlDouble = new javax.swing.JPanel();
+        pnlAll = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -102,19 +148,74 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
         });
         jPanel1.add(btnGetDouble);
 
+        pnlShowRoom.setLayout(new java.awt.CardLayout());
+
+        javax.swing.GroupLayout pnlSingleLayout = new javax.swing.GroupLayout(pnlSingle);
+        pnlSingle.setLayout(pnlSingleLayout);
+        pnlSingleLayout.setHorizontalGroup(
+            pnlSingleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 552, Short.MAX_VALUE)
+        );
+        pnlSingleLayout.setVerticalGroup(
+            pnlSingleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 325, Short.MAX_VALUE)
+        );
+
+        pnlShowRoom.add(pnlSingle, "card2");
+
+        javax.swing.GroupLayout pnlDoubleLayout = new javax.swing.GroupLayout(pnlDouble);
+        pnlDouble.setLayout(pnlDoubleLayout);
+        pnlDoubleLayout.setHorizontalGroup(
+            pnlDoubleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 552, Short.MAX_VALUE)
+        );
+        pnlDoubleLayout.setVerticalGroup(
+            pnlDoubleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 325, Short.MAX_VALUE)
+        );
+
+        pnlShowRoom.add(pnlDouble, "card3");
+
+        javax.swing.GroupLayout pnlAllLayout = new javax.swing.GroupLayout(pnlAll);
+        pnlAll.setLayout(pnlAllLayout);
+        pnlAllLayout.setHorizontalGroup(
+            pnlAllLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 552, Short.MAX_VALUE)
+        );
+        pnlAllLayout.setVerticalGroup(
+            pnlAllLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 325, Short.MAX_VALUE)
+        );
+
+        pnlShowRoom.add(pnlAll, "card4");
+
+        jButton1.setText("Thêm");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnlShowRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlShowRoom, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE))
+                .addComponent(pnlShowRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         pack();
@@ -123,7 +224,7 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
     private void btnGetAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetAllActionPerformed
         // TODO add your handling code here:
         listRoom = roomDao.findAll();
-        loadTable(listRoom);
+        loadTable(pnlAll, listRoom);
     }//GEN-LAST:event_btnGetAllActionPerformed
 
     private void btnGetSingleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetSingleActionPerformed
@@ -131,24 +232,31 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
         listRoom = roomDao.findAll();
         List<Room> listSingle = new ArrayList<>();
         for (Room data : listRoom) {
-            if(data.getTypeId() == 1){
+            if (data.getTypeId() == 1) {
                 listSingle.add(data);
             }
         }
-        loadTable(listSingle);
+        loadTable(pnlSingle, listSingle);
     }//GEN-LAST:event_btnGetSingleActionPerformed
-
+    public List<Integer> getListRoomSelected() {
+        return listSelected;
+    }
     private void btnGetDoubleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetDoubleActionPerformed
         // TODO add your handling code here:
         listRoom = roomDao.findAll();
         List<Room> listDouble = new ArrayList<>();
         for (Room data : listRoom) {
-            if(data.getTypeId() == 2){
+            if (data.getTypeId() == 2) {
                 listDouble.add(data);
             }
         }
-        loadTable(listDouble);
+        loadTable(pnlDouble, listDouble);
     }//GEN-LAST:event_btnGetDoubleActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,7 +305,11 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnGetDouble;
     private javax.swing.JButton btnGetSingle;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel pnlAll;
+    private javax.swing.JPanel pnlDouble;
     private javax.swing.JPanel pnlShowRoom;
+    private javax.swing.JPanel pnlSingle;
     // End of variables declaration//GEN-END:variables
 }

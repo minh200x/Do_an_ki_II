@@ -7,6 +7,7 @@ package bkap.views.internalFrame;
 
 import bkap.views.ListRoomEmptyJDialog;
 import bkap.views.ListServiceJDialog;
+import java.util.List;
 
 /**
  *
@@ -14,6 +15,7 @@ import bkap.views.ListServiceJDialog;
  */
 public class BookRoomIF extends javax.swing.JInternalFrame {
 
+    private List<Integer> listRoomSelected = null;
     /**
      * Creates new form BookRoomIF
      */
@@ -47,7 +49,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         btnGetRoom = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
+        txtShowRoom = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -94,7 +96,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel8.setText("P101, P002");
+        txtShowRoom.setText("P101, P002");
 
         jLabel9.setText("Loại phòng");
 
@@ -182,7 +184,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
+                            .addComponent(txtShowRoom, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jn1Layout.createSequentialGroup()
@@ -235,7 +237,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                 .addGap(9, 9, 9)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtShowRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton1)
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnGetRoom))
@@ -282,6 +284,12 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         ListRoomEmptyJDialog listRoom = new ListRoomEmptyJDialog(null, true);
         listRoom.setVisible(true);
         listRoom.validate();
+        listRoomSelected = listRoom.getListRoomSelected();
+        String textList = "";
+        for (Integer data : listRoomSelected) {
+            textList += "P "+data+"; ";
+        }
+        txtShowRoom.setText(textList);
     }//GEN-LAST:event_btnGetRoomActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -321,7 +329,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
@@ -333,5 +340,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JPanel jn1;
+    private javax.swing.JLabel txtShowRoom;
     // End of variables declaration//GEN-END:variables
 }
