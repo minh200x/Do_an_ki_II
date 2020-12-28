@@ -297,7 +297,7 @@ public class CustomerIF extends javax.swing.JInternalFrame {
             } else {
                 c.setGender(SystemConstant.GENDER_MALE);
             }
-            c.setNumIdentityCard(Integer.parseInt(identityCard));
+            c.setNumIdentityCard(identityCard);
             c.setDescript(descript);
             c.setCreatedAt(Utils.getCurrentTime());
             c.setUpdatedAt(Utils.getCurrentTime());
@@ -372,7 +372,7 @@ public class CustomerIF extends javax.swing.JInternalFrame {
                 } else {
                     c.setGender(SystemConstant.GENDER_MALE);
                 }
-                c.setNumIdentityCard(Integer.parseInt(txtIdentityCard.getText()));
+                c.setNumIdentityCard(txtIdentityCard.getText());
                 c.setDescript(txtDescript.getText());
                 c.setCreatedAt(Utils.getCurrentTime());
                 c.setUpdatedAt(Utils.getCurrentTime());

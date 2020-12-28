@@ -5,18 +5,115 @@
  */
 package bkap.views;
 
+import bkap.dao.impl.CategoryServiceDAO;
+import bkap.dao.impl.ProductDAO;
+import bkap.dao.impl.ServiceDAO;
+import bkap.model.CategoryService;
+import bkap.model.Service;
+import java.awt.CardLayout;
+import java.awt.Checkbox;
+import java.awt.CheckboxGroup;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
+import javax.swing.border.Border;
+
 /**
  *
  * @author hongb
  */
 public class ListServiceJDialog extends javax.swing.JDialog {
 
+    private ProductDAO proDao = new ProductDAO();
+    private ServiceDAO serDao = new ServiceDAO();
+    private CategoryServiceDAO catSerDao = new CategoryServiceDAO();
+    private List<Service> listSer;
+    private List<CategoryService> listCatSer;
+    private List<Integer> listRoomSelected;
+    private DefaultComboBoxModel modelListRoom;
+    private List<List> listServiceSelected;
+    private List<Integer> listServiceitem;
+    private JPanel pnl;
+    private int indexSelected;
+    private Border blackline;
+    private JCheckBox[] checkbox;
+    private JList l;
+
     /**
      * Creates new form ListServiceJDialog
      */
-    public ListServiceJDialog(java.awt.Frame parent, boolean modal) {
+    public ListServiceJDialog(java.awt.Frame parent, boolean modal, List<Integer> listRoom) {
         super(parent, modal);
         initComponents();
+
+        this.listRoomSelected = listRoom;
+        listSer = serDao.findAll();
+        listCatSer = catSerDao.findAll();
+
+        modelListRoom = (DefaultComboBoxModel) cbRoom.getModel();
+        setComboxModel();
+        pnlContainer.setLayout(new CardLayout());
+        indexSelected = cbRoom.getSelectedIndex();
+        createNewPanel(indexSelected);
+    }
+
+    private void setComboxModel() {
+        modelListRoom.addElement("Tất cả");
+        for (Integer listR : listRoomSelected) {
+            modelListRoom.addElement("Phòng " + listR);
+        }
+    }
+
+    private void createNewPanel(int index) {
+        pnlContainer.removeAll();
+        if(pnl != null){
+            pnl.removeAll();
+        }else{
+            pnl = new JPanel();
+        }
+        for (CategoryService listC : listCatSer) {
+            getItemService(listC.getId());
+        }
+        pnlContainer.add(pnl);
+        pnl.setLayout(new GridLayout(listCatSer.size(), 1));
+        pnl.setVisible(true);
+        pnl.validate();
+    }
+
+    private void getItemService(int id) {
+        JPanel pnlItem = new JPanel();
+        for (CategoryService listC : listCatSer) {
+            if (id == listC.getId()) {
+                blackline = BorderFactory.createTitledBorder(listC.getName());
+            }
+        }
+
+        checkbox = new JCheckBox[listSer.size()];
+        pnlItem.setBorder(blackline);
+        pnlItem.setLayout(new FlowLayout(5));
+        int index = 0;
+        for (Service list : listSer) {
+            if (id == list.getCatService()) {
+                checkbox[index] = new JCheckBox(list.getName(), false);
+                pnlItem.add(checkbox[index]);
+                index++;
+            }
+        }
+        pnl.add(pnlItem);
+        pnlItem.setVisible(true);
+        pnlItem.validate();
     }
 
     /**
@@ -29,44 +126,23 @@ public class ListServiceJDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        cbRoom = new javax.swing.JComboBox();
+        pnlContainer = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbRoom.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbRoomItemStateChanged(evt);
+            }
+        });
 
-        jPanel3.setLayout(new java.awt.GridLayout());
+        pnlContainer.setBackground(new java.awt.Color(255, 255, 255));
+        pnlContainer.setAutoscrolls(true);
+        pnlContainer.setLayout(new java.awt.CardLayout());
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 235, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jButton1.setText("Thêm");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -75,19 +151,22 @@ public class ListServiceJDialog extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 458, Short.MAX_VALUE)))
+                    .addComponent(pnlContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbRoom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 455, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addComponent(jButton1)
                 .addContainerGap())
         );
 
@@ -99,11 +178,38 @@ public class ListServiceJDialog extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbRoomItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbRoomItemStateChanged
+        // TODO add your handling code here:
+        
+        createNewPanel(indexSelected);
+        if (checkbox != null) {
+            printSelectedNames(checkbox);
+        } else {
+//            createNewPanel(indexSelected);
+            System.out.println("aaaaaaa");
+        }
+    }//GEN-LAST:event_cbRoomItemStateChanged
+    public void printSelectedNames(JCheckBox[] boxes) {
+        if (boxes == null) {
+            System.out.println("false");
+        } else {
+            System.out.println("true");
+//            for (JCheckBox box : boxes) {
+//                if (box.isSelected()) {
+//                    System.out.println(box.getText());
+//                }
+//            }
+        }
+
+    }
 
     /**
      * @param args the command line arguments
@@ -135,7 +241,7 @@ public class ListServiceJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListServiceJDialog dialog = new ListServiceJDialog(new javax.swing.JFrame(), true);
+                ListServiceJDialog dialog = new ListServiceJDialog(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -148,10 +254,9 @@ public class ListServiceJDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox cbRoom;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel pnlContainer;
     // End of variables declaration//GEN-END:variables
 }
