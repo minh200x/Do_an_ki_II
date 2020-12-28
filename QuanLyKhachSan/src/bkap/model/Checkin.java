@@ -15,21 +15,32 @@ public class Checkin {
     private int totalPeople;
     private int cuponId;
     private float totalMoney;
+    private float pricePaymentAdvance;
     private float totalServicePrice;
     private String descript;
 
     public Checkin() {
     }
 
-    public Checkin(int id, String cusPhone, int totalPeople, int cuponId, float totalMoney, float totalServicePrice, String descript) {
+    public Checkin(int id, String cusPhone, int totalPeople, int cuponId, float totalMoney, float pricePaymentAdvance, float totalServicePrice, String descript) {
         this.id = id;
         this.cusPhone = cusPhone;
         this.totalPeople = totalPeople;
         this.cuponId = cuponId;
         this.totalMoney = totalMoney;
+        this.pricePaymentAdvance = pricePaymentAdvance;
         this.totalServicePrice = totalServicePrice;
         this.descript = descript;
     }
+
+    public float getPricePaymentAdvance() {
+        return pricePaymentAdvance;
+    }
+
+    public void setPricePaymentAdvance(float pricePaymentAdvance) {
+        this.pricePaymentAdvance = pricePaymentAdvance;
+    }
+
 
     public int getId() {
         return id;

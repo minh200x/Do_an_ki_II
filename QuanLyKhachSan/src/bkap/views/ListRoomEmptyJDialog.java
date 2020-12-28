@@ -7,14 +7,18 @@ package bkap.views;
 
 import bkap.dao.impl.RoomDAO;
 import bkap.model.Room;
+import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 /**
@@ -25,7 +29,7 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
 
     private RoomDAO roomDao = new RoomDAO();
     private List<Room> listRoom;
-    private List<Integer> listSelected = new ArrayList<>();
+    private List<Integer> listSelected;
     private int id;
     private Button b;
     boolean checkRemove = false;
@@ -33,9 +37,10 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
     /**
      * Creates new form ListRoomEmptyJDialog
      */
-    public ListRoomEmptyJDialog(java.awt.Frame parent, boolean modal) {
+    public ListRoomEmptyJDialog(java.awt.Frame parent, boolean modal, List<Integer> listS) {
         super(parent, modal);
         initComponents();
+        this.listSelected = listS;
         listRoom = roomDao.findAll();
         pnlShowRoom.setLayout(new CardLayout());
         loadTable(pnlAll, listRoom);
@@ -48,56 +53,58 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
         pnlShowRoom.removeAll();
         for (Room data : listR) {
             b = new Button();
+            b.setSize(90, 90);
             pnlShow.add(b);
-            if (data.getStatus() == 0) {
-                b.setLabel("P " + data.getRoomId()+System.getProperty("line.separator")+ " (Trống)");
-                b.setBackground(Color.decode("#80bfff"));
-                b.setEnabled(true);
-                b.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (listSelected != null) {
-                            Boolean check = true;
-
-                            for (Integer dataSelected : listSelected) {
-                                if (data.getRoomId() == dataSelected) {
-                                    listSelected.remove(dataSelected);
-                                    listSelected = listSelected;
-                                    check = false;
-                                    loadTable(pnlShow, listR);
+            switch (data.getStatus()) {
+                case 0:
+                    b.setLabel("P " + data.getRoomId() + System.getProperty("line.separator") + " (Trống)");
+                    b.setBackground(Color.decode("#80bfff"));
+                    b.setEnabled(true);
+                    b.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (listSelected != null) {
+                                Boolean check = true;
+                                for (int i = 0; i < listSelected.size(); i++) {
+                                    if (data.getRoomId() == listSelected.get(i)) {
+                                        listSelected.remove(listSelected.get(i));
+                                        check = false;
+                                        loadTable(pnlShow, listR);
+                                    }
                                 }
-                            }
-                            if (check == true) {
+                                if (check == true) {
+                                    listSelected.add(data.getRoomId());
+                                }
+                            } else {
                                 listSelected.add(data.getRoomId());
                             }
-                        } else {
-                            listSelected.add(data.getRoomId());
+                            checkRemove = true;
+                            loadTable(pnlShow, listR);
                         }
-                        checkRemove = true;
-                        loadTable(pnlShow, listR);
+                    });
+                    for (Integer dataSelected : listSelected) {
+                        if (dataSelected == data.getRoomId()) {
+                            b.setBackground(Color.decode("#9999ff"));
+                        }
                     }
-                });
-                for (Integer dataSelected : listSelected) {
-                    if (dataSelected == data.getRoomId()) {
-                        b.setBackground(Color.decode("#9999ff"));
-                    }
-                }
-            } else if (data.getStatus() == 1) {
-                b.setLabel("P " + data.getRoomId() + " (Có khách)");
-                b.setBackground(Color.decode("#5ABD96"));
-                b.setEnabled(false);
-            } else if (data.getStatus() == 2) {
-                b.setLabel("P " + data.getRoomId() + " (Đang bảo dưỡng)");
-                b.setBackground(Color.gray);
-                b.setEnabled(false);
+                    break;
+                case 1:
+                    b.setLabel("P " + data.getRoomId() + " (Có khách)");
+                    b.setBackground(Color.decode("#5ABD96"));
+                    b.setEnabled(false);
+                    break;
+                case 2:
+                    b.setLabel("P " + data.getRoomId() + " (Đang bảo dưỡng)");
+                    b.setBackground(Color.gray);
+                    b.setEnabled(false);
+                    break;
+                default:
+                    break;
             }
         }
         pnlShowRoom.add(pnlShow);
         pnlShow.setVisible(true);
         pnlShow.validate();
-        if (checkRemove) {
-//            re
-        }
     }
 
     /**
@@ -288,7 +295,7 @@ public class ListRoomEmptyJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListRoomEmptyJDialog dialog = new ListRoomEmptyJDialog(new javax.swing.JFrame(), true);
+                ListRoomEmptyJDialog dialog = new ListRoomEmptyJDialog(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

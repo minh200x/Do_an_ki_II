@@ -9,6 +9,7 @@ import bkap.dao.impl.CustomerDAO;
 import bkap.model.Customer;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
+import bkap.views.LoginDialog;
 import java.awt.Color;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +48,12 @@ public class CustomerIF extends javax.swing.JInternalFrame {
         modelCustomer = (DefaultTableModel) tblCustomer.getModel();
 
         setDataTable(listCustomer);
+        
+        if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
+            btnAdd.setEnabled(false);
+            btnUpdate.setEnabled(false);
+            btnDelete.setEnabled(false);
+        }
     }
 
     /**
@@ -321,13 +328,13 @@ public class CustomerIF extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+
         getValueOfFields();
         if (checkValidate()) {
             Customer c = setPropertiesForObject();
             cusDAO.add(c);
             Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
             setNullValueFields();
-
             listCustomer = cusDAO.findAll();
             setDataTable(listCustomer);
         }
@@ -408,7 +415,7 @@ public class CustomerIF extends javax.swing.JInternalFrame {
     private void txtKeySearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusLost
         if (txtKeySearch.getText().equals("")) {
             txtKeySearch.setText("Số điện thoại, CMND");
-            txtKeySearch.setForeground(new Color(153,153,153));
+            txtKeySearch.setForeground(new Color(153, 153, 153));
         }
     }//GEN-LAST:event_txtKeySearchFocusLost
 
@@ -419,22 +426,18 @@ public class CustomerIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-       String keySearch = txtKeySearch.getText();
-        if (!keySearch.isEmpty() && !keySearch.matches("^[0-9]+$")) {
-            Utils.setMessageInformation(msgInformation, "Vui lòng nhập đúng định dạng số điện thoại!", false);
-        } else {
-            listCustomer = cusDAO.findByPhone(keySearch);
+        String keySearch = txtKeySearch.getText();
+        listCustomer = cusDAO.findByPhone(keySearch);
+        if (listCustomer.isEmpty()) {
+            Utils.setMessageInformation(msgInformation, "Không tìm thấy khách hàng!", false);
+            listCustomer = cusDAO.findByNumIdentityCard(keySearch);
             if (listCustomer.isEmpty()) {
                 Utils.setMessageInformation(msgInformation, "Không tìm thấy khách hàng!", false);
-                listCustomer = cusDAO.findByNumIdentityCard(keySearch);
-                if (listCustomer.isEmpty()) {
-                    Utils.setMessageInformation(msgInformation, "Không tìm thấy khách hàng!", false);
-                }
-            } else {
-                msgInformation.setText("");
             }
-            setDataTable(listCustomer);
+        } else {
+            msgInformation.setText("");
         }
+        setDataTable(listCustomer);
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private Customer setPropertiesForObject() {
@@ -498,9 +501,9 @@ public class CustomerIF extends javax.swing.JInternalFrame {
         txtIdentityCard.setText("");
         txtDescript.setText("");
         buttonGroupGender.clearSelection();
-        
+
         txtKeySearch.setText("Số điện thoại, CMND");
-        txtKeySearch.setForeground(new Color(153,153,153));
+        txtKeySearch.setForeground(new Color(153, 153, 153));
     }
 
     private void setDataTable(List<Customer> list) {

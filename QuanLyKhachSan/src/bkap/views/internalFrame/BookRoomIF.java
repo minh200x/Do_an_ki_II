@@ -5,9 +5,23 @@
  */
 package bkap.views.internalFrame;
 
+import bkap.dao.impl.CheckinDAO;
+import bkap.dao.impl.CuponDAO;
+import bkap.dao.impl.CustomerDAO;
+import bkap.model.Checkin;
+import bkap.model.CheckinDetails;
+import bkap.model.CheckinServiceDetails;
+import bkap.model.Cupon;
+import bkap.model.Customer;
+import bkap.model.Room;
+import bkap.model.Service;
+import bkap.utils.Utils;
 import bkap.views.ListRoomEmptyJDialog;
 import bkap.views.ListServiceJDialog;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,12 +29,38 @@ import java.util.List;
  */
 public class BookRoomIF extends javax.swing.JInternalFrame {
 
-    private List<Integer> listRoomSelected = null;
+    private CheckinDAO checkinDao = new CheckinDAO();
+    private CuponDAO cuponDao = new CuponDAO();
+    private CustomerDAO cusDao = new CustomerDAO();
+    private List<Cupon> listCupon;
+    private List<Integer> listRoomSelected = new ArrayList<>();
+    
+    private int id;
+    private String name;
+    private String phone;
+    private Date startDate;
+    private Date endDate;
+    private float pricePaymentAdvance;
+    private float priceAgreement;
+    private String des;
+    private int countRoomSingle;
+    private int countRoomDouble;
+    private int totalPeople;
+    private String numIdentityCard;
+    private String cupon;
+    private List<Room> listRoom;
+    private List<Service> listService;
+    private List<Checkin> listCheckin;
+    private List<CheckinDetails> listCheckinDetail;
+    private List<CheckinServiceDetails> listCheckinSerDetail;
+    private List<Customer> listCus;
+
     /**
      * Creates new form BookRoomIF
      */
     public BookRoomIF() {
         initComponents();
+        listCheckin = checkinDao.findAll();
     }
 
     /**
@@ -34,36 +74,39 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
 
         jn1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtPhone = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtPricePaymentAdvance = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txtPriceAgreement = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtDes = new javax.swing.JTextArea();
         btnGetRoom = new javax.swing.JButton();
         txtShowRoom = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        btnSingleSub = new javax.swing.JButton();
+        btnSingleIncrease = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        btnDoubleSub = new javax.swing.JButton();
+        btnDoubleIncrease = new javax.swing.JButton();
         btnBookRoom = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        txtTotalPeople = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
+        txtRoomSingle = new javax.swing.JTextField();
+        txtRoomDouble = new javax.swing.JTextField();
+        txtInfo = new javax.swing.JLabel();
+        txtStartDate = new com.toedter.calendar.JDateChooser();
+        txtEndDate = new com.toedter.calendar.JDateChooser();
+        jLabel11 = new javax.swing.JLabel();
+        txtNumIdentityCard = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -85,9 +128,9 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Ghi chú");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtDes.setColumns(20);
+        txtDes.setRows(5);
+        jScrollPane1.setViewportView(txtDes);
 
         btnGetRoom.setText("Phòng đặt");
         btnGetRoom.addActionListener(new java.awt.event.ActionListener() {
@@ -96,35 +139,36 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
             }
         });
 
-        txtShowRoom.setText("P101, P002");
+        txtShowRoom.setText("Trống");
 
         jLabel9.setText("Loại phòng");
 
         jLabel10.setText("Phòng đơn");
 
-        jButton2.setText("-");
-
-        jLabel11.setText("1");
-
-        jButton3.setText("+");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnSingleSub.setText("-");
+        btnSingleSub.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnSingleSubActionPerformed(evt);
+            }
+        });
+
+        btnSingleIncrease.setText("+");
+        btnSingleIncrease.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSingleIncreaseActionPerformed(evt);
             }
         });
 
         jLabel12.setText("Phòng đôi");
 
-        jButton4.setText("-");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnDoubleSub.setText("-");
+        btnDoubleSub.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnDoubleSubActionPerformed(evt);
             }
         });
 
-        jLabel13.setText("0");
-
-        jButton5.setText("+");
+        btnDoubleIncrease.setText("+");
 
         btnBookRoom.setText("Đặt phòng");
 
@@ -139,10 +183,20 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
 
         jLabel15.setText("List dịch vụ");
 
+        txtRoomSingle.setText("1");
+
+        txtRoomDouble.setText("0");
+
+        jLabel11.setText("CMND/ CCCD");
+
         javax.swing.GroupLayout jn1Layout = new javax.swing.GroupLayout(jn1);
         jn1.setLayout(jn1Layout);
         jn1Layout.setHorizontalGroup(
             jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jn1Layout.createSequentialGroup()
+                .addComponent(txtInfo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnBookRoom))
             .addGroup(jn1Layout.createSequentialGroup()
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
@@ -151,86 +205,91 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5)
                     .addComponent(jLabel7)
                     .addComponent(btnGetRoom)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel14))
                 .addGap(18, 18, 18)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2)
-                    .addComponent(jScrollPane1)
                     .addGroup(jn1Layout.createSequentialGroup()
-                        .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                            .addComponent(jTextField5))
-                        .addGap(97, 97, 97)
-                        .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jn1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jn1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jn1Layout.createSequentialGroup()
-                        .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jn1Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtShowRoom, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
+                        .addComponent(txtShowRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel15)
+                        .addGap(228, 228, 228))
+                    .addGroup(jn1Layout.createSequentialGroup()
+                        .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtName)
+                            .addComponent(txtPhone)
+                            .addComponent(jScrollPane1))
+                        .addContainerGap())
+                    .addGroup(jn1Layout.createSequentialGroup()
                         .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jn1Layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(txtTotalPeople, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(64, 64, 64)
+                                .addComponent(jLabel11)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel15)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(txtNumIdentityCard))
                             .addGroup(jn1Layout.createSequentialGroup()
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5)
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jn1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnBookRoom))
+                                .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jn1Layout.createSequentialGroup()
+                                        .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtPricePaymentAdvance, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                                            .addComponent(txtStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(97, 97, 97)
+                                        .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(jn1Layout.createSequentialGroup()
+                                                .addComponent(jLabel6)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(txtPriceAgreement, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jn1Layout.createSequentialGroup()
+                                                .addComponent(jLabel4)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(txtEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addGroup(jn1Layout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnSingleSub, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtRoomSingle, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnSingleIncrease, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(40, 40, 40)
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnDoubleSub, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtRoomDouble, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnDoubleIncrease)))
+                                .addGap(0, 21, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         jn1Layout.setVerticalGroup(
             jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jn1Layout.createSequentialGroup()
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
+                    .addComponent(txtName)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel5))
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel4))
+                    .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtPricePaymentAdvance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)
+                        .addComponent(txtPriceAgreement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -243,20 +302,27 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                     .addComponent(btnGetRoom))
                 .addGap(18, 18, 18)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton3)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton4)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton5)
-                        .addComponent(jLabel14)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnSingleSub, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSingleIncrease)
+                        .addComponent(btnDoubleIncrease)
+                        .addComponent(txtRoomSingle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtRoomDouble, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnDoubleSub))
                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtTotalPeople, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11)
+                        .addComponent(txtNumIdentityCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(btnBookRoom)
+                .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBookRoom)
+                    .addComponent(txtInfo))
                 .addContainerGap())
         );
 
@@ -281,46 +347,156 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGetRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetRoomActionPerformed
-        ListRoomEmptyJDialog listRoom = new ListRoomEmptyJDialog(null, true);
+        ListRoomEmptyJDialog listRoom = new ListRoomEmptyJDialog(null, true, listRoomSelected);
         listRoom.setVisible(true);
         listRoom.validate();
         listRoomSelected = listRoom.getListRoomSelected();
         String textList = "";
         for (Integer data : listRoomSelected) {
-            textList += "P "+data+"; ";
+            
+            textList += "P" + data + ";  ";
         }
         txtShowRoom.setText(textList);
     }//GEN-LAST:event_btnGetRoomActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnSingleIncreaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSingleIncreaseActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnSingleIncreaseActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnDoubleSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoubleSubActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnDoubleSubActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        ListServiceJDialog listService = new ListServiceJDialog(null, true);
-        listService.setVisible(true);
-        listService.validate();
+        ListServiceJDialog listService = new ListServiceJDialog(null, true, listRoomSelected);
+        if (listRoomSelected.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn phòng! Vui lòng chọn phòng trước!");
+        } else {
+            listService.setVisible(true);
+            listService.validate();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnSingleSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSingleSubActionPerformed
+        // TODO add your handling code here:
+        countRoomSingle = Integer.parseInt(txtRoomSingle.getText());
+        
+    }//GEN-LAST:event_btnSingleSubActionPerformed
+
+    private void getValueOfFields(){
+        id = listCheckin.size() + 1;
+        name = txtName.getText();
+        phone = txtPhone.getText();
+        startDate = txtStartDate.getDate();
+        endDate = txtEndDate.getDate();
+        pricePaymentAdvance = Float.parseFloat(txtPricePaymentAdvance.getText());
+        // giá thảo thuận get từ giá phòng + giá dịch vụ
+        priceAgreement = Float.parseFloat(txtPriceAgreement.getText());
+        
+        des = txtDes.getText();
+        countRoomSingle = Integer.parseInt(txtRoomSingle.getText());
+        countRoomDouble = Integer.parseInt(txtRoomDouble.getText());
+        totalPeople = Integer.parseInt(txtTotalPeople.getText());
+        numIdentityCard = txtNumIdentityCard.getText();
+    }
+    private boolean checkValidate() {
+        boolean check = false;
+        getValueOfFields();
+        if (name.isEmpty()) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng nhập tên khách hàng!", false);
+        } else if (!name.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng tên khách hàng không nhập kí tự đặc biệt!", false);
+        } else if (!phone.matches("^[0-9]{10}+$")) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng nhập đúng định dạng số điện thoại!", isMaximum);
+        } else if (startDate == null) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng chọn ngày bắt đầu!", false);
+        } else if (endDate.equals(startDate) || endDate.before(startDate)) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng chọn ngày kết thúc sau ngày bắt đầu!", false);
+        } else if (pricePaymentAdvance < 0) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng nhập tiền trả trước phù hợp!", false);
+        }else if (countRoomSingle < 0 || countRoomDouble < 0){
+            Utils.setMessageInformation(txtInfo, "Vui lòng nhập số lượng phòng phù hợp!", false);
+        }else if (totalPeople < 1){
+            Utils.setMessageInformation(txtInfo, "Vui lòng nhập số lượng người phù hợp!", false);
+        }else {
+            check = true;
+        }
+        return check;
+    }
+    
+    private Checkin setPropertiesForObjectCheckin(){
+        Checkin c = new Checkin();
+        c.setId(id);
+        c.setCusPhone(phone);
+        c.setTotalPeople(totalPeople);
+        c.setDescript(des);
+        c.setTotalMoney(priceAgreement);
+        c.setPricePaymentAdvance(pricePaymentAdvance);
+        
+        // truyền mã giảm giá
+        c.setCuponId(1);
+        // truyền tổng tiền dịch vụ tonaf bộ các phòng
+        c.setTotalServicePrice(23);
+        
+        return c;
+    }
+    
+    private Customer setPropertiesForObjectCustomer(){
+        Customer cus = new Customer();
+        cus.setFullname(name);
+        cus.setPhone(phone);
+        cus.setNumIdentityCard(numIdentityCard);
+        return cus;
+    }
+    
+    private CheckinDetails setPropertiesForObjectCheckinDetails(){
+        CheckinDetails c = new CheckinDetails();
+        
+        // truyền id checkindetail
+        c.setDetailId(1);
+        c.setCheckinId(id);
+        
+        // truyền id phòng
+        c.setRoomId(1);
+        //get giá phòng vào đây
+        c.setPrice(23);
+        
+        c.setStartDate(startDate);
+        c.setEndDate(endDate);
+        // truyền tổng tiền dịch vụ đã chọn
+        c.setTotalServicePrice(23);
+        c.setStatus(0);
+        
+        return c;
+    }
+    
+    private CheckinServiceDetails setPropertiesForObjectCheckinServiceDetails(){
+        CheckinServiceDetails c = new CheckinServiceDetails();
+        
+        // truyền id checkindetail
+        c.setIdCheckinDetails(1);
+        // truyền id dịch vụ 
+        c.setIdService(1);
+        // get giá dịch vụ 
+        c.setPrice(23);
+        // truyền số lượng dịch vụ đặt
+        c.setQuantity(10);
+        return c;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBookRoom;
+    private javax.swing.JButton btnDoubleIncrease;
+    private javax.swing.JButton btnDoubleSub;
     private javax.swing.JButton btnGetRoom;
+    private javax.swing.JButton btnSingleIncrease;
+    private javax.swing.JButton btnSingleSub;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
@@ -331,15 +507,19 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.JPanel jn1;
+    private javax.swing.JTextArea txtDes;
+    private com.toedter.calendar.JDateChooser txtEndDate;
+    private javax.swing.JLabel txtInfo;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtNumIdentityCard;
+    private javax.swing.JTextField txtPhone;
+    private javax.swing.JTextField txtPriceAgreement;
+    private javax.swing.JTextField txtPricePaymentAdvance;
+    private javax.swing.JTextField txtRoomDouble;
+    private javax.swing.JTextField txtRoomSingle;
     private javax.swing.JLabel txtShowRoom;
+    private com.toedter.calendar.JDateChooser txtStartDate;
+    private javax.swing.JTextField txtTotalPeople;
     // End of variables declaration//GEN-END:variables
 }
