@@ -46,4 +46,10 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomer {
         String sql = "{call customer_findByPhone(?)}";
         return query(sql, new CustomerMapper(), phone);
     }
+
+    @Override
+    public List<Customer> findByNumIdentityCard(String numIdentityCard) {
+        String sql = "{call customer_findByNumIdentityCard(?)}";
+        return query(sql, new CustomerMapper(), numIdentityCard);
+    }
 }

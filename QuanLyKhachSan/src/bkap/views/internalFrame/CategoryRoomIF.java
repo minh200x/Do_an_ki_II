@@ -10,6 +10,7 @@ import bkap.dao.impl.RoomDAO;
 import bkap.model.CategoryRoom;
 import bkap.model.Room;
 import bkap.utils.SystemConstant;
+import bkap.views.LoginDialog;
 import java.awt.Color;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -50,6 +51,12 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
         modelCategoryRoom = (DefaultTableModel) tblCategoryRoom.getModel();
 
         setDataTable(listCategoryRoom);
+        
+        if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
+            btnAdd.setEnabled(false);
+            btnUpdate.setEnabled(false);
+            btnDelete.setEnabled(false);
+        }
     }
 
     /**

@@ -6,8 +6,9 @@
 package bkap.views;
 
 import bkap.dao.impl.UserDAO;
-import java.awt.Color;
-import javax.swing.JOptionPane;
+import bkap.model.Level;
+import bkap.model.User;
+import java.util.List;
 
 /**
  *
@@ -18,9 +19,11 @@ public class LoginDialog extends javax.swing.JDialog {
     /**
      * Creates new form LoginDialog
      */
-    private String username;
-    private String password;
+    private UserDAO userDAO = new UserDAO();
+    
+    private List<Level> listLevel;
     public static boolean isLogin;
+    public static int levelUser;
     
     public LoginDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -157,11 +160,14 @@ public class LoginDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
-        UserDAO userDao = new UserDAO();
-        username = txtUserName.getText();
-        password = txtPassword.getText().toString();
-        if(userDao.login(username, password) != null){
+        String username = txtUserName.getText();
+        String password = txtPassword.getText().toString();
+        
+        User user = new User();
+        user = userDAO.login(username, password);
+        if(user != null){
             this.isLogin = true;
+            levelUser = user.getLevelId();
             dispose();
         }else{
             isLogin = false;

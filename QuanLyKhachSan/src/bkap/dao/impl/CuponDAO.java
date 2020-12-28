@@ -45,5 +45,17 @@ public class CuponDAO extends AbstractDAO<Cupon> implements ICupon{
         String sql = "{call cupon_findByName(?)}";
         return query(sql, new CuponMapper(), name);
     }
+
+    @Override
+    public List<Cupon> findByStatus(int status) {
+        String sql = "{call cupon_findByStatus(?)}";
+        return query(sql, new CuponMapper(), status);
+    }
+
+    @Override
+    public List<Cupon> findByNameAndStatus(String name, int status) {
+        String sql = "{call cupon_findByNameAndStatus(?,?)}";
+        return query(sql, new CuponMapper(), name, status);
+    }
     
 }

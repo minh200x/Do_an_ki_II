@@ -17,7 +17,7 @@ public class Customer {
     private String email;
     private String address;
     private boolean gender;
-    private int numIdentityCard;
+    private String numIdentityCard;
     private String descript;
     private Date createdAt;
     private Date updatedAt;
@@ -25,7 +25,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String phone, String fullname, String email, String address, boolean gender, int numIdentityCard, String descript, Date createdAt, Date updatedAt) {
+    public Customer(String phone, String fullname, String email, String address, boolean gender, String numIdentityCard, String descript, Date createdAt, Date updatedAt) {
         this.phone = phone;
         this.fullname = fullname;
         this.email = email;
@@ -77,11 +77,11 @@ public class Customer {
         this.gender = gender;
     }
 
-    public int getNumIdentityCard() {
+    public String getNumIdentityCard() {
         return numIdentityCard;
     }
 
-    public void setNumIdentityCard(int numIdentityCard) {
+    public void setNumIdentityCard(String numIdentityCard) {
         this.numIdentityCard = numIdentityCard;
     }
 

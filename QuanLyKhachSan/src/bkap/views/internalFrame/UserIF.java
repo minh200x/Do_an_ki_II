@@ -36,24 +36,24 @@ import javax.swing.table.DefaultTableModel;
  * @author hongb
  */
 public class UserIF extends javax.swing.JInternalFrame {
-
+    
     private UserDAO userDAO = new UserDAO();
     private LevelDAO levelDAO = new LevelDAO();
-
+    
     private List<User> listUser;
     private List<Level> listLevel;
-
+    
     private DefaultTableModel modelUser;
     private DefaultComboBoxModel cbModelLevel;
-
+    
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
+    
     private int userId = 0;
     private String nameImg = "";
     private String pathDirImage = "src\\bkap\\images\\users\\";
     private String pathFileImage = "";
     private File fileImg = null;
-
+    
     private String fullname;
     private String username;
     private String password;
@@ -71,13 +71,13 @@ public class UserIF extends javax.swing.JInternalFrame {
      */
     public UserIF() {
         initComponents();
-
+        
         listUser = userDAO.findAll();
         listLevel = levelDAO.findAll();
-
+        
         modelUser = (DefaultTableModel) tblUser.getModel();
         cbModelLevel = (DefaultComboBoxModel) cbLevel.getModel();
-
+        
         setComboxModelLevel(listLevel);
         setDataTable(listUser);
     }
@@ -124,9 +124,12 @@ public class UserIF extends javax.swing.JInternalFrame {
         txtBirthday = new com.toedter.calendar.JDateChooser();
         txtStartDate = new com.toedter.calendar.JDateChooser();
         txtEndDate = new com.toedter.calendar.JDateChooser();
+        btnRefresh = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblUser = new javax.swing.JTable();
+        btnSearch = new javax.swing.JButton();
+        txtKeySearch = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -202,6 +205,13 @@ public class UserIF extends javax.swing.JInternalFrame {
 
         txtEndDate.setDateFormatString("dd-MM-yyyy");
 
+        btnRefresh.setText("Làm mới");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -228,18 +238,16 @@ public class UserIF extends javax.swing.JInternalFrame {
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jScrollPane2)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(optionMale)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(optionFemail))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(30, 30, 30)
-                                                .addComponent(jLabel13)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(0, 24, Short.MAX_VALUE)))
+                                        .addComponent(optionMale)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(optionFemail)
+                                        .addGap(0, 336, Short.MAX_VALUE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel13)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap())
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -262,12 +270,14 @@ public class UserIF extends javax.swing.JInternalFrame {
                                         .addComponent(containImg, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(47, 47, 47))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnRefresh)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnUpdate)
                         .addGap(18, 18, 18)
                         .addComponent(btnAdd)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addComponent(msgInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,18 +334,22 @@ public class UserIF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
-                                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnAdd)
-                                .addComponent(btnUpdate))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAdd)
+                            .addComponent(btnUpdate)
+                            .addComponent(btnRefresh)))
                     .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         tblUser.setModel(new javax.swing.table.DefaultTableModel(
@@ -353,20 +367,50 @@ public class UserIF extends javax.swing.JInternalFrame {
         });
         jScrollPane3.setViewportView(tblUser);
 
+        btnSearch.setText("Tìm kiếm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        txtKeySearch.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
+        txtKeySearch.setForeground(new java.awt.Color(153, 153, 153));
+        txtKeySearch.setText("Họ tên, username, sdt");
+        txtKeySearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtKeySearchFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtKeySearchFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnSearch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtKeySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSearch)
+                    .addComponent(txtKeySearch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -392,10 +436,10 @@ public class UserIF extends javax.swing.JInternalFrame {
     private void btnChooseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImageActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("jpeg", "jpg", "png");
-
+        
         fileChooser.setFileFilter(imgFilter);
         fileChooser.setMultiSelectionEnabled(false);
-
+        
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             fileImg = fileChooser.getSelectedFile();
             pathFileImage = fileImg.getAbsolutePath();
@@ -406,7 +450,7 @@ public class UserIF extends javax.swing.JInternalFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         getValueOfFields();
-
+        
         if (checkValidate()) {
             User u = setPropertiesForObject();
             saveImage();
@@ -417,14 +461,14 @@ public class UserIF extends javax.swing.JInternalFrame {
             setDataTable(listUser);
         }
     }//GEN-LAST:event_btnAddActionPerformed
-
+    
 
     private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
         btnAdd.setEnabled(false);
         btnUpdate.setEnabled(true);
-
+        
         int indexSelected = tblUser.getSelectedRow();
-
+        
         User u = listUser.get(indexSelected);
         userId = u.getId();
         txtFullname.setText(u.getFullname());
@@ -433,19 +477,19 @@ public class UserIF extends javax.swing.JInternalFrame {
         txtPassword.setText(u.getPassword());
         txtDescript.setText(u.getDescript());
         txtAddress.setText(u.getAddress());
-
+        
         if (u.isGender() == SystemConstant.GENDER_FEMALE) {
             optionFemail.setSelected(true);
         } else {
             optionMale.setSelected(true);
         }
-
+        
         for (Level l : listLevel) {
             if (l.getId() == u.getLevelId()) {
                 cbLevel.setSelectedItem(l.getName());
             }
         }
-
+        
         txtBirthday.setDate(u.getBirthday());
         txtStartDate.setDate(u.getStartDate());
         txtEndDate.setDate(u.getEndDate());
@@ -456,8 +500,8 @@ public class UserIF extends javax.swing.JInternalFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_UPDATE);
-
-        if (reply == 0) {  
+        
+        if (reply == 0) {            
             getValueOfFields();
             if (checkValidate()) {                
                 saveImage();
@@ -471,10 +515,53 @@ public class UserIF extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        String keySearch = txtKeySearch.getText();
+        listUser = userDAO.findByPhone(keySearch);
+        if (listUser.isEmpty()) {
+            Utils.setMessageInformation(msgInformation, SystemConstant.ERROR_NO_RESULT, false);
+            listUser = userDAO.findByFullname(keySearch);
+            if (listUser.isEmpty()) {
+                Utils.setMessageInformation(msgInformation, SystemConstant.ERROR_NO_RESULT, false);
+                listUser = userDAO.findByUsername(keySearch);
+                if (listUser.isEmpty()) {
+                    Utils.setMessageInformation(msgInformation, SystemConstant.ERROR_NO_RESULT, false);
+                }
+            }
+        } else {
+            msgInformation.setText("");
+            setDataTable(listUser);
+        }        
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        setNullValueFields();
+        txtKeySearch.setText("Họ tên, username, sdt");
+        txtKeySearch.setForeground(new Color(153,153,153));
+        btnAdd.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        listUser = userDAO.findAll();
+        setDataTable(listUser);
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void txtKeySearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusGained
+        if (txtKeySearch.getText().equals("Họ tên, username, sdt")) {
+            txtKeySearch.setText("");
+            txtKeySearch.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtKeySearchFocusGained
+
+    private void txtKeySearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusLost
+        if (txtKeySearch.getText().equals("")) {
+            txtKeySearch.setText("Họ tên, username, sdt");
+            txtKeySearch.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_txtKeySearchFocusLost
+    
     private boolean checkValidate() {
         boolean check = false;
         getValueOfFields();
-
+        
         if (fullname.isEmpty()) {
             Utils.setMessageInformation(msgInformation, "Vui lòng nhập họ và tên!", false);
         } else if (!fullname.matches("^[a-zA-Z\\s]+$")) {
@@ -491,20 +578,20 @@ public class UserIF extends javax.swing.JInternalFrame {
             Utils.setMessageInformation(msgInformation, "Vui lòng chọn giới tính!", false);
         } else if (startDate == null) {
             Utils.setMessageInformation(msgInformation, "Vui lòng chọn ngày bắt đầu! ", false);
-        } else if (startDate.equals(endDate)) {
-            Utils.setMessageInformation(msgInformation, "Vui lòng không chọn ngày nghỉ trùng với ngày bắt đầu làm việc!", false);
+        } else if (startDate.before(endDate)) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng không chọn ngày nghỉ trước ngày bắt đầu làm việc!", false);
         } else {
             check = true;
         }
         return check;
     }
-
+    
     private void setComboxModelLevel(List<Level> list) {
         for (Level l : list) {
             cbLevel.addItem(l.getName());
         }
     }
-
+    
     private User setPropertiesForObject() {
         User u = new User();
         u.setId(userId);
@@ -519,7 +606,6 @@ public class UserIF extends javax.swing.JInternalFrame {
         }
         u.setAddress(address);
         u.setImage(pathDirImage + image);
-        System.out.println(pathDirImage + image);
         if (optionFemail.isSelected()) {
             u.setGender(SystemConstant.GENDER_FEMALE);
         } else {
@@ -529,10 +615,10 @@ public class UserIF extends javax.swing.JInternalFrame {
         u.setDescript(descript);
         u.setStartDate(startDate);
         u.setEndDate(endDate);
-
+        
         return u;
     }
-
+    
     private void getValueOfFields() {
         fullname = txtFullname.getText();
         username = txtUsername.getText();
@@ -541,16 +627,16 @@ public class UserIF extends javax.swing.JInternalFrame {
         levelName = cbLevel.getSelectedItem().toString();
         address = txtAddress.getText();
         descript = txtDescript.getText();
-
+        
         birthday = txtBirthday.getDate();
         startDate = txtStartDate.getDate();
         endDate = txtEndDate.getDate();
     }
-
+    
     private void setNullValueFields() {
         btnAdd.setEnabled(true);
         btnUpdate.setEnabled(false);
-
+        
         txtFullname.setText("");
         txtUsername.setText("");
         txtPhone.setText("");
@@ -561,11 +647,11 @@ public class UserIF extends javax.swing.JInternalFrame {
         txtBirthday.setDate(null);
         txtStartDate.setDate(null);
         txtEndDate.setDate(null);
-
+        
         nameImg = "";
         Utils.setImage(containImg, nameImg);
     }
-
+    
     private void saveImage() {
         File dir = new File(pathDirImage);
         if (dir.exists()) {
@@ -581,7 +667,7 @@ public class UserIF extends javax.swing.JInternalFrame {
             }
         }
     }
-
+    
     private void setDataTable(List<User> users) {
         modelUser.setRowCount(0);
         for (User u : users) {
@@ -599,6 +685,8 @@ public class UserIF extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnChooseImage;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroupGender;
     private javax.swing.JComboBox cbLevel;
@@ -629,6 +717,7 @@ public class UserIF extends javax.swing.JInternalFrame {
     private javax.swing.JTextArea txtDescript;
     private com.toedter.calendar.JDateChooser txtEndDate;
     private javax.swing.JTextField txtFullname;
+    private javax.swing.JTextField txtKeySearch;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPhone;
     private com.toedter.calendar.JDateChooser txtStartDate;

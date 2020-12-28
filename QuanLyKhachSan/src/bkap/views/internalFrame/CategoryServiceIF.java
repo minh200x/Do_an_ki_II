@@ -9,6 +9,7 @@ import bkap.dao.impl.CategoryServiceDAO;
 import bkap.model.CategoryService;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
+import bkap.views.LoginDialog;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +34,12 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         listCatService = catServiceDao.findAll();
         modelCatService = (DefaultTableModel) tblCatService.getModel();
         setDataTable(listCatService);
+        
+        if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
+            btnAdd.setEnabled(false);
+            btnEdit.setEnabled(false);
+            btnDelete.setEnabled(false);
+        }
     }
 
     private void setDataTable(List<CategoryService> catSer) {

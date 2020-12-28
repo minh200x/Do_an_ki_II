@@ -25,12 +25,19 @@ public class SystemConstant {
     public final static int STATUS_ROOM_EMPTY = 0;
     public final static int STATUS_ROOM_USING = 1;
     public final static int STATUS_ROOM_REPAIRING = 2;
-    
+        
     public final static int STATUS_ON = 0;
     public final static int STATUS_OFF = 1;
     
     public final static int STATUS_PRODUCT_NORMAL = 0;
     public final static int STATUS_PRODUCT_ABNORMAl = 1;
+    public final static String STATUS_TXT_PRODUCT_NORMAL = "Mới";
+    public final static String STATUS_TXT_PRODUCT_ABNORMAL = "Hư hỏng";
+    
+    public final static int STATUS_CUPON_ON = 0; 
+    public final static int STATUS_CUPON_OFF = 1; 
+    public final static String STATUS_TXT_CUPON_ON = "Đang diễn ra"; 
+    public final static String STATUS_TXT_CUPON_OFF = "Hết hạn"; 
     
     public final static String CONFIRM_DELETE = "Bạn có muốn xóa không?";
     public final static String CONFIRM_UPDATE = "Bạn có muốn cập nhật không?";
@@ -42,4 +49,9 @@ public class SystemConstant {
     public final static String MSG_ERROR_LOGIN = "Đăng nhập thất bại";
     
     public final static String MSG_ERROR_CHOOSE_ROW_TABLE = "Vui lòng chọn đối tượng cần cập nhật!";
+    
+    public final static String ERROR_NO_RESULT = "Không tìm thấy kết quả!";
+    
+    public final static int LEVEL_ADMIN = 1;
+    public final static int LEVEL_USER = 2;
 }

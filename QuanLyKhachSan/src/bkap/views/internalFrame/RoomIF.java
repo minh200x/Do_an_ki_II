@@ -6,11 +6,16 @@
 package bkap.views.internalFrame;
 
 import bkap.dao.impl.CategoryRoomDAO;
+import bkap.dao.impl.CheckoutProductDetailsDAO;
+import bkap.dao.impl.ProductDAO;
 import bkap.dao.impl.RoomDAO;
 import bkap.model.CategoryRoom;
+import bkap.model.CheckoutProductDetails;
+import bkap.model.Product;
 import bkap.model.Room;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
+import bkap.views.LoginDialog;
 import bkap.views.MainJFrame;
 import bkap.views.ServiceJDialog;
 import java.awt.Color;
@@ -39,29 +44,44 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
     private List<CategoryRoom> listCategoryRoom;
     private List<Room> listRoom;
+    private List<Product> listProduct;
+    private List<CheckoutProductDetails> listCheckoutProduct;
 
     private CategoryRoomDAO catRoomDAO = new CategoryRoomDAO();
     private RoomDAO roomDAO = new RoomDAO();
+    private ProductDAO proDAO = new ProductDAO();
+    private CheckoutProductDetailsDAO checkoutProDAO = new CheckoutProductDetailsDAO();
 
     private DefaultComboBoxModel cbModelCategoryRoom;
     private DefaultComboBoxModel cbModelStatusRoom;
-    private DefaultTableModel modelRoom;
+    private DefaultComboBoxModel cbModelStatusRoomSearch;
+    private DefaultComboBoxModel cbModelProduct;
+    private DefaultComboBoxModel cbModelStatusProduct;
+    private DefaultTableModel modeTablelRoom;
+    private DefaultTableModel modelTableProduct;
 
     public static boolean checkFormPro = false;
     public static boolean checkClose = false;
     private int indexSelected = 0;
 
-    private String roomId;
+    private int roomId;
+
+    private String strRoomId;
     private String typeRoom;
     private String priceRoom;
-    private String image;
-    private String descript;
+    private String imageRoom;
+    private String descriptRoom;
     private String statusRoom;
 
+    private int idProduct = 0;
+    private String nameProduct;
+    private String modelNameProduct;
+    private String descriptProduct;
+    private String statusProduct;
+
     private final String pathDirImage = "src\\bkap\\images\\room\\";
-    private List<String> fileImg = new ArrayList<>();
+    private File[] filesImg = new File[0];
     private List<String> nameImg = new ArrayList<>();
-    private List<String> pathFileImg = new ArrayList<>();
 
     /**
      * Creates new form RoomFrame
@@ -71,15 +91,30 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
         listCategoryRoom = catRoomDAO.findAll();
         listRoom = roomDAO.findAll();
+        listProduct = proDAO.findAll();
+        listCheckoutProduct = new ArrayList<>();
 
         cbModelCategoryRoom = (DefaultComboBoxModel) cbCategoryRoom.getModel();
         cbModelStatusRoom = (DefaultComboBoxModel) cbStatusRoom.getModel();
-        modelRoom = (DefaultTableModel) tblRoom.getModel();
+        cbModelStatusRoomSearch = (DefaultComboBoxModel) cbStatusRoomSearch.getModel();
+        cbModelProduct = (DefaultComboBoxModel) cbProduct.getModel();
+        cbModelStatusProduct = (DefaultComboBoxModel) cbStatusProduct.getModel();
+        modeTablelRoom = (DefaultTableModel) tblRoom.getModel();
+        modelTableProduct = (DefaultTableModel) tblProduct.getModel();
 
-        setDataComboxCategoryRoom();
-        setComboxStatusRoom();
-        setDataTable(listRoom);
+        setComboxStatusRoom(cbModelStatusRoom);
+        setComboxStatusRoom(cbModelStatusRoomSearch);
+        setComboxStatusProduct();
+        setDataCombox(cbModelProduct, listProduct);
+        setDataCombox(cbModelCategoryRoom, listCategoryRoom);
 
+        setDataTable(modeTablelRoom, listRoom);
+        
+        if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
+            btnAddRoom.setEnabled(false);
+            btnUpdateRoom.setEnabled(false);
+            btnDeleteRoom.setEnabled(false);
+        }
     }
 
     public static boolean getStatus() {
@@ -104,7 +139,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
         txtPrice = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtDescript = new javax.swing.JTextArea();
+        txtRoomDescript = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
         btnChooseImg = new javax.swing.JButton();
         txtNumOfImg = new javax.swing.JLabel();
@@ -113,23 +148,35 @@ public class RoomIF extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblRoom = new javax.swing.JTable();
-        btnAdd = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
+        btnRefesh = new javax.swing.JButton();
+        btnSearchRoom = new javax.swing.JButton();
+        cbStatusRoomSearch = new javax.swing.JComboBox<>();
+        txtKeySearchRoom = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        cbProduct = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        cbStatusProduct = new javax.swing.JComboBox();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtProductDescript = new javax.swing.JTextArea();
         jLabel12 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtModelNameProduct = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblProduct = new javax.swing.JTable();
+        btnAddProduct = new javax.swing.JButton();
+        msgForProduct = new javax.swing.JLabel();
+        btnDeleteProduct = new javax.swing.JButton();
+        btnUpdateProduct = new javax.swing.JButton();
+        btnSearchModel = new javax.swing.JButton();
+        txtKeySearchModel = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        btnRefreshProduct = new javax.swing.JButton();
         msgInformation = new javax.swing.JLabel();
+        btnUpdateRoom = new javax.swing.JButton();
+        btnAddRoom = new javax.swing.JButton();
+        btnDeleteRoom = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -157,9 +204,9 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Mô tả");
 
-        txtDescript.setColumns(20);
-        txtDescript.setRows(5);
-        jScrollPane1.setViewportView(txtDescript);
+        txtRoomDescript.setColumns(20);
+        txtRoomDescript.setRows(5);
+        jScrollPane1.setViewportView(txtRoomDescript);
 
         jLabel6.setText("Ảnh mô tả");
 
@@ -169,8 +216,6 @@ public class RoomIF extends javax.swing.JInternalFrame {
                 btnChooseImgActionPerformed(evt);
             }
         });
-
-        txtNumOfImg.setText("List ảnh");
 
         jLabel8.setText("Trạng thái");
 
@@ -185,7 +230,15 @@ public class RoomIF extends javax.swing.JInternalFrame {
             new String [] {
                 "Tên phòng", "Loại phòng", "Giá phòng", "Mô tả", "Trạng thái"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblRoom.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblRoomMouseClicked(evt);
@@ -193,44 +246,88 @@ public class RoomIF extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tblRoom);
 
+        btnRefesh.setText("Làm mới");
+        btnRefesh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefeshActionPerformed(evt);
+            }
+        });
+
+        btnSearchRoom.setText("Tìm phòng");
+        btnSearchRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchRoomActionPerformed(evt);
+            }
+        });
+
+        cbStatusRoomSearch.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbStatusRoomSearchItemStateChanged(evt);
+            }
+        });
+
+        txtKeySearchRoom.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
+        txtKeySearchRoom.setForeground(new java.awt.Color(153, 153, 153));
+        txtKeySearchRoom.setText("Tên phòng");
+        txtKeySearchRoom.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtKeySearchRoomFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtKeySearchRoomFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel8))
-                        .addGap(67, 67, 67)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnChooseImg)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtNumOfImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel8))
+                                .addGap(67, 67, 67)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnChooseImg)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel4))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(cbCategoryRoom, javax.swing.GroupLayout.Alignment.LEADING, 0, 386, Short.MAX_VALUE)
-                                        .addComponent(txtRoomId, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(cbStatusRoom, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(565, 565, 565))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                        .addComponent(txtNumOfImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jLabel4))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(cbCategoryRoom, javax.swing.GroupLayout.Alignment.LEADING, 0, 386, Short.MAX_VALUE)
+                                                .addComponent(txtRoomId, javax.swing.GroupLayout.Alignment.LEADING))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(cbStatusRoom, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(565, 565, 565))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnRefesh)
+                                .addGap(72, 72, 72)
+                                .addComponent(btnSearchRoom)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtKeySearchRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbStatusRoomSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, 0))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,60 +364,101 @@ public class RoomIF extends javax.swing.JInternalFrame {
                     .addComponent(cbStatusRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRefesh)
+                    .addComponent(btnSearchRoom)
+                    .addComponent(cbStatusRoomSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtKeySearchRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        btnAdd.setText("Thêm");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
-            }
-        });
-
-        btnUpdate.setText("Sửa");
-        btnUpdate.setEnabled(false);
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-
-        btnDelete.setText("Xóa");
-        btnDelete.setEnabled(false);
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Thiết bị trong phòng"));
 
         jLabel9.setText("Sản phẩm");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel10.setText("Trạng thái");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbStatusProduct.setEnabled(false);
 
         jLabel11.setText("Mô tả");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        txtProductDescript.setColumns(20);
+        txtProductDescript.setRows(5);
+        jScrollPane3.setViewportView(txtProductDescript);
 
         jLabel12.setText("Model");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Sản phẩm", "Trạng thái", "Model"
+                "Sản phẩm", "Model", "Trạng thái"
             }
-        ));
-        jScrollPane4.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblProduct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tblProduct);
+        if (tblProduct.getColumnModel().getColumnCount() > 0) {
+            tblProduct.getColumnModel().getColumn(0).setResizable(false);
+            tblProduct.getColumnModel().getColumn(1).setResizable(false);
+            tblProduct.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        btnAddProduct.setText("Thêm thiết bị");
+        btnAddProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddProductActionPerformed(evt);
+            }
+        });
+
+        btnDeleteProduct.setText("Xóa thiết bị");
+        btnDeleteProduct.setEnabled(false);
+        btnDeleteProduct.setMaximumSize(new java.awt.Dimension(109, 25));
+        btnDeleteProduct.setMinimumSize(new java.awt.Dimension(109, 25));
+        btnDeleteProduct.setPreferredSize(new java.awt.Dimension(109, 25));
+        btnDeleteProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteProductActionPerformed(evt);
+            }
+        });
+
+        btnUpdateProduct.setText("Sửa thiết bị");
+        btnUpdateProduct.setEnabled(false);
+        btnUpdateProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateProductActionPerformed(evt);
+            }
+        });
+
+        btnSearchModel.setText("Tìm model");
+        btnSearchModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchModelActionPerformed(evt);
+            }
+        });
+
+        jSeparator1.setBackground(new java.awt.Color(204, 204, 255));
+
+        btnRefreshProduct.setText("Làm mới");
+        btnRefreshProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshProductActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -329,6 +467,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
@@ -338,13 +477,27 @@ public class RoomIF extends javax.swing.JInternalFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                                .addComponent(cbProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
                                 .addComponent(jLabel10)
                                 .addGap(18, 18, 18)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextField1)))
-                    .addComponent(jScrollPane4))
+                                .addComponent(cbStatusProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtModelNameProduct)))
+                    .addComponent(jScrollPane4)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnRefreshProduct)
+                        .addGap(238, 238, 238)
+                        .addComponent(btnDeleteProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnUpdateProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(msgForProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(txtKeySearchModel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSearchModel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -353,19 +506,34 @@ public class RoomIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbStatusProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtModelNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnDeleteProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAddProduct)
+                        .addComponent(btnUpdateProduct))
+                    .addComponent(btnRefreshProduct))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(msgForProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSearchModel)
+                    .addComponent(txtKeySearchModel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -373,11 +541,11 @@ public class RoomIF extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 679, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,26 +554,50 @@ public class RoomIF extends javax.swing.JInternalFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnUpdateRoom.setText("Lưu");
+        btnUpdateRoom.setEnabled(false);
+        btnUpdateRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateRoomActionPerformed(evt);
+            }
+        });
+
+        btnAddRoom.setText("Thêm");
+        btnAddRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddRoomActionPerformed(evt);
+            }
+        });
+
+        btnDeleteRoom.setText("Xóa");
+        btnDeleteRoom.setEnabled(false);
+        btnDeleteRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteRoomActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(msgInformation)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 965, Short.MAX_VALUE)
-                        .addComponent(btnDelete)
+                        .addGap(10, 10, 10)
+                        .addComponent(msgInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(310, 310, 310)
+                        .addComponent(btnDeleteRoom)
                         .addGap(18, 18, 18)
-                        .addComponent(btnUpdate)
+                        .addComponent(btnUpdateRoom)
                         .addGap(18, 18, 18)
-                        .addComponent(btnAdd))
+                        .addComponent(btnAddRoom))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -416,11 +608,11 @@ public class RoomIF extends javax.swing.JInternalFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAdd)
-                        .addComponent(btnUpdate)
-                        .addComponent(btnDelete))
-                    .addComponent(msgInformation))
+                        .addComponent(btnUpdateRoom)
+                        .addComponent(btnAddRoom)
+                        .addComponent(btnDeleteRoom)))
                 .addGap(29, 29, 29))
         );
 
@@ -434,42 +626,36 @@ public class RoomIF extends javax.swing.JInternalFrame {
         fileChooser.setMultiSelectionEnabled(true);
 
         if (fileChooser.showOpenDialog(jPanel1) == JFileChooser.APPROVE_OPTION) {
-            File[] files = fileChooser.getSelectedFiles();
-
-            File dir = new File(pathDirImage);
-            if (dir.exists()) {
-                Path sourceDirectory = null;
-                Path targetDirectory = null;
-
-                for (int i = 0; i < files.length; i++) {
-                    sourceDirectory = Paths.get(files[i].getAbsolutePath());
-                    targetDirectory = Paths.get(pathDirImage + sourceDirectory.getFileName());
-                    nameImg.add(sourceDirectory.getFileName().toString());
-//                    image = nameImg[i];
-//                    System.out.println(image);
-                    try {
-                        //copy source to target using Files Class
-                        Files.copy(sourceDirectory, targetDirectory, StandardCopyOption.REPLACE_EXISTING);
-                    } catch (IOException ex) {
-                        Logger.getLogger(UserIF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                    }
-                }                        
-            }
+            filesImg = fileChooser.getSelectedFiles();
+            txtNumOfImg.setText(filesImg.length + " ảnh");
         }
     }//GEN-LAST:event_btnChooseImgActionPerformed
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        getValueOfFields();
-        Room r = setPropertiesForObject();
+    private void btnAddRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRoomActionPerformed
+        if (listCheckoutProduct.isEmpty()) {
+            Utils.setMessageInformation(msgInformation, "Thiết bị trong phòng chưa được thêm!", false);
+        } else {
+            getValueOfFields();
 
-        roomDAO.add(r);
-        setNullFields();
-        Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            // save room
+            saveImage();
+            Room r = setPropertiesForObject(new Room());
+            roomId = roomDAO.add(r);
+            listRoom = roomDAO.findAll();
+            setDataTable(modeTablelRoom, listRoom);
 
-        listRoom = roomDAO.findAll();
-        setDataTable(listRoom);
-    }//GEN-LAST:event_btnAddActionPerformed
+            //save product
+            for (CheckoutProductDetails c : listCheckoutProduct) {
+                c.setRoomId(roomId);
+                checkoutProDAO.add(c);
+            }
+            listCheckoutProduct.clear();
+            setDataTable(modelTableProduct, listCheckoutProduct);
 
+            setNullFieldsForRoom();
+            Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+        }
+    }//GEN-LAST:event_btnAddRoomActionPerformed
 
     private void cbCategoryRoomItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCategoryRoomItemStateChanged
         String catRoomSelected = cbCategoryRoom.getSelectedItem().toString();
@@ -481,7 +667,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_cbCategoryRoomItemStateChanged
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+    private void btnDeleteRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteRoomActionPerformed
         int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_DELETE);
         if (reply == 0) {
             indexSelected = tblRoom.getSelectedRow();
@@ -489,17 +675,27 @@ public class RoomIF extends javax.swing.JInternalFrame {
             if (indexSelected == -1) {
                 Utils.setMessageInformation(msgInformation, SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
             } else {
-                roomDAO.delete(Integer.parseInt(roomId));
-                setNullFields();
-                Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+
+                // delete related product 
+                for (CheckoutProductDetails c : listCheckoutProduct) {
+                    checkoutProDAO.delete(c.getRoomId());
+                }
+                listCheckoutProduct.clear();
+                setNullFieldsForProduct();
+                setDataTable(modelTableProduct, listCheckoutProduct);
+
+                // delete room
+                roomDAO.delete(roomId);
+                setNullFieldsForRoom();
 
                 listRoom = roomDAO.findAll();
-                setDataTable(listRoom);
+                setDataTable(modeTablelRoom, listRoom);
+                Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
             }
         }
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    }//GEN-LAST:event_btnDeleteRoomActionPerformed
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+    private void btnUpdateRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateRoomActionPerformed
 
         int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_UPDATE);
 
@@ -510,30 +706,58 @@ public class RoomIF extends javax.swing.JInternalFrame {
                 Utils.setMessageInformation(msgInformation, SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
             } else {
                 getValueOfFields();
-                Room r = setPropertiesForObject();
 
+                // update product
+                checkoutProDAO.delete(roomId);
+                for (CheckoutProductDetails c : listCheckoutProduct) {
+                    checkoutProDAO.add(c);
+                }
+                listCheckoutProduct.clear();
+                setDataTable(modelTableProduct, listCheckoutProduct);
+
+                // update room
+                saveImage();
+                Room r = setPropertiesForObject(new Room());
                 roomDAO.edit(r);
-                setNullFields();
+                setNullFieldsForRoom();
                 Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
 
                 listRoom = roomDAO.findAll();
-                setDataTable(listRoom);
-            }
+                setDataTable(modeTablelRoom, listRoom);
+
+            }            
         }
-    }//GEN-LAST:event_btnUpdateActionPerformed
+    }//GEN-LAST:event_btnUpdateRoomActionPerformed
 
     private void tblRoomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRoomMouseClicked
-        btnAdd.setEnabled(false);
-        btnDelete.setEnabled(true);
-        btnUpdate.setEnabled(true);
+        btnAddRoom.setEnabled(false);
+        btnDeleteRoom.setEnabled(true);
+        btnUpdateRoom.setEnabled(true);
+
         cbStatusRoom.setEnabled(true);
 
-        int indexSelected = tblRoom.getSelectedRow();
+        msgForProduct.setText("");
+        msgInformation.setText("");
 
+        // set datacbStatusRoomSearch        indexSelected = tblRoom.getSelectedRow();
+        indexSelected = tblRoom.getSelectedRow();
         Room r = listRoom.get(indexSelected);
+        roomId = r.getRoomId();
+        strRoomId = r.getRoomId() + "";
         txtRoomId.setText(r.getRoomId() + "");
-        txtDescript.setText(r.getDescript());
+        txtRoomDescript.setText(r.getDescript());
 
+        imageRoom = r.getImage();
+        if (imageRoom.equals("[]")) {
+            txtNumOfImg.setText("0 ảnh");
+        } else {
+            String numOfImg[] = imageRoom.substring(1, imageRoom.length() - 2).split(",");
+            nameImg.clear();
+            for (int i = 0; i < numOfImg.length; i++) {
+                nameImg.add(numOfImg[i]);
+            }
+            txtNumOfImg.setText(nameImg.size() + " ảnh");
+        }
         for (CategoryRoom c : listCategoryRoom) {
             if (c.getId() == r.getTypeId()) {
                 cbCategoryRoom.setSelectedItem(c.getName());
@@ -545,100 +769,367 @@ public class RoomIF extends javax.swing.JInternalFrame {
         } else if (r.getStatus() == SystemConstant.STATUS_ROOM_USING) {
             cbStatusRoom.setSelectedItem(SystemConstant.STATUS_TXT_ROOM_USING);
         } else {
-            cbStatusRoom.setSelectedItem(SystemConstant.STATUS_TXT_ROOM_REPAIRING);
+            cbStatusRoom.setSelectedItem(SystemConstant.STATUS_ROOM_REPAIRING);
         }
+
+        // set data for product
+        listCheckoutProduct = checkoutProDAO.findByRoomId(roomId);
+
+        setDataTable(modelTableProduct, listCheckoutProduct);
     }//GEN-LAST:event_tblRoomMouseClicked
+
+    private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
+        getValueOfFields();
+        if (checkValidate()) {
+            CheckoutProductDetails c = setPropertiesForObject(new CheckoutProductDetails());
+            listCheckoutProduct.add(c);
+            setDataTable(modelTableProduct, listCheckoutProduct);
+            Utils.setMessageInformation(msgForProduct, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            setNullFieldsForProduct();
+        }
+    }//GEN-LAST:event_btnAddProductActionPerformed
+
+    private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
+        msgForProduct.setText("");
+        msgInformation.setText("");
+        cbProduct.setEnabled(false);
+        cbStatusProduct.setEnabled(true);
+        btnAddProduct.setEnabled(false);
+        btnDeleteProduct.setEnabled(true);
+        btnUpdateProduct.setEnabled(true);
+        txtModelNameProduct.setEditable(false);
+
+        indexSelected = tblProduct.getSelectedRow();
+        CheckoutProductDetails c = listCheckoutProduct.get(indexSelected);
+        roomId = c.getRoomId();
+        txtModelNameProduct.setText(c.getModel());
+        txtProductDescript.setText(c.getDescript());
+        for (Product p : listProduct) {
+            if (p.getId() == c.getProId()) {
+                cbProduct.setSelectedItem(p.getName());
+            }
+        }
+        if (c.getStatus() == SystemConstant.STATUS_PRODUCT_NORMAL) {
+            cbStatusProduct.setSelectedItem(SystemConstant.STATUS_TXT_PRODUCT_NORMAL);
+        } else {
+            cbStatusProduct.setSelectedItem(SystemConstant.STATUS_TXT_PRODUCT_ABNORMAL);
+        }
+    }//GEN-LAST:event_tblProductMouseClicked
+
+    private void btnDeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProductActionPerformed
+        indexSelected = tblProduct.getSelectedRow();
+        if (indexSelected == -1) {
+            Utils.setMessageInformation(msgForProduct, SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+        } else {
+            int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_DELETE);
+            if (reply == 0) {
+                listCheckoutProduct.remove(indexSelected);
+                setDataTable(modelTableProduct, listCheckoutProduct);
+                Utils.setMessageInformation(msgForProduct, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                setNullFieldsForProduct();
+            }
+        }
+    }//GEN-LAST:event_btnDeleteProductActionPerformed
+
+    private void btnUpdateProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateProductActionPerformed
+        indexSelected = tblProduct.getSelectedRow();
+        if (indexSelected == -1) {
+            Utils.setMessageInformation(msgForProduct, SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+        } else {
+            CheckoutProductDetails c = listCheckoutProduct.get(indexSelected);
+            getValueOfFields();
+            c = setPropertiesForObject(c);
+            listCheckoutProduct.set(indexSelected, c);
+            setDataTable(modelTableProduct, listCheckoutProduct);
+
+            Utils.setMessageInformation(msgForProduct, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            setNullFieldsForProduct();
+        }
+    }//GEN-LAST:event_btnUpdateProductActionPerformed
+
+    private void btnRefeshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefeshActionPerformed
+        setNullFieldsForProduct();
+        setNullFieldsForRoom();
+        listCheckoutProduct.clear();
+        listRoom = roomDAO.findAll();
+        setDataTable(modeTablelRoom, listRoom);
+        setDataTable(modelTableProduct, listCheckoutProduct);
+
+        cbProduct.setEnabled(true);
+        cbStatusRoom.setEnabled(false);
+        txtModelNameProduct.setText("");
+        txtModelNameProduct.setEditable(true);
+        txtKeySearchModel.setText("");
+
+        btnAddProduct.setEnabled(true);
+        btnUpdateProduct.setEnabled(false);
+        btnDeleteProduct.setEnabled(false);
+    }//GEN-LAST:event_btnRefeshActionPerformed
+
+    private void btnSearchModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchModelActionPerformed
+        String keySearch = txtKeySearchModel.getText();
+        listCheckoutProduct = checkoutProDAO.findByModel(keySearch, roomId);
+        setDataTable(modelTableProduct, listCheckoutProduct);
+    }//GEN-LAST:event_btnSearchModelActionPerformed
+
+    private void btnRefreshProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshProductActionPerformed
+        setNullFieldsForProduct();
+        cbStatusProduct.setEnabled(false);
+        cbProduct.setEnabled(true);
+        btnDeleteProduct.setEnabled(false);
+        btnUpdateProduct.setEnabled(false);
+        btnAddProduct.setEnabled(true);
+
+        listCheckoutProduct = checkoutProDAO.findByRoomId(roomId);
+        setDataTable(modelTableProduct, listCheckoutProduct);
+    }//GEN-LAST:event_btnRefreshProductActionPerformed
+
+    private void txtKeySearchRoomFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchRoomFocusGained
+        if (txtKeySearchRoom.getText().equals("Tên phòng")) {
+            txtKeySearchRoom.setText("");
+            txtKeySearchRoom.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtKeySearchRoomFocusGained
+
+    private void txtKeySearchRoomFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchRoomFocusLost
+        if (txtKeySearchRoom.getText().isEmpty()) {
+            txtKeySearchRoom.setText("Tên phòng");
+            txtKeySearchRoom.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txtKeySearchRoomFocusLost
+
+    private void btnSearchRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchRoomActionPerformed
+        String keySearchRoomId = txtKeySearchRoom.getText();
+
+        if (!keySearchRoomId.matches("^[0-9]+$")) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập tên phòng đúng định dạng!", false);
+        } else {
+            listRoom.clear();
+            listRoom.add(roomDAO.findByRoomId(Integer.parseInt(keySearchRoomId)));
+            setDataTable(modeTablelRoom, listRoom);
+            if (listRoom.isEmpty()) {
+                Utils.setMessageInformation(msgInformation, "Không tìm thấy phòng!", false);
+            } else {
+                msgInformation.setText("");
+            }
+        }
+
+    }//GEN-LAST:event_btnSearchRoomActionPerformed
+
+    private void cbStatusRoomSearchItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbStatusRoomSearchItemStateChanged
+        String keySearchRoomStatus = cbStatusRoomSearch.getSelectedItem().toString();
+        if (keySearchRoomStatus.equals(SystemConstant.STATUS_TXT_ROOM_EMPTY)) {
+            listRoom = roomDAO.findByStatus(SystemConstant.STATUS_ROOM_EMPTY);
+        } else if (keySearchRoomStatus.equals(SystemConstant.STATUS_TXT_ROOM_USING)) {
+            listRoom = roomDAO.findByStatus(SystemConstant.STATUS_ROOM_USING);
+        } else {
+            listRoom = roomDAO.findByStatus(SystemConstant.STATUS_ROOM_REPAIRING);
+        }
+
+        if (listRoom.isEmpty()) {
+            Utils.setMessageInformation(msgInformation, "Không tìm thấy phòng!", false);
+        } else {
+            msgInformation.setText("");
+            setDataTable(modeTablelRoom, listRoom);
+        }
+    }//GEN-LAST:event_cbStatusRoomSearchItemStateChanged
+
+    private boolean checkValidate() {
+        boolean check = false;
+        if (modelNameProduct.isEmpty()) {
+            Utils.setMessageInformation(msgForProduct, "Vui lòng nhập tên model sản phẩm!", false);
+        } else {
+            return true;
+        }
+        return check;
+    }
 
     public static Boolean getCheckFormPro() {
         return checkFormPro;
     }
 
-    private void setNullFields() {
-        btnAdd.setEnabled(true);
-        btnDelete.setEnabled(false);
-        btnUpdate.setEnabled(false);
+    private void saveImage() {
+        if (filesImg.length > 0) {
+            File dir = new File(pathDirImage);
+            if (dir.exists()) {
+                Path sourceDirectory = null;
+                Path targetDirectory = null;
 
-        txtDescript.setText("");
-    }
+                for (int i = 0; i < filesImg.length; i++) {
+                    sourceDirectory = Paths.get(filesImg[i].getAbsolutePath());
+                    targetDirectory = Paths.get(pathDirImage + sourceDirectory.getFileName());
+                    nameImg.add(pathDirImage + sourceDirectory.getFileName().toString());
+                    imageRoom = nameImg.toString();
+                    try {
+                        //copy source to target using Files Class
+                        Files.copy(sourceDirectory, targetDirectory, StandardCopyOption.REPLACE_EXISTING);
 
-    private void getValueOfFields() {
-        roomId = txtRoomId.getText();
-        typeRoom = cbModelCategoryRoom.getSelectedItem().toString();
-        image = txtNumOfImg.getText();
-        priceRoom = txtPrice.getText().replace(".", "");
-        descript = txtDescript.getText();
-        statusRoom = cbStatusRoom.getSelectedItem().toString();
-    }
-
-    private void setDataTable(List<Room> list) {
-        modelRoom.setRowCount(0);
-        for (Room r : list) {
-            for (CategoryRoom c : listCategoryRoom) {
-                if (c.getId() == r.getTypeId()) {
-                    modelRoom.addRow(new Object[]{
-                        r.getRoomId(), c.getName(), Utils.formatPrice(c.getPrice()), r.getDescript()
-                    });
+                    } catch (IOException ex) {
+                        Logger.getLogger(UserIF.class
+                                .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    }
                 }
             }
         }
+    }
 
-        int row = 0;
-        for (Room r : list) {
-            if (r.getStatus() == SystemConstant.STATUS_ROOM_EMPTY) {
-                modelRoom.setValueAt(SystemConstant.STATUS_TXT_ROOM_EMPTY, row, 4);
-            } else if (r.getStatus() == SystemConstant.STATUS_ROOM_USING) {
-                modelRoom.setValueAt(SystemConstant.STATUS_TXT_ROOM_USING, row, 4);
+    private void setNullFieldsForRoom() {
+        btnAddRoom.setEnabled(true);
+        btnDeleteRoom.setEnabled(false);
+        btnUpdateRoom.setEnabled(false);
+
+        msgForProduct.setText("");
+        txtRoomId.setText("");
+        txtRoomDescript.setText("");
+        txtNumOfImg.setText("");
+        nameImg.clear();
+        filesImg = new File[0];
+    }
+
+    private void setNullFieldsForProduct() {
+        txtModelNameProduct.setText("");
+        txtProductDescript.setText("");
+        txtKeySearchModel.setText("");
+
+        btnUpdateProduct.setEnabled(false);
+        btnDeleteProduct.setEnabled(false);
+        btnAddProduct.setEnabled(true);
+
+        cbProduct.setEnabled(true);
+        cbStatusProduct.setEnabled(false);
+
+        txtModelNameProduct.setEditable(true);
+        cbStatusProduct.setSelectedItem(SystemConstant.STATUS_TXT_PRODUCT_NORMAL);
+    }
+
+    private void getValueOfFields() {
+        strRoomId = txtRoomId.getText();
+        typeRoom = cbModelCategoryRoom.getSelectedItem().toString();
+        priceRoom = txtPrice.getText().replace(".", "");
+        descriptRoom = txtRoomDescript.getText();
+        statusRoom = cbStatusRoom.getSelectedItem().toString();
+
+        modelNameProduct = txtModelNameProduct.getText();
+        nameProduct = cbProduct.getSelectedItem().toString();
+        descriptProduct = txtProductDescript.getText();
+        statusProduct = cbStatusProduct.getSelectedItem().toString();
+
+    }
+
+    private <T> T setPropertiesForObject(T t) {
+        if (t instanceof Room) {
+            Room r = (Room) t;
+            if (!strRoomId.isEmpty()) {
+                r.setRoomId(Integer.parseInt(strRoomId));
+            }
+            for (CategoryRoom c : listCategoryRoom) {
+                if (c.getName().equals(typeRoom)) {
+                    r.setTypeId(c.getId());
+                }
+            }
+            r.setImage(nameImg.toString());
+            r.setDescript(descriptRoom);
+            if (statusRoom.equals(SystemConstant.STATUS_TXT_ROOM_EMPTY)) {
+                r.setStatus(SystemConstant.STATUS_ROOM_EMPTY);
+            } else if (statusRoom.equals(SystemConstant.STATUS_TXT_ROOM_USING)) {
+                r.setStatus(SystemConstant.STATUS_ROOM_USING);
             } else {
-                modelRoom.setValueAt(SystemConstant.STATUS_TXT_ROOM_REPAIRING, row, 4);
+                r.setStatus(SystemConstant.STATUS_ROOM_REPAIRING);
             }
-            row++;
+
+            return (T) r;
+        } else if (t instanceof CheckoutProductDetails) {
+            CheckoutProductDetails c = (CheckoutProductDetails) t;
+            for (Product p : listProduct) {
+                if (p.getName().equals(nameProduct)) {
+                    c.setProId(p.getId());
+                }
+            }
+            c.setModel(modelNameProduct);
+            c.setRoomId(roomId);
+            c.setDescript(descriptProduct);
+            if (statusProduct.equals(SystemConstant.STATUS_TXT_PRODUCT_NORMAL)) {
+                c.setStatus(SystemConstant.STATUS_PRODUCT_NORMAL);
+            } else {
+                c.setStatus(SystemConstant.STATUS_PRODUCT_ABNORMAl);
+            }
+            return (T) c;
         }
+        return null;
     }
 
-    private Room setPropertiesForObject() {
-        Room r = new Room();
-        if (!roomId.isEmpty()) {
-            r.setRoomId(Integer.parseInt(roomId));
-        }
-        for (CategoryRoom c : listCategoryRoom) {
-            if (c.getName().equals(typeRoom)) {
-                r.setTypeId(c.getId());
+    private void setComboxStatusRoom(DefaultComboBoxModel comboxModel) {
+        comboxModel.addElement(SystemConstant.STATUS_TXT_ROOM_EMPTY);
+        comboxModel.addElement(SystemConstant.STATUS_TXT_ROOM_USING);
+        comboxModel.addElement(SystemConstant.STATUS_TXT_ROOM_REPAIRING);
+    }
+
+    private void setComboxStatusProduct() {
+        cbModelStatusProduct.addElement(SystemConstant.STATUS_TXT_PRODUCT_NORMAL);
+        cbModelStatusProduct.addElement(SystemConstant.STATUS_TXT_PRODUCT_ABNORMAL);
+    }
+
+    private <T> void setDataCombox(DefaultComboBoxModel modelCombox, List<T> list) {
+        for (T t : list) {
+            if (t instanceof Product) {
+                modelCombox.addElement(((Product) t).getName());
+            } else if (t instanceof CategoryRoom) {
+                modelCombox.addElement(((CategoryRoom) t).getName());
             }
         }
-        r.setImage(image);
-        r.setDescript(descript);
-        if (statusRoom.equals(SystemConstant.STATUS_TXT_ROOM_EMPTY)) {
-            r.setStatus(SystemConstant.STATUS_ROOM_EMPTY);
-        } else if (statusRoom.equals(SystemConstant.STATUS_TXT_ROOM_USING)) {
-            r.setStatus(SystemConstant.STATUS_ROOM_USING);
-        } else {
-            r.setStatus(SystemConstant.STATUS_ROOM_REPAIRING);
+    }
+
+    private <T> void setDataTable(DefaultTableModel modelTable, List<T> list) {
+        modelTable.setRowCount(0);
+        for (T t : list) {
+            if (t instanceof Room) {
+                Room r = (Room) t;
+                String txtStatus = "";
+                if (r.getStatus() == SystemConstant.STATUS_ROOM_EMPTY) {
+                    txtStatus = SystemConstant.STATUS_TXT_ROOM_EMPTY;
+                } else if (r.getStatus() == SystemConstant.STATUS_ROOM_USING) {
+                    txtStatus = SystemConstant.STATUS_TXT_ROOM_USING;
+                } else {
+                    txtStatus = SystemConstant.STATUS_TXT_ROOM_REPAIRING;
+                }
+
+                for (CategoryRoom c : listCategoryRoom) {
+                    if (c.getId() == r.getTypeId()) {
+                        modelTable.addRow(new Object[]{
+                            r.getRoomId(), c.getName(), Utils.formatPrice(c.getPrice()), r.getDescript(), txtStatus
+                        });
+                    }
+                }
+            } else if (t instanceof CheckoutProductDetails) {
+                CheckoutProductDetails c = (CheckoutProductDetails) t;
+                for (Product p : listProduct) {
+                    if (p.getId() == c.getProId()) {
+                        modelTable.addRow(new Object[]{
+                            p.getName(), c.getModel(), c.getStatus() == SystemConstant.STATUS_PRODUCT_NORMAL ? "Mới" : "Hư hỏng"
+                        });
+                    }
+                }
+            }
         }
-        return r;
     }
-
-    private void setComboxStatusRoom() {
-        cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_EMPTY);
-        cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_USING);
-        cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_REPAIRING);
-    }
-
-    private void setDataComboxCategoryRoom() {
-        for (CategoryRoom c : listCategoryRoom) {
-            cbCategoryRoom.addItem(c.getName());
-        }
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAddProduct;
+    private javax.swing.JButton btnAddRoom;
     private javax.swing.JButton btnChooseImg;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnDeleteProduct;
+    private javax.swing.JButton btnDeleteRoom;
+    private javax.swing.JButton btnRefesh;
+    private javax.swing.JButton btnRefreshProduct;
+    private javax.swing.JButton btnSearchModel;
+    private javax.swing.JButton btnSearchRoom;
+    private javax.swing.JButton btnUpdateProduct;
+    private javax.swing.JButton btnUpdateRoom;
     private javax.swing.JComboBox cbCategoryRoom;
+    private javax.swing.JComboBox cbProduct;
+    private javax.swing.JComboBox cbStatusProduct;
     private javax.swing.JComboBox cbStatusRoom;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox<String> cbStatusRoomSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -657,14 +1148,18 @@ public class RoomIF extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel msgForProduct;
     private javax.swing.JLabel msgInformation;
+    private javax.swing.JTable tblProduct;
     private javax.swing.JTable tblRoom;
-    private javax.swing.JTextArea txtDescript;
+    private javax.swing.JTextField txtKeySearchModel;
+    private javax.swing.JTextField txtKeySearchRoom;
+    private javax.swing.JTextField txtModelNameProduct;
     private javax.swing.JLabel txtNumOfImg;
     private javax.swing.JLabel txtPrice;
+    private javax.swing.JTextArea txtProductDescript;
+    private javax.swing.JTextArea txtRoomDescript;
     private javax.swing.JTextField txtRoomId;
     // End of variables declaration//GEN-END:variables
 }

@@ -89,7 +89,7 @@ create table tblCustomer(
 	email nvarchar(255) null,
 	address nvarchar(255) null,
 	gender bit null,
-	numIdentityCard int not null,
+	numIdentityCard nvarchar(13) not null,
 	descript text null,
 	createdAt date not null,
 	updatedAt date not null
@@ -112,6 +112,7 @@ create table tblCupon(
 	name nvarchar(255) not null,
 	discount float not null,
 	maxQuantity int null,
+	descript text null,
 	status tinyint default(0) not null,
 	startDate date null,
 	endDate date null,
@@ -131,6 +132,7 @@ create table tblCheckin(
 	cusPhone nvarchar(255) foreign key references tblCustomer(phone) not null,
 	totalPeople int not null,
 	cuponId int foreign key references tblCupon(id) not null,
+	pricePaymentAdvance float not null,
 	totalMoney float not null,
 	totalServicePrice float not null,
 	descript text null,
@@ -331,18 +333,6 @@ go
 
 -- PROC tblRoom
 
-create proc room_insert(@typeId int,
-						@image nvarchar(255),
-						@descript text,
-						@status tinyint)
-as
-begin
-	insert into tblRoom(typeId, image, descript, status) 
-	values(@typeId, @image, @descript, @status)
-end
-go
-
-
 create proc room_delete(@roomId int)
 as
 begin
@@ -366,6 +356,22 @@ create proc room_findAll
 as
 begin
 	select * from tblRoom
+end
+go
+
+
+create proc room_findByRoomId(@roomId int)
+as
+begin
+	select * from tblRoom where roomId=@roomId
+end
+go
+
+
+create proc room_findByStatus(@status int)
+as
+begin
+	select * from tblRoom where status=@status
 end
 go
 
@@ -408,12 +414,13 @@ go
 
 
 -- PROC tblCustomer
+
 create proc customer_insert(@phone nvarchar(255),
 							@fullname nvarchar(255),
 							@email nvarchar(255),
 							@address nvarchar(255),
 							@gender bit,
-							@numIdentityCard int,
+							@numIdentityCard nvarchar(13),
 							@descript text,
 							@createdAt date,
 							@updatedAt date)
@@ -438,7 +445,7 @@ create proc customer_update(@phone nvarchar(255),
 							@email nvarchar(255),
 							@address nvarchar(255),
 							@gender bit,
-							@numIdentityCard int,
+							@numIdentityCard nvarchar(13),
 							@descript text,
 							@createdAt date,
 							@updatedAt date)
@@ -463,6 +470,14 @@ create proc customer_findByPhone(@phone nvarchar(255))
 as
 begin
 	select * from tblCustomer where phone like '%' + @phone + '%'
+end
+go
+
+
+create proc customer_findByNumIdentityCard(@numIdentityCard nvarchar(255))
+as
+begin
+	select * from tblCustomer where numIdentityCard like '%' + @numIdentityCard + ''
 end
 go
 
@@ -519,13 +534,28 @@ end
 go
 
 
-create proc cupon_findByPhone(@id int)
+create proc cupon_findByName(@name nvarchar(255))
 as
 begin
-	select * from tblCupon where id like '%' + @id + '%'
+	select * from tblCupon where name like '%' + @name + '%'
 end
 go
 
+
+create proc cupon_findByStatus(@status int)
+as
+begin
+	select * from tblCupon where status=@status
+end
+go
+
+
+create proc cupon_findByNameAndStatus(@name nvarchar(255), @status int)
+as
+begin
+	select * from tblCupon where name like '%' + @name + '%' and status=@status
+end
+go
 
 
 -- PROC tblCheckin
@@ -748,5 +778,44 @@ as
 begin 
 	select * from tblUser
 	where username = @username and password = @password
+end
+go
+
+
+
+-- PROC tblCheckoutProductDetails
+create proc checkoutProductDetails_add(@model nvarchar(255),
+										@proId int,
+										@roomId int,
+										@descript text,
+										@status tinyint)
+as
+begin
+	insert into tblCheckoutProductDetails(model, proId, roomId, descript, status)
+	values(@model, @proId, @roomId, @descript, @status)
+end
+go
+
+
+create proc checkoutProductDetails_findByRoomId(@roomId int)
+as
+begin
+	select * from tblCheckoutProductDetails where roomId=@roomId
+end
+go
+
+
+create proc checkoutProductDetails_delete(@roomId int)
+as
+begin
+	delete from tblCheckoutProductDetails where roomId = @roomId
+end
+go
+
+
+create proc checkoutProductDetails_findByModel(@model nvarchar(255), @roomId int)
+as
+begin
+	select * from tblCheckoutProductDetails where model like '%' + @model + '%' and roomId=@roomId
 end
 go

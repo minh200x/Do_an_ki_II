@@ -29,6 +29,12 @@ public class CustomerIF extends javax.swing.JInternalFrame {
 
     private int indexSelected = 0;
     private String cusPhone = "";
+    private String fullname;
+    private String phone;
+    private String identityCard;
+    private String descript;
+    private String address;
+    private String email;
 
     /**
      * Creates new form CustomerIF
@@ -74,6 +80,10 @@ public class CustomerIF extends javax.swing.JInternalFrame {
         btnDelete = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        btnRefresh = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
+        txtKeySearch = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblCustomer = new javax.swing.JTable();
         msgInformation = new javax.swing.JLabel();
@@ -136,22 +146,33 @@ public class CustomerIF extends javax.swing.JInternalFrame {
             }
         });
 
-        tblCustomer.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        jSeparator1.setBackground(new java.awt.Color(240, 240, 240));
 
-            },
-            new String [] {
-                "Họ và tên", "Số điện thoại", "Email", "Địa chỉ", "Giới tính", "CMND/ CCCD", "Mô tả", "Ngày tạo", "Cập nhật gần đây"
-            }
-        ));
-        tblCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblCustomerMouseClicked(evt);
+        btnRefresh.setText("Làm mới");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
             }
         });
-        jScrollPane3.setViewportView(tblCustomer);
 
-        msgInformation.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
+        btnSearch.setText("Tìm kiếm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        txtKeySearch.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
+        txtKeySearch.setForeground(new java.awt.Color(153, 153, 153));
+        txtKeySearch.setText("Số điện thoại, CMND");
+        txtKeySearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtKeySearchFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtKeySearchFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -160,6 +181,7 @@ public class CustomerIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -193,17 +215,18 @@ public class CustomerIF extends javax.swing.JInternalFrame {
                             .addComponent(txtIdentityCard)
                             .addComponent(jScrollPane2)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnDelete)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnUpdate)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAdd))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDelete)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUpdate)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAdd))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)
+                        .addComponent(txtKeySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -242,68 +265,67 @@ public class CustomerIF extends javax.swing.JInternalFrame {
                     .addComponent(btnAdd)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete)
-                    .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnRefresh))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtKeySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        tblCustomer.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Họ và tên", "Số điện thoại", "Email", "Địa chỉ", "Giới tính", "CMND/ CCCD", "Mô tả", "Ngày tạo", "Cập nhật gần đây"
+            }
+        ));
+        tblCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCustomerMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblCustomer);
+
+        msgInformation.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 18, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        String fullname = txtFullname.getText();
-        String phone = txtPhone.getText();
-        String identityCard = txtIdentityCard.getText();
-        String descript = txtDescript.getText();
-        String address = txtAddress.getText();
-        String email = txtEmail.getText();
-
-        if (fullname.isEmpty()) {
-            setMessageInformation("Vui lòng nhập tên khách hàng!", false);
-        } else if (phone.isEmpty()) {
-            setMessageInformation("Vui lòng nhập số điện thoại!", false);
-        } else if (!phone.matches("^[0-9]{10}+$")) {
-            setMessageInformation("Vui lòng nhập số điện thoại đúng định dạng!", false);
-        } else if (!email.isEmpty() && !email.matches("^[a-z][a-z0-9_\\.]{5,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$")) {
-            setMessageInformation("Vui lòng nhập đúng định dạng email!", false);
-        } else if (address.isEmpty()) {
-            setMessageInformation("Vui lòng nhập đỉa chị khách hàng!", false);
-        } else if (!optionFemale.isSelected() && !optionMale.isSelected()) {
-            setMessageInformation("Vui lòng chọn giới tính!", false);
-        } else if (identityCard.isEmpty()) {
-            setMessageInformation("Vui lòng nhập số chứng minh thư!", false);
-        } else {
-            Customer c = new Customer();
-            c.setPhone(phone);
-            c.setFullname(fullname);
-            c.setEmail(email);
-            c.setAddress(address);
-            if (optionFemale.isSelected()) {
-                c.setGender(SystemConstant.GENDER_FEMALE);
-            } else {
-                c.setGender(SystemConstant.GENDER_MALE);
-            }
-            c.setNumIdentityCard(Integer.parseInt(identityCard));
-            c.setDescript(descript);
-            c.setCreatedAt(Utils.getCurrentTime());
-            c.setUpdatedAt(Utils.getCurrentTime());
-
+        getValueOfFields();
+        if (checkValidate()) {
+            Customer c = setPropertiesForObject();
             cusDAO.add(c);
-            setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
             setNullValueFields();
 
             listCustomer = cusDAO.findAll();
@@ -318,11 +340,11 @@ public class CustomerIF extends javax.swing.JInternalFrame {
             indexSelected = tblCustomer.getSelectedRow();
 
             if (indexSelected == -1) {
-                setMessageInformation(SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+                Utils.setMessageInformation(msgInformation, SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
             } else {
                 cusDAO.delete(cusPhone);
                 setNullValueFields();
-                setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
                 listCustomer = cusDAO.findAll();
                 setDataTable(listCustomer);
             }
@@ -333,6 +355,7 @@ public class CustomerIF extends javax.swing.JInternalFrame {
         btnAdd.setEnabled(false);
         btnUpdate.setEnabled(true);
         btnDelete.setEnabled(true);
+        msgInformation.setText("");
 
         indexSelected = tblCustomer.getSelectedRow();
 
@@ -360,31 +383,108 @@ public class CustomerIF extends javax.swing.JInternalFrame {
             indexSelected = tblCustomer.getSelectedRow();
 
             if (indexSelected == -1) {
-                setMessageInformation(SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+                Utils.setMessageInformation(msgInformation, SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
             } else {
-                Customer c = new Customer();
-                c.setPhone(cusPhone);
-                c.setFullname(txtFullname.getText());
-                c.setEmail(txtEmail.getText());
-                c.setAddress(txtAddress.getText());
-                if (optionFemale.isSelected()) {
-                    c.setGender(SystemConstant.GENDER_FEMALE);
-                } else {
-                    c.setGender(SystemConstant.GENDER_MALE);
+                getValueOfFields();
+                if (checkValidate()) {
+                    Customer c = setPropertiesForObject();
+                    cusDAO.edit(c);
+                    setNullValueFields();
+                    Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                    listCustomer = cusDAO.findAll();
+                    setDataTable(listCustomer);
                 }
-                c.setNumIdentityCard(Integer.parseInt(txtIdentityCard.getText()));
-                c.setDescript(txtDescript.getText());
-                c.setCreatedAt(Utils.getCurrentTime());
-                c.setUpdatedAt(Utils.getCurrentTime());
-
-                cusDAO.edit(c);
-                setNullValueFields();
-                setMessageInformation(SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
-                listCustomer = cusDAO.findAll();
-                setDataTable(listCustomer);
             }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void txtKeySearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusGained
+        if (txtKeySearch.getText().equals("Số điện thoại, CMND")) {
+            txtKeySearch.setText("");
+            txtKeySearch.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtKeySearchFocusGained
+
+    private void txtKeySearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusLost
+        if (txtKeySearch.getText().equals("")) {
+            txtKeySearch.setText("Số điện thoại, CMND");
+            txtKeySearch.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_txtKeySearchFocusLost
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        setNullValueFields();
+        listCustomer = cusDAO.findAll();
+        setDataTable(listCustomer);
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+       String keySearch = txtKeySearch.getText();
+        if (!keySearch.isEmpty() && !keySearch.matches("^[0-9]+$")) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập đúng định dạng số điện thoại!", false);
+        } else {
+            listCustomer = cusDAO.findByPhone(keySearch);
+            if (listCustomer.isEmpty()) {
+                Utils.setMessageInformation(msgInformation, "Không tìm thấy khách hàng!", false);
+                listCustomer = cusDAO.findByNumIdentityCard(keySearch);
+                if (listCustomer.isEmpty()) {
+                    Utils.setMessageInformation(msgInformation, "Không tìm thấy khách hàng!", false);
+                }
+            } else {
+                msgInformation.setText("");
+            }
+            setDataTable(listCustomer);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private Customer setPropertiesForObject() {
+        Customer c = new Customer();
+        c.setPhone(phone);
+        c.setFullname(fullname);
+        c.setEmail(email);
+        c.setAddress(address);
+        if (optionFemale.isSelected()) {
+            c.setGender(SystemConstant.GENDER_FEMALE);
+        } else {
+            c.setGender(SystemConstant.GENDER_MALE);
+        }
+        c.setNumIdentityCard(identityCard);
+        c.setDescript(descript);
+        c.setCreatedAt(Utils.getCurrentTime());
+        c.setUpdatedAt(Utils.getCurrentTime());
+        return c;
+    }
+
+    private void getValueOfFields() {
+        fullname = txtFullname.getText();
+        phone = txtPhone.getText();
+        identityCard = txtIdentityCard.getText();
+        descript = txtDescript.getText();
+        address = txtAddress.getText();
+        email = txtEmail.getText();
+    }
+
+    private boolean checkValidate() {
+        boolean check = false;
+        if (fullname.isEmpty()) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập tên khách hàng!", false);
+        } else if (phone.isEmpty()) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập số điện thoại!", false);
+        } else if (!phone.matches("^[0-9]{10}+$")) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập số điện thoại đúng định dạng!", false);
+        } else if (!email.isEmpty() && !email.matches("^[a-z][a-z0-9_\\.]{5,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$")) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập đúng định dạng email!", false);
+        } else if (address.isEmpty()) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập đỉa chị khách hàng!", false);
+        } else if (!optionFemale.isSelected() && !optionMale.isSelected()) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng chọn giới tính!", false);
+        } else if (identityCard.isEmpty()) {
+            Utils.setMessageInformation(msgInformation, "Vui lòng nhập số chứng minh thư!", false);
+        } else {
+            check = true;
+        }
+        return check;
+    }
 
     private void setNullValueFields() {
         btnAdd.setEnabled(true);
@@ -397,11 +497,10 @@ public class CustomerIF extends javax.swing.JInternalFrame {
         txtAddress.setText("");
         txtIdentityCard.setText("");
         txtDescript.setText("");
-        if (optionFemale.isSelected()) {
-            optionFemale.setSelected(false);
-        } else {
-            optionMale.setSelected(false);
-        }
+        buttonGroupGender.clearSelection();
+        
+        txtKeySearch.setText("Số điện thoại, CMND");
+        txtKeySearch.setForeground(new Color(153,153,153));
     }
 
     private void setDataTable(List<Customer> list) {
@@ -413,18 +512,11 @@ public class CustomerIF extends javax.swing.JInternalFrame {
         }
     }
 
-    private void setMessageInformation(String msg, Boolean status) {
-        if (status == false) {
-            msgInformation.setForeground(Color.RED);
-            msgInformation.setText(msg);
-        } else {
-            msgInformation.setForeground(Color.BLUE);
-            msgInformation.setText(msg);
-        }
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroupGender;
     private javax.swing.JLabel jLabel1;
@@ -438,6 +530,7 @@ public class CustomerIF extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel msgInformation;
     private javax.swing.JRadioButton optionFemale;
     private javax.swing.JRadioButton optionMale;
@@ -447,6 +540,7 @@ public class CustomerIF extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFullname;
     private javax.swing.JTextField txtIdentityCard;
+    private javax.swing.JTextField txtKeySearch;
     private javax.swing.JTextField txtPhone;
     // End of variables declaration//GEN-END:variables
 }

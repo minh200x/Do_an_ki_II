@@ -13,8 +13,10 @@ import java.util.List;
  * @author THUY
  */
 public interface IRoom extends GenericDAO<Room>{
-    void add(Room room);
+    Integer add(Room room);
     void edit(Room room);
     void delete(int roomId);
     List<Room> findAll();    
+    Room findByRoomId(int roomId);    
+    List<Room> findByStatus(int status);    
 }

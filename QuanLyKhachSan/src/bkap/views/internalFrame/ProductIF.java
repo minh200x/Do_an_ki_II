@@ -22,10 +22,11 @@ public class ProductIF extends javax.swing.JInternalFrame {
     private ProductDAO proDao = new ProductDAO();
     private List<Product> listPro;
     private DefaultTableModel modelPro;
-    
+
     private int id;
     private String name;
     private String quantity;
+
     /**
      * Creates new form ProductIF
      */
@@ -36,6 +37,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
         setDataTable(listPro);
         // commits
     }
+
     private void setDataTable(List<Product> listUnit) {
         modelPro.setRowCount(0);
         for (Product u : listUnit) {
@@ -112,7 +114,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
             }
         });
 
-        txtQuantity.setText("0");
+        txtQuantity.setText("1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -227,7 +229,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
         int indexSelected = tblPro.getSelectedRow();
         Product p = listPro.get(indexSelected);
         txtName.setText(p.getName());
-        txtQuantity.setText(p.getQuantity()+"");
+        txtQuantity.setText(p.getQuantity() + "");
         id = p.getId();
     }//GEN-LAST:event_tblProMouseClicked
 
@@ -236,6 +238,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
         quantity = txtQuantity.getText();
         id = id;
     }
+
     private Product setPropertiesForObject() {
         Product p = new Product();
         p.setId(id);
@@ -243,22 +246,26 @@ public class ProductIF extends javax.swing.JInternalFrame {
         p.setQuantity(Integer.parseInt(quantity));
         return p;
     }
+
     private boolean checkValidate() {
         boolean check = false;
         if (name.isEmpty()) {
             Utils.setMessageInformation(txtInfo, "Vui lòng nhập tên đơn vị!", false);
         } else if (!name.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")) {
             Utils.setMessageInformation(txtInfo, "Vui lòng tên đơn vị không nhập kí tự đặc biệt!", false);
+        } else if (quantity.isEmpty()) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng nhập sô lượng là số!", false);
         } else {
             check = true;
         }
         return check;
     }
+
     private void setNullValueFields() {
         btnAdd.setEnabled(true);
         btnUpdate.setEnabled(false);
         txtName.setText("");
-        txtQuantity.setText("0");
+        txtQuantity.setText("1");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

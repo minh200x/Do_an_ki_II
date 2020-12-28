@@ -5,6 +5,7 @@
  */
 package bkap.views;
 
+import bkap.utils.SystemConstant;
 import bkap.views.internalFrame.BookRoomIF;
 import bkap.views.internalFrame.CategoryRoomIF;
 import bkap.views.internalFrame.CategoryServiceIF;
@@ -19,6 +20,8 @@ import bkap.views.internalFrame.UserIF;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
+import javax.swing.JInternalFrame;
+
 /**
  *
  * @author hongb
@@ -28,8 +31,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private ImageIcon imgLogo;
     private BufferedImage backgroundImage;
     private RoomIF room;
-//    private boolean isLogin = false;
-
+    private boolean isLogin = false;
 
     /**
      * Creates new form MainJFrame
@@ -37,29 +39,39 @@ public class MainJFrame extends javax.swing.JFrame {
     public MainJFrame() {
         setCss();
         initComponents();
-//        showLogin();
+        showLogin();
+        
+        if (LoginDialog.levelUser == SystemConstant.LEVEL_ADMIN) {
+             
+        } else if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
+            jMenuItem5.setEnabled(false);
+            jMenuItem7.setEnabled(false);
+            jMenuItem9.setEnabled(false);
+            jMenuItem10.setEnabled(false);
+            jMenuItem11.setEnabled(false);
+        }
     }
-    
-    private void showLogin(){
+
+    private void showLogin() {
         LoginDialog loginForm = new LoginDialog(this, true);
         this.setVisible(false);
         loginForm.setVisible(true);
         loginForm.validate();
-        if(LoginDialog.isLogin == true){
+        if (LoginDialog.isLogin == true) {
             initComponents();
         }
     }
-    
-//    private boolean checkOnly(JInternalFrame innerFrame) {
-//        JInternalFrame[] arrFrame = dkpMain.getAllFrames();
-//        for (JInternalFrame frame : arrFrame) {
-//            if (frame.getClass().getName() == innerFrame.getClass().getName()) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
+    private boolean checkOnly(JInternalFrame innerFrame) {
+        JInternalFrame[] arrFrame = dkpMain.getAllFrames();
+        for (JInternalFrame frame : arrFrame) {
+            if (frame.getClass().getName() == innerFrame.getClass().getName()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void setCss() {
         ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("bkap/images/logo.png")); // load the image to a imageIcon 
         Image image = imageIcon.getImage(); // transform it 
@@ -67,9 +79,8 @@ public class MainJFrame extends javax.swing.JFrame {
         imgLogo = new ImageIcon(newimg);
         setIconImage(imgLogo.getImage());
         setTitle("HOTEL - Quản lý khách sạn");
-        
-        
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -99,7 +110,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
+        btnLogout = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -121,11 +132,11 @@ public class MainJFrame extends javax.swing.JFrame {
         dkpMain.setLayout(dkpMainLayout);
         dkpMainLayout.setHorizontalGroup(
             dkpMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1392, Short.MAX_VALUE)
+            .addGap(0, 1564, Short.MAX_VALUE)
         );
         dkpMainLayout.setVerticalGroup(
             dkpMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 712, Short.MAX_VALUE)
+            .addGap(0, 782, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Trang chủ");
@@ -233,8 +244,13 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu6);
 
-        jMenu5.setText("Đăng xuất");
-        jMenuBar1.add(jMenu5);
+        btnLogout.setText("Đăng xuất");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(btnLogout);
 
         setJMenuBar(jMenuBar1);
 
@@ -261,9 +277,9 @@ public class MainJFrame extends javax.swing.JFrame {
         room = new RoomIF();
         dkpMain.add(room);
         room.setVisible(true);
-        room.validate(); 
+        room.validate();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-    
+
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
         ServiceIF service = new ServiceIF();
@@ -352,6 +368,10 @@ public class MainJFrame extends javax.swing.JFrame {
         pro.validate();
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -389,13 +409,13 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu btnLogout;
     private javax.swing.JDesktopPane dkpMain;
     private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;

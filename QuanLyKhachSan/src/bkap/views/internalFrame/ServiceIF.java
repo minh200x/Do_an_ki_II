@@ -13,6 +13,7 @@ import bkap.model.Service;
 import bkap.model.Unit;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
+import bkap.views.LoginDialog;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
@@ -61,6 +62,12 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         setComboxModel(listCatSer);
         setComboxModel(listUnit);
         setDataTable(listSer);
+        
+        if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
+            btnAdd.setEnabled(false);
+            btnUpdate.setEnabled(false);
+            btnDelete.setEnabled(false);
+        }
     }
 
     private <T> void setComboxModel(List<T> list) {

@@ -18,4 +18,5 @@ public interface ICustomer extends GenericDAO<Customer>{
     void delete(String phone);
     List<Customer> findAll();
     List<Customer> findByPhone(String phone);
+    List<Customer> findByNumIdentityCard(String numIdentityCard);
 }

@@ -18,4 +18,6 @@ public interface ICupon extends GenericDAO<Cupon>{
     void edit(Cupon c);
     List<Cupon> findAll();
     List<Cupon> findByName(String name);
+    List<Cupon> findByStatus(int status);
+    List<Cupon> findByNameAndStatus(String name, int status);
 }
