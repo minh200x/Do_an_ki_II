@@ -632,6 +632,13 @@ begin
 end
 go
 
+create proc service_findByServiceId(@id int)
+as
+begin
+	select * from tblService where id=@id
+end
+go
+
 
 
 
@@ -772,6 +779,15 @@ begin
 	where id=@id
 end
 go
+
+create proc category_findByCateRoomId(@id int)
+as
+begin
+	select * from tblCategoryRoom where id=@id
+end
+go
+
+
 
 create proc login(@username nvarchar(255), @password nvarchar(255))
 as

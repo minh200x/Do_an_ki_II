@@ -66,6 +66,11 @@ public class Room {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Phòng " + this.roomId;
+    }
     
     
 }

@@ -38,7 +38,7 @@ public class MainJFrame extends javax.swing.JFrame {
      */
     public MainJFrame() {
         setCss();
-        initComponents();
+//        initComponents();
         showLogin();
         
         if (LoginDialog.levelUser == SystemConstant.LEVEL_ADMIN) {

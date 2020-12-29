@@ -150,7 +150,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
         tblRoom = new javax.swing.JTable();
         btnRefesh = new javax.swing.JButton();
         btnSearchRoom = new javax.swing.JButton();
-        cbStatusRoomSearch = new javax.swing.JComboBox<>();
+        cbStatusRoomSearch = new javax.swing.JComboBox<String>();
         txtKeySearchRoom = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -364,8 +364,8 @@ public class RoomIF extends javax.swing.JInternalFrame {
                     .addComponent(cbStatusRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRefesh)
                     .addComponent(btnSearchRoom)
@@ -517,7 +517,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnDeleteProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -533,7 +533,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
                     .addComponent(btnSearchModel)
                     .addComponent(txtKeySearchModel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -541,17 +541,19 @@ public class RoomIF extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 679, Short.MAX_VALUE)
+            .addGap(0, 685, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 40, Short.MAX_VALUE)))
         );
 
         btnUpdateRoom.setText("Lưu");
@@ -595,7 +597,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
                         .addComponent(btnAddRoom))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(25, 25, 25))
         );
@@ -603,10 +605,10 @@ public class RoomIF extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -773,9 +775,9 @@ public class RoomIF extends javax.swing.JInternalFrame {
         }
 
         // set data for product
-        listCheckoutProduct = checkoutProDAO.findByRoomId(roomId);
-
-        setDataTable(modelTableProduct, listCheckoutProduct);
+//        listCheckoutProduct = checkoutProDAO.findByRoomId(roomId);
+//
+//        setDataTable(modelTableProduct, listCheckoutProduct);
     }//GEN-LAST:event_tblRoomMouseClicked
 
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
@@ -917,15 +919,15 @@ public class RoomIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSearchRoomActionPerformed
 
     private void cbStatusRoomSearchItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbStatusRoomSearchItemStateChanged
-        String keySearchRoomStatus = cbStatusRoomSearch.getSelectedItem().toString();
-        if (keySearchRoomStatus.equals(SystemConstant.STATUS_TXT_ROOM_EMPTY)) {
-            listRoom = roomDAO.findByStatus(SystemConstant.STATUS_ROOM_EMPTY);
-        } else if (keySearchRoomStatus.equals(SystemConstant.STATUS_TXT_ROOM_USING)) {
-            listRoom = roomDAO.findByStatus(SystemConstant.STATUS_ROOM_USING);
-        } else {
-            listRoom = roomDAO.findByStatus(SystemConstant.STATUS_ROOM_REPAIRING);
-        }
-
+//        String keySearchRoomStatus = cbStatusRoomSearch.getSelectedItem().toString();
+//        if (keySearchRoomStatus.equals(SystemConstant.STATUS_TXT_ROOM_EMPTY)) {
+//            listRoom = roomDAO.findByStatus(SystemConstant.STATUS_ROOM_EMPTY);
+//        } else if (keySearchRoomStatus.equals(SystemConstant.STATUS_TXT_ROOM_USING)) {
+//            listRoom = roomDAO.findByStatus(SystemConstant.STATUS_ROOM_USING);
+//        } else {
+//            listRoom = roomDAO.findByStatus(SystemConstant.STATUS_ROOM_REPAIRING);
+//        }
+        listRoom = roomDAO.findAll();
         if (listRoom.isEmpty()) {
             Utils.setMessageInformation(msgInformation, "Không tìm thấy phòng!", false);
         } else {
