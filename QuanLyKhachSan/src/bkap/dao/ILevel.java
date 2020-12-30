@@ -14,6 +14,7 @@ import java.util.List;
  */
 public interface ILevel extends GenericDAO<Level>{
     List<Level> findAll();
+    List<Level> findByName(String name);
     void add(Level l);
     void edit(Level l);
     void delete(int id);

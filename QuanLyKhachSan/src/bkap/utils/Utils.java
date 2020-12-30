@@ -5,21 +5,14 @@
  */
 package bkap.utils;
 
-import bkap.model.User;
-import bkap.views.internalFrame.UserIF;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import java.lang.reflect.Field;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -58,6 +51,7 @@ public class Utils {
             label.setForeground(Color.BLUE);
             label.setText(msg);
         }
-    }
+    }   
+   
 
 }

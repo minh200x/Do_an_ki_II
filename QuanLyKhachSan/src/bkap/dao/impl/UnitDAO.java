@@ -40,4 +40,10 @@ public class UnitDAO extends AbstractDAO<Unit> implements IUnit {
         return query(sql, new UnitMapper());
     }
 
+    @Override
+    public List<Unit> findByName(String name) {
+        String sql = "{call unit_findByName(?)}";
+        return query(sql, new UnitMapper(), name);
+    }
+
 }

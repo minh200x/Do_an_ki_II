@@ -13,7 +13,7 @@ import java.util.List;
  * @author THUY
  */
 public interface ICheckin extends GenericDAO<Checkin>{
-    void add(Checkin c);
+    Integer add(Checkin c);
     void delete(int id);
     List<Checkin> findAll();
 }

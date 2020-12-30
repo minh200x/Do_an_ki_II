@@ -14,6 +14,7 @@ import bkap.model.Unit;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import bkap.views.LoginDialog;
+import java.awt.Color;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
@@ -123,9 +124,13 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        btnSearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSer = new javax.swing.JTable();
-        txtInfo = new javax.swing.JLabel();
+        msgInfomation = new javax.swing.JLabel();
+        txtKeySearch = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -133,7 +138,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Dịch vụ");
 
-        jLabel1.setText("Tên menu");
+        jLabel1.setText("Tên dịch vụ");
 
         jLabel2.setText("Loại dịch vụ");
 
@@ -141,6 +146,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Đơn vị");
 
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_add_20px.png"))); // NOI18N
         btnAdd.setText("Thêm");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,6 +154,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_remove_20px.png"))); // NOI18N
         btnDelete.setText("Xóa");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,10 +162,56 @@ public class ServiceIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_edit_20px.png"))); // NOI18N
         btnUpdate.setText("Sửa");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_refresh_20px.png"))); // NOI18N
+        btnRefresh.setText("Làm mới");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
+        jSeparator1.setBackground(new java.awt.Color(240, 240, 240));
+
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_search_20px.png"))); // NOI18N
+        btnSearch.setText("Tìm kiếm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        tblSer.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Tên dịch vụ", "Loại dịch vụ", "Giá", "Đơn vị"
+            }
+        ));
+        tblSer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSerMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblSer);
+
+        txtKeySearch.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
+        txtKeySearch.setForeground(new java.awt.Color(153, 153, 153));
+        txtKeySearch.setText("Tên dịch vụ");
+        txtKeySearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtKeySearchFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtKeySearchFocusLost(evt);
             }
         });
 
@@ -169,6 +222,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -179,18 +233,26 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                             .addComponent(txtName)
                             .addComponent(cbCatSer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtPrice)
+                                .addComponent(txtPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
                                 .addComponent(cbUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnRefresh)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDelete)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnUpdate)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAdd)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAdd))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnSearch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtKeySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(msgInfomation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -214,48 +276,30 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnUpdate)
-                    .addComponent(btnDelete))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnDelete)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtKeySearch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(msgInfomation, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-
-        tblSer.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Tên menu", "Loại menu", "Giá", "Đơn vị"
-            }
-        ));
-        tblSer.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblSerMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tblSer);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtInfo)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtInfo)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -267,7 +311,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         if (checkValidate()) {
             Service s = setPropertiesForObject();
             serviceDao.add(s);
-            Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            Utils.setMessageInformation(msgInfomation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
             setNullValueFields();
             listSer = serviceDao.findAll();
             setDataTable(listSer);
@@ -304,7 +348,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
             int i = JOptionPane.showConfirmDialog(cbUnit, SystemConstant.CONFIRM_UPDATE);
             if (i == 0) {
                 serviceDao.edit(ser);
-                Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                Utils.setMessageInformation(msgInfomation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
                 setNullValueFields();
                 listSer = serviceDao.findAll();
                 setDataTable(listSer);
@@ -318,12 +362,49 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         int i = JOptionPane.showConfirmDialog(cbUnit, SystemConstant.CONFIRM_DELETE);
         if (i == 0) {
             serviceDao.delete(ser.getId());
-            Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            Utils.setMessageInformation(msgInfomation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
             setNullValueFields();
             listSer = serviceDao.findAll();
             setDataTable(listSer);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+       String keySearch = txtKeySearch.getText();
+        if (keySearch.equals("Tên dịch vụ")) {
+            Utils.setMessageInformation(msgInfomation, "Vui lòng nhạp tên dịch vụ cần tìm kiếm!", false);
+        } else {
+            listSer = serviceDao.findByName(keySearch);
+            if (listSer.isEmpty()) {
+                Utils.setMessageInformation(msgInfomation, SystemConstant.ERROR_NO_RESULT, false);
+            } else {
+                msgInfomation.setText("");
+            }
+            setDataTable(listSer);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtKeySearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusGained
+        if (txtKeySearch.getText().equals("Tên dịch vụ")) {
+            txtKeySearch.setText("");
+            txtKeySearch.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_txtKeySearchFocusGained
+
+    private void txtKeySearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusLost
+        if (txtKeySearch.getText().equals("")) {
+            txtKeySearch.setText("Tên dịch vụ");
+            txtKeySearch.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_txtKeySearchFocusLost
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        setNullValueFields();
+        txtKeySearch.setText("Tên dịch vụ");
+        txtKeySearch.setForeground(new Color(153,153,153));
+        listSer = serviceDao.findAll();
+        setDataTable(listSer);
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void getValueOfFields() {
         id = id;
@@ -337,11 +418,11 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         boolean check = false;
         getValueOfFields();
         if (name.isEmpty()) {
-            Utils.setMessageInformation(txtInfo, "Vui lòng nhập tên dịch vụ!", false);
+            Utils.setMessageInformation(msgInfomation, "Vui lòng nhập tên dịch vụ!", false);
         } else if (!name.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")) {
-            Utils.setMessageInformation(txtInfo, "Vui lòng tên dịch vụ không nhập kí tự đặc biệt!", false);
+            Utils.setMessageInformation(msgInfomation, "Vui lòng tên dịch vụ không nhập kí tự đặc biệt!", false);
         } else if (!price.matches("^[0-9]+$")) {
-            Utils.setMessageInformation(txtInfo, "Giá tiền không hợp lệ!", false);
+            Utils.setMessageInformation(msgInfomation, "Giá tiền không hợp lệ!", false);
         } else {
             check = true;
         }
@@ -378,6 +459,8 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox cbCatSer;
     private javax.swing.JComboBox cbUnit;
@@ -387,8 +470,10 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel msgInfomation;
     private javax.swing.JTable tblSer;
-    private javax.swing.JLabel txtInfo;
+    private javax.swing.JTextField txtKeySearch;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPrice;
     // End of variables declaration//GEN-END:variables

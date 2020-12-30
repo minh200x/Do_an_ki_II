@@ -39,5 +39,11 @@ public class LevelDAO extends AbstractDAO<Level> implements ILevel{
         String sql = "{call level_delete(?)}";
         update(sql, id);
     }
+
+    @Override
+    public List<Level> findByName(String name) {
+        String sql = "{call level_findByName(?)}";
+        return query(sql, new LevelMapper(), name);
+    }
     
 }

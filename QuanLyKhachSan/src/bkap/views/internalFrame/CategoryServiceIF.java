@@ -10,6 +10,7 @@ import bkap.model.CategoryService;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import bkap.views.LoginDialog;
+import java.awt.Color;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  * @author hongb
  */
 public class CategoryServiceIF extends javax.swing.JInternalFrame {
-
+    
     private CategoryServiceDAO catServiceDao = new CategoryServiceDAO();
     private List<CategoryService> listCatService;
     private DefaultTableModel modelCatService;
@@ -39,9 +40,9 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
             btnAdd.setEnabled(false);
             btnEdit.setEnabled(false);
             btnDelete.setEnabled(false);
-        }
+        } 
     }
-
+    
     private void setDataTable(List<CategoryService> catSer) {
         modelCatService.setRowCount(0);
         for (CategoryService catSer1 : catSer) {
@@ -60,15 +61,22 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        txtInfo = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        btnRefesh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCatService = new javax.swing.JTable();
+        btnSearch = new javax.swing.JButton();
+        txtKeySearch = new javax.swing.JTextField();
+        txtInfo = new javax.swing.JLabel();
+
+        jButton1.setText("jButton1");
 
         setClosable(true);
         setIconifiable(true);
@@ -76,8 +84,9 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Loại dịch vụ");
 
-        jLabel1.setText("Dịch vụ");
+        jLabel1.setText("Loại dịch vụ");
 
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_add_20px.png"))); // NOI18N
         btnAdd.setText("Thêm");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,6 +94,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_edit_20px.png"))); // NOI18N
         btnEdit.setText("Sửa");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,10 +102,19 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_remove_20px.png"))); // NOI18N
         btnDelete.setText("Xóa");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
+            }
+        });
+
+        btnRefesh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_refresh_20px.png"))); // NOI18N
+        btnRefesh.setText("Làm mới");
+        btnRefesh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefeshActionPerformed(evt);
             }
         });
 
@@ -106,19 +125,19 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnRefesh)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDelete)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEdit)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAdd))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -128,14 +147,15 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnEdit)
-                    .addComponent(btnDelete))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(txtInfo)
-                .addContainerGap())
+                    .addComponent(btnDelete)
+                    .addComponent(btnRefesh))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8))
         );
 
         tblCatService.setModel(new javax.swing.table.DefaultTableModel(
@@ -153,6 +173,26 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblCatService);
 
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_search_20px.png"))); // NOI18N
+        btnSearch.setText("Tìm kiếm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        txtKeySearch.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
+        txtKeySearch.setForeground(new java.awt.Color(153, 153, 153));
+        txtKeySearch.setText("Tên loại dịch vụ");
+        txtKeySearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtKeySearchFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtKeySearchFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,16 +200,28 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnSearch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtKeySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtKeySearch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                .addGap(5, 5, 5)
+                .addComponent(txtInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -186,7 +238,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
             listCatService = catServiceDao.findAll();
             setDataTable(listCatService);
         }
-
+        
 
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -203,7 +255,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
                 listCatService = catServiceDao.findAll();
                 setDataTable(listCatService);
             }
-
+            
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
@@ -211,7 +263,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         btnAdd.setEnabled(false);
         btnEdit.setEnabled(true);
-
+        
         int indexSelected = tblCatService.getSelectedRow();
         CategoryService catSer = listCatService.get(indexSelected);
         txtName.setText(catSer.getName());
@@ -232,6 +284,47 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        String keySearch = txtKeySearch.getText();
+        if (keySearch.equals("Tên loại dịch vụ")) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng nhập tên dịch vụ để tìm kiếm!", false);
+        } else {
+            listCatService = catServiceDao.findByName(keySearch);
+            if (listCatService.isEmpty()) {
+                Utils.setMessageInformation(txtInfo, SystemConstant.ERROR_NO_RESULT, false);
+            } else {
+                txtInfo.setText("");
+            }
+            setDataTable(listCatService);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnRefeshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefeshActionPerformed
+        setNullValueFields();
+        txtKeySearch.setText("Tên loại dịch vụ");
+        txtKeySearch.setForeground(new Color(153, 153, 153));
+        listCatService = catServiceDao.findAll();
+        setDataTable(listCatService);
+        txtInfo.setText("");
+        
+        btnEdit.setEnabled(false);
+        btnDelete.setEnabled(false);
+    }//GEN-LAST:event_btnRefeshActionPerformed
+
+    private void txtKeySearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusGained
+        if (txtKeySearch.getText().equals("Tên loại dịch vụ")) {
+            txtKeySearch.setText("");
+            txtKeySearch.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtKeySearchFocusGained
+
+    private void txtKeySearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusLost
+        if (txtKeySearch.getText().equals("")) {
+            txtKeySearch.setText("Tên loại dịch vụ");
+            txtKeySearch.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_txtKeySearchFocusLost
+    
     private boolean checkValidate() {
         boolean check = false;
         getValueOfFields();
@@ -244,19 +337,19 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         }
         return check;
     }
-
+    
     private void getValueOfFields() {
         name = txtName.getText();
         id = id;
     }
-
+    
     private CategoryService setPropertiesForObject() {
         CategoryService catService = new CategoryService();
         catService.setName(name);
         catService.setId(id);
         return catService;
     }
-
+    
     private void setNullValueFields() {
         btnAdd.setEnabled(true);
         btnEdit.setEnabled(false);
@@ -267,11 +360,16 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnRefesh;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tblCatService;
     private javax.swing.JLabel txtInfo;
+    private javax.swing.JTextField txtKeySearch;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 }

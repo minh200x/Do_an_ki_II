@@ -17,12 +17,6 @@ import java.util.List;
 public class CheckinDAO extends AbstractDAO<Checkin> implements ICheckin{
 
     @Override
-    public void add(Checkin c) {
-        String sql = "{call checkin_insert(?,?,?,?,?,?)}";
-        insert(sql, c.getId(), c.getCusPhone(), c.getTotalPeople(), c.getCuponId(), c.getTotalMoney(), c.getTotalServicePrice(), c.getDescript());
-    }
-
-    @Override
     public void delete(int id) {
         String sql = "{call checkin_delete(?)}";
         update(sql, id);
@@ -32,6 +26,12 @@ public class CheckinDAO extends AbstractDAO<Checkin> implements ICheckin{
     public List<Checkin> findAll() {
         String sql = "{call checkin_findAll()}";
         return query(sql, new CheckinMapper());
+    }
+
+    @Override
+    public Integer add(Checkin c) {
+        String sql = "INSERT INTO tblCheckin(cusPhone, totalPeople, cuponId, totalMoney, totalServicePrice, descript) VALUES(?,?,?,?,?,?)";
+        return insertReturnId(sql, c.getCusPhone(), c.getTotalPeople(), c.getCuponId(), c.getTotalMoney(), c.getTotalServicePrice(), c.getDescript());
     }
     
 }

@@ -9,6 +9,7 @@ import bkap.dao.impl.UnitDAO;
 import bkap.model.Unit;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -54,6 +55,10 @@ public class UnitIF extends javax.swing.JInternalFrame {
         btnAdd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblUnit = new javax.swing.JTable();
+        jSeparator1 = new javax.swing.JSeparator();
+        btnRefresh = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
+        txtKeySearch = new javax.swing.JTextField();
         txtInfo = new javax.swing.JLabel();
 
         setClosable(true);
@@ -103,6 +108,33 @@ public class UnitIF extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblUnit);
 
+        btnRefresh.setText("Làm mới");
+        btnRefresh.setPreferredSize(new java.awt.Dimension(85, 25));
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
+        btnSearch.setText("Tìm kiếm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        txtKeySearch.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
+        txtKeySearch.setForeground(new java.awt.Color(153, 153, 153));
+        txtKeySearch.setText("Đơn vị");
+        txtKeySearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtKeySearchFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtKeySearchFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -115,7 +147,8 @@ public class UnitIF extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(txtName))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 54, Short.MAX_VALUE)
+                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                         .addComponent(btnDelete)
                         .addGap(18, 18, 18)
                         .addComponent(btnUpdate)
@@ -123,8 +156,14 @@ public class UnitIF extends javax.swing.JInternalFrame {
                         .addComponent(btnAdd))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtInfo)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jSeparator1)
+                        .addGap(5, 5, 5))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnSearch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtKeySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -138,12 +177,18 @@ public class UnitIF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnUpdate)
-                    .addComponent(btnDelete))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(txtInfo)
-                .addGap(18, 18, 18)
+                    .addComponent(btnDelete)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 18, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSearch)
+                    .addComponent(txtKeySearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -217,6 +262,41 @@ public class UnitIF extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+       setNullValueFields();
+       txtKeySearch.setText("Tên đơn vị");
+       txtKeySearch.setForeground(new Color(153,153,153));
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void txtKeySearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusGained
+        if (txtKeySearch.getText().equals("Đơn vị")) {
+            txtKeySearch.setText("");
+            txtKeySearch.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_txtKeySearchFocusGained
+
+    private void txtKeySearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusLost
+        if (txtKeySearch.getText().equals("")) {
+            txtKeySearch.setText("Đơn vị");
+            txtKeySearch.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_txtKeySearchFocusLost
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        String keySearch = txtKeySearch.getText();
+        if (keySearch.equals("Đơn vị")) {
+            Utils.setMessageInformation(txtInfo, "Vui lòng nhập tên đơn vị cần tìm kiếm!", false);
+        } else {
+            list = unitDao.findByName(keySearch);
+            if (list.isEmpty()) {
+                Utils.setMessageInformation(txtInfo, SystemConstant.ERROR_NO_RESULT, false);
+            } else {
+                txtInfo.setText("");
+            }
+            setDataTable(list);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
     private void setDataTable(List<Unit> listUnit) {
         modelUnit.setRowCount(0);
         for (Unit u : listUnit) {
@@ -253,17 +333,22 @@ public class UnitIF extends javax.swing.JInternalFrame {
     private void setNullValueFields() {
         btnAdd.setEnabled(true);
         btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
         txtName.setText("");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tblUnit;
     private javax.swing.JLabel txtInfo;
+    private javax.swing.JTextField txtKeySearch;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,6 +6,7 @@
 package bkap.views;
 
 import bkap.utils.SystemConstant;
+import bkap.views.internalFrame.AccountDetailsIF;
 import bkap.views.internalFrame.BookRoomIF;
 import bkap.views.internalFrame.CategoryRoomIF;
 import bkap.views.internalFrame.CategoryServiceIF;
@@ -38,7 +39,7 @@ public class MainJFrame extends javax.swing.JFrame {
      */
     public MainJFrame() {
         setCss();
-        initComponents();
+//        initComponents();
         showLogin();
         
         if (LoginDialog.levelUser == SystemConstant.LEVEL_ADMIN) {
@@ -108,6 +109,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         btnLogout = new javax.swing.JMenu();
@@ -136,7 +138,7 @@ public class MainJFrame extends javax.swing.JFrame {
         );
         dkpMainLayout.setVerticalGroup(
             dkpMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 782, Short.MAX_VALUE)
+            .addGap(0, 784, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Trang chủ");
@@ -229,6 +231,14 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem11);
+
+        jMenuItem12.setText("Tài khoản");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem12);
 
         jMenuBar1.add(jMenu4);
 
@@ -353,11 +363,11 @@ public class MainJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        // TODO add your handling code here:
-        ServiceIF service = new ServiceIF();
-        dkpMain.add(service);
-        service.setVisible(true);
-        service.validate();
+//        // TODO add your handling code here:
+        AccountDetailsIF acc = new AccountDetailsIF();
+        dkpMain.add(acc);
+        acc.setVisible(true);
+        acc.validate();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
@@ -371,6 +381,10 @@ public class MainJFrame extends javax.swing.JFrame {
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
 
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -421,6 +435,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

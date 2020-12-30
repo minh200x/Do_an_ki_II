@@ -17,4 +17,5 @@ public interface IUnit extends GenericDAO<Unit>{
     void delete(int id);
     void edit(Unit u);
     List<Unit> findAll();
+    List<Unit> findByName(String name);
 }

@@ -39,4 +39,10 @@ public class CategoryServiceDAO extends AbstractDAO<CategoryService> implements 
         String sql = "{call categoryService_findAll()}";
         return query(sql, new CategoryServiceMapper());
     }
+
+    @Override
+    public List<CategoryService> findByName(String name) {
+        String sql = "{call categoryService_findByName(?)}";
+        return query(sql, new CategoryServiceMapper(), name);
+    }
 }

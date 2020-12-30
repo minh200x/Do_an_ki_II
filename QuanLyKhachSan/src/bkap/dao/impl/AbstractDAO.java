@@ -11,8 +11,10 @@ import bkap.utils.SystemConstant;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -142,5 +144,59 @@ public class AbstractDAO<T> implements GenericDAO<T> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    private void setParameters(PreparedStatement ps, Object... parameters) {
+        try {
+            int index = 1;
+            for (Object param : parameters) {
+                ps.setObject(index, param);
+                index++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Integer insertReturnId(String sql, Object... parameters) {
+        ResultSet resultSet = null;
+        Connection conn = null;
+        PreparedStatement statement = null;
+
+        try {
+            Integer id = null;
+            conn = getConnect();
+            conn.setAutoCommit(false);
+            statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            setParameters(statement, parameters);
+            statement.executeUpdate();
+
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+            conn.commit();
+            return id;
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                    statement.close();
+                }
+            } catch (Exception e2) {
+                // TODO: handle exception
+            }
+        }
+        return null;
     }
 }

@@ -22,15 +22,15 @@ import javax.swing.table.DefaultTableModel;
  * @author hongb
  */
 public class CuponIF extends javax.swing.JInternalFrame {
-
+    
     private List<Cupon> listCupon;
     private CuponDAO cuponDAO = new CuponDAO();
-
+    
     private DefaultTableModel modelCupon;
-
+    
     private int indexSelected = 0;
     private int idCupon;
-
+    
     private String name;
     private String discount;
     private String maxQuantity;
@@ -45,13 +45,13 @@ public class CuponIF extends javax.swing.JInternalFrame {
      */
     public CuponIF() {
         initComponents();
-
+        cuponDAO.updateStatus();        
         listCupon = cuponDAO.findAll();
-
+        
         modelCupon = (DefaultTableModel) tblCupon.getModel();
-
+        
         setDataTable(modelCupon, listCupon);
-        setDataCombox();
+        setDataCombox();        
         
         if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
             btnAdd.setEnabled(false);
@@ -107,6 +107,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Ngày bắt đầu");
 
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_remove_20px.png"))); // NOI18N
         btnDelete.setText("Xóa");
         btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -115,6 +116,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_edit_20px.png"))); // NOI18N
         btnUpdate.setText("Sửa");
         btnUpdate.setEnabled(false);
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -123,6 +125,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_add_20px.png"))); // NOI18N
         btnAdd.setText("Thêm");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,6 +166,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
 
         jSeparator1.setBackground(new java.awt.Color(240, 240, 240));
 
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_search_20px.png"))); // NOI18N
         btnSearch.setText("Tìm kiếm");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,6 +193,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_refresh_20px.png"))); // NOI18N
         btnRefresh.setText("Làm mới");
         btnRefresh.setPreferredSize(new java.awt.Dimension(85, 25));
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
@@ -229,12 +234,12 @@ public class CuponIF extends javax.swing.JInternalFrame {
                                     .addComponent(txtMaxQuantity)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnDelete)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnUpdate)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnAdd)))
                         .addGap(0, 1, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -273,19 +278,21 @@ public class CuponIF extends javax.swing.JInternalFrame {
                     .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd)
-                    .addComponent(btnUpdate)
-                    .addComponent(btnDelete)
-                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAdd)
+                        .addComponent(btnUpdate)
+                        .addComponent(btnDelete)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbStatus, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSearch)
-                        .addComponent(txtKeySearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtKeySearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -317,7 +324,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
             Cupon c = setPropertiesForObject();
             cuponDAO.add(c);
             Utils.setMessageInformation(messageInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
-
+            
             setNullValueFields();
             listCupon = cuponDAO.findAll();
             setDataTable(modelCupon, listCupon);
@@ -329,9 +336,9 @@ public class CuponIF extends javax.swing.JInternalFrame {
         btnUpdate.setEnabled(true);
         btnDelete.setEnabled(true);
         btnAdd.setEnabled(false);
-
+        
         indexSelected = tblCupon.getSelectedRow();
-
+        
         if (indexSelected == -1) {
             Utils.setMessageInformation(messageInformation, SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
         } else {
@@ -342,16 +349,17 @@ public class CuponIF extends javax.swing.JInternalFrame {
             txtDiscount.setText(c.getDiscount() + "");
             txtStartDate.setDate(c.getStartDate());
             txtEndDate.setDate(c.getEndDate());
+            createdAt = c.getCreatedAt();
         }
     }//GEN-LAST:event_tblCuponMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_DELETE);
-
+        
         if (reply == 0) {
             cuponDAO.delete(idCupon);
             Utils.setMessageInformation(messageInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
-
+            
             setNullValueFields();
             listCupon = cuponDAO.findAll();
             setDataTable(modelCupon, listCupon);
@@ -360,14 +368,14 @@ public class CuponIF extends javax.swing.JInternalFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_UPDATE);
-
+        
         if (reply == 0) {
             getValueOfFields();
             if (checkValidate()) {
                 Cupon c = setPropertiesForObject();
                 cuponDAO.edit(c);
                 Utils.setMessageInformation(messageInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
-
+                
                 setNullValueFields();
                 listCupon = cuponDAO.findAll();
                 setDataTable(modelCupon, listCupon);
@@ -380,7 +388,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
         if (cbStatus.getSelectedItem().toString() == "Tất cả") {
             listCupon = cuponDAO.findAll();
             txtKeySearch.setText("Mã giảm giá");
-            txtKeySearch.setForeground(new Color(153,153,153));
+            txtKeySearch.setForeground(new Color(153, 153, 153));
         } else if (cbStatus.getSelectedItem().toString() == SystemConstant.STATUS_TXT_CUPON_ON && keySearch.equals("Mã giảm giá")) {
             listCupon = cuponDAO.findByStatus(SystemConstant.STATUS_CUPON_ON);
         } else if (cbStatus.getSelectedItem().toString() == SystemConstant.STATUS_TXT_CUPON_OFF && keySearch.equals("Mã giảm giá")) {
@@ -392,6 +400,11 @@ public class CuponIF extends javax.swing.JInternalFrame {
                 listCupon = cuponDAO.findByNameAndStatus(keySearch, SystemConstant.STATUS_CUPON_ON);
             }
         }
+        if (listCupon.isEmpty()) {
+            Utils.setMessageInformation(messageInformation, SystemConstant.ERROR_NO_RESULT, false);
+        } else {
+            messageInformation.setText("");
+        }
         setDataTable(modelCupon, listCupon);
     }//GEN-LAST:event_cbStatusItemStateChanged
 
@@ -401,7 +414,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         String keySearch = txtKeySearch.getText();
-        if (keySearch.isEmpty()) {
+        if (keySearch.equals("Mã giảm giá")) {
             Utils.setMessageInformation(messageInformation, "Vui lòng nhập mã phòng để tìm kiếm!", false);
         } else {
             listCupon = cuponDAO.findByName(keySearch);
@@ -415,7 +428,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
     private void txtKeySearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusLost
         if (txtKeySearch.getText().equals("")) {
             txtKeySearch.setText("Mã giảm giá");
-            txtKeySearch.setForeground(new Color(153,153,153));
+            txtKeySearch.setForeground(new Color(153, 153, 153));
         }
     }//GEN-LAST:event_txtKeySearchFocusLost
 
@@ -425,13 +438,13 @@ public class CuponIF extends javax.swing.JInternalFrame {
             txtKeySearch.setForeground(Color.black);
         }
     }//GEN-LAST:event_txtKeySearchFocusGained
-
+    
     private void setDataCombox() {
         cbStatus.addItem("Tất cả");
         cbStatus.addItem(SystemConstant.STATUS_TXT_CUPON_ON);
         cbStatus.addItem(SystemConstant.STATUS_TXT_CUPON_OFF);
     }
-
+    
     private void getValueOfFields() {
         name = txtNameCupon.getText();
         discount = txtDiscount.getText();
@@ -439,10 +452,10 @@ public class CuponIF extends javax.swing.JInternalFrame {
         startDate = txtStartDate.getDate();
         endDate = txtEndDate.getDate();
     }
-
+    
     private boolean checkValidate() {
         boolean check = false;
-
+        
         if (name.isEmpty()) {
             Utils.setMessageInformation(messageInformation, "Vui lòng nhập tên mã giảm giá!", false);
         } else if (startDate == null && endDate == null && maxQuantity.isEmpty()) {
@@ -454,7 +467,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
         }
         return check;
     }
-
+    
     private Cupon setPropertiesForObject() {
         Cupon c = new Cupon();
         c.setId(idCupon);
@@ -468,21 +481,21 @@ public class CuponIF extends javax.swing.JInternalFrame {
         c.setStatus(SystemConstant.STATUS_CUPON_ON);
         return c;
     }
-
+    
     private void setNullValueFields() {
         txtNameCupon.setText("");
         txtMaxQuantity.setText("");
         txtDiscount.setText("");
         txtStartDate.setDate(null);
         txtEndDate.setDate(null);
-
+        
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
         btnAdd.setEnabled(true);
         txtKeySearch.setText("Mã giảm giá");
         txtKeySearch.setForeground(new Color(153, 153, 153));
     }
-
+    
     private void setDataTable(DefaultTableModel model, List<Cupon> list) {
         model.setRowCount(0);
         for (Cupon c : list) {

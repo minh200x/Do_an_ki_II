@@ -17,9 +17,9 @@ import java.util.List;
 public class CheckinDetailsDAO extends AbstractDAO<CheckinDetails> implements ICheckinDetails {
 
     @Override
-    public void add(CheckinDetails c) {
-        String sql = "{call checkinDetails_insert(?,?,?,?,?,?,?,?)}";
-        insert(sql, c.getDetailId(), c.getCheckinId(), c.getRoomId(), c.getTotalServicePrice(), c.getPrice(), c.getStartDate(), c.getEndDate(), c.getStatus());
+    public Integer add(CheckinDetails c) {
+        String sql = "INSERT INTO tblCheckinDetails(detailId, checkinId, roomId, totalServicePrice, price, startDate, endDate, status) VALUES(?,?,?,?,?,?,?,?)";
+        return insertReturnId(sql, c.getDetailId(), c.getCheckinId(), c.getRoomId(), c.getTotalServicePrice(), c.getPrice(), c.getStartDate(), c.getEndDate(), c.getStatus());
     }
 
     @Override

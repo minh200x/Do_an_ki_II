@@ -102,8 +102,8 @@ public class RoomIF extends javax.swing.JInternalFrame {
         modeTablelRoom = (DefaultTableModel) tblRoom.getModel();
         modelTableProduct = (DefaultTableModel) tblProduct.getModel();
 
-        setComboxStatusRoom(cbModelStatusRoom);
-        setComboxStatusRoom(cbModelStatusRoomSearch);
+        setComboxStatusRoom();
+        setComboxStatusRoomSearch();
         setComboxStatusProduct();
         setDataCombox(cbModelProduct, listProduct);
         setDataCombox(cbModelCategoryRoom, listCategoryRoom);
@@ -210,6 +210,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Ảnh mô tả");
 
+        btnChooseImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_folder_20px.png"))); // NOI18N
         btnChooseImg.setText("Chọn ảnh");
         btnChooseImg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,6 +247,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tblRoom);
 
+        btnRefesh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_refresh_20px.png"))); // NOI18N
         btnRefesh.setText("Làm mới");
         btnRefesh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -253,6 +255,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnSearchRoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_search_20px.png"))); // NOI18N
         btnSearchRoom.setText("Tìm phòng");
         btnSearchRoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -317,12 +320,12 @@ public class RoomIF extends javax.swing.JInternalFrame {
                                 .addGap(565, 565, 565))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnRefesh)
-                                .addGap(72, 72, 72)
+                                .addGap(52, 52, 52)
                                 .addComponent(btnSearchRoom)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtKeySearchRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(cbStatusRoomSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbStatusRoomSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -368,10 +371,10 @@ public class RoomIF extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRefesh)
+                    .addComponent(txtKeySearchRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearchRoom)
-                    .addComponent(cbStatusRoomSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtKeySearchRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cbStatusRoomSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Thiết bị trong phòng"));
@@ -418,6 +421,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             tblProduct.getColumnModel().getColumn(2).setResizable(false);
         }
 
+        btnAddProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_add_20px.png"))); // NOI18N
         btnAddProduct.setText("Thêm thiết bị");
         btnAddProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -425,6 +429,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnDeleteProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_remove_20px.png"))); // NOI18N
         btnDeleteProduct.setText("Xóa thiết bị");
         btnDeleteProduct.setEnabled(false);
         btnDeleteProduct.setMaximumSize(new java.awt.Dimension(109, 25));
@@ -436,6 +441,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnUpdateProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_edit_20px.png"))); // NOI18N
         btnUpdateProduct.setText("Sửa thiết bị");
         btnUpdateProduct.setEnabled(false);
         btnUpdateProduct.addActionListener(new java.awt.event.ActionListener() {
@@ -444,6 +450,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnSearchModel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_search_20px.png"))); // NOI18N
         btnSearchModel.setText("Tìm model");
         btnSearchModel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -453,6 +460,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
         jSeparator1.setBackground(new java.awt.Color(204, 204, 255));
 
+        btnRefreshProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_refresh_20px.png"))); // NOI18N
         btnRefreshProduct.setText("Làm mới");
         btnRefreshProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -467,7 +475,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
+                    .addComponent(jSeparator1)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
@@ -478,7 +486,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
                             .addComponent(jScrollPane3)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(cbProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
                                 .addComponent(jLabel10)
                                 .addGap(18, 18, 18)
                                 .addComponent(cbStatusProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -486,18 +494,18 @@ public class RoomIF extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane4)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(btnRefreshProduct)
-                        .addGap(238, 238, 238)
-                        .addComponent(btnDeleteProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(188, 188, 188)
+                        .addComponent(btnDeleteProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnUpdateProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAddProduct))
                     .addComponent(msgForProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 378, Short.MAX_VALUE)
                         .addComponent(txtKeySearchModel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSearchModel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnSearchModel, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -517,21 +525,21 @@ public class RoomIF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDeleteProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnAddProduct)
-                        .addComponent(btnUpdateProduct))
+                        .addComponent(btnUpdateProduct)
+                        .addComponent(btnDeleteProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnRefreshProduct))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(msgForProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSearchModel)
-                    .addComponent(txtKeySearchModel))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnSearchModel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtKeySearchModel, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -541,7 +549,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 679, Short.MAX_VALUE)
+            .addGap(0, 713, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -554,6 +562,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnUpdateRoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_edit_20px.png"))); // NOI18N
         btnUpdateRoom.setText("Lưu");
         btnUpdateRoom.setEnabled(false);
         btnUpdateRoom.addActionListener(new java.awt.event.ActionListener() {
@@ -562,6 +571,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnAddRoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_add_20px.png"))); // NOI18N
         btnAddRoom.setText("Thêm");
         btnAddRoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -569,6 +579,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnDeleteRoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_remove_20px.png"))); // NOI18N
         btnDeleteRoom.setText("Xóa");
         btnDeleteRoom.setEnabled(false);
         btnDeleteRoom.addActionListener(new java.awt.event.ActionListener() {
@@ -587,15 +598,15 @@ public class RoomIF extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(msgInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(310, 310, 310)
+                        .addGap(327, 327, 327)
                         .addComponent(btnDeleteRoom)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnUpdateRoom)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddRoom))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(25, 25, 25))
         );
@@ -918,7 +929,9 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
     private void cbStatusRoomSearchItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbStatusRoomSearchItemStateChanged
         String keySearchRoomStatus = cbStatusRoomSearch.getSelectedItem().toString();
-        if (keySearchRoomStatus.equals(SystemConstant.STATUS_TXT_ROOM_EMPTY)) {
+        if (keySearchRoomStatus.equals("Tất cả")) {
+            listRoom = roomDAO.findAll();
+        } else if (keySearchRoomStatus.equals(SystemConstant.STATUS_TXT_ROOM_EMPTY)) {
             listRoom = roomDAO.findByStatus(SystemConstant.STATUS_ROOM_EMPTY);
         } else if (keySearchRoomStatus.equals(SystemConstant.STATUS_TXT_ROOM_USING)) {
             listRoom = roomDAO.findByStatus(SystemConstant.STATUS_ROOM_USING);
@@ -929,9 +942,9 @@ public class RoomIF extends javax.swing.JInternalFrame {
         if (listRoom.isEmpty()) {
             Utils.setMessageInformation(msgInformation, "Không tìm thấy phòng!", false);
         } else {
-            msgInformation.setText("");
-            setDataTable(modeTablelRoom, listRoom);
+            msgInformation.setText("");            
         }
+        setDataTable(modeTablelRoom, listRoom);
     }//GEN-LAST:event_cbStatusRoomSearchItemStateChanged
 
     private boolean checkValidate() {
@@ -1058,12 +1071,19 @@ public class RoomIF extends javax.swing.JInternalFrame {
         return null;
     }
 
-    private void setComboxStatusRoom(DefaultComboBoxModel comboxModel) {
-        comboxModel.addElement(SystemConstant.STATUS_TXT_ROOM_EMPTY);
-        comboxModel.addElement(SystemConstant.STATUS_TXT_ROOM_USING);
-        comboxModel.addElement(SystemConstant.STATUS_TXT_ROOM_REPAIRING);
+    private void setComboxStatusRoom() {
+        cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_EMPTY);
+        cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_USING);
+        cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_REPAIRING);
     }
 
+    private void setComboxStatusRoomSearch() {
+        cbModelStatusRoomSearch.addElement("Tất cả");
+        cbModelStatusRoomSearch.addElement(SystemConstant.STATUS_TXT_ROOM_EMPTY);
+        cbModelStatusRoomSearch.addElement(SystemConstant.STATUS_TXT_ROOM_USING);
+        cbModelStatusRoomSearch.addElement(SystemConstant.STATUS_TXT_ROOM_REPAIRING);
+    }
+    
     private void setComboxStatusProduct() {
         cbModelStatusProduct.addElement(SystemConstant.STATUS_TXT_PRODUCT_NORMAL);
         cbModelStatusProduct.addElement(SystemConstant.STATUS_TXT_PRODUCT_ABNORMAL);

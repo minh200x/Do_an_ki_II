@@ -39,5 +39,11 @@ public class ServiceDAO extends AbstractDAO<Service> implements IService{
         String sql = "{call service_findAll()}";
         return query(sql, new ServiceMapper());
     }
+
+    @Override
+    public List<Service> findByName(String name) {
+        String sql = "{call service_findByName(?)}";
+        return query(sql, new ServiceMapper(), name);
+    }
     
 }

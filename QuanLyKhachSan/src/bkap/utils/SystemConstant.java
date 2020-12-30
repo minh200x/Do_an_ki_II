@@ -16,8 +16,12 @@ public class SystemConstant {
     public final static String username = "sa";
     public final static String password = "1234$";
     
+    public final static String SECRET_KEY = "QLKS";
+    
     public final static boolean GENDER_FEMALE = true;
     public final static boolean GENDER_MALE = false;
+    public final static String GENDER_TXT_MALE = "Nam";
+    public final static String GENDER_TXT_FEMALE = "Nữ";
     
     public final static String STATUS_TXT_ROOM_EMPTY = "Trống";
     public final static String STATUS_TXT_ROOM_USING = "Có khách";

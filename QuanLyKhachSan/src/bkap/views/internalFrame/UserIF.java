@@ -9,8 +9,10 @@ import bkap.dao.impl.LevelDAO;
 import bkap.dao.impl.UserDAO;
 import bkap.model.Level;
 import bkap.model.User;
+import bkap.utils.Security;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
+import bkap.views.LoginDialog;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
@@ -36,24 +38,23 @@ import javax.swing.table.DefaultTableModel;
  * @author hongb
  */
 public class UserIF extends javax.swing.JInternalFrame {
-    
+
     private UserDAO userDAO = new UserDAO();
     private LevelDAO levelDAO = new LevelDAO();
-    
+
     private List<User> listUser;
     private List<Level> listLevel;
-    
+
     private DefaultTableModel modelUser;
     private DefaultComboBoxModel cbModelLevel;
-    
+
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-    
-    private int userId = 0;
-    private String nameImg = "";
+
+    private int userId;
     private String pathDirImage = "src\\bkap\\images\\users\\";
     private String pathFileImage = "";
     private File fileImg = null;
-    
+
     private String fullname;
     private String username;
     private String password;
@@ -71,13 +72,13 @@ public class UserIF extends javax.swing.JInternalFrame {
      */
     public UserIF() {
         initComponents();
-        
+
         listUser = userDAO.findAll();
         listLevel = levelDAO.findAll();
-        
+
         modelUser = (DefaultTableModel) tblUser.getModel();
         cbModelLevel = (DefaultComboBoxModel) cbLevel.getModel();
-        
+
         setComboxModelLevel(listLevel);
         setDataTable(listUser);
     }
@@ -125,6 +126,7 @@ public class UserIF extends javax.swing.JInternalFrame {
         txtStartDate = new com.toedter.calendar.JDateChooser();
         txtEndDate = new com.toedter.calendar.JDateChooser();
         btnRefresh = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblUser = new javax.swing.JTable();
@@ -153,6 +155,7 @@ public class UserIF extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Ảnh đại diện");
 
+        btnChooseImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_folder_20px.png"))); // NOI18N
         btnChooseImage.setText("Chọn ảnh");
         btnChooseImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,6 +185,7 @@ public class UserIF extends javax.swing.JInternalFrame {
 
         jLabel13.setText("Ngày nghỉ");
 
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_edit_20px.png"))); // NOI18N
         btnUpdate.setText("Sửa");
         btnUpdate.setEnabled(false);
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -190,6 +194,7 @@ public class UserIF extends javax.swing.JInternalFrame {
             }
         });
 
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_add_20px.png"))); // NOI18N
         btnAdd.setText("Thêm");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,10 +210,20 @@ public class UserIF extends javax.swing.JInternalFrame {
 
         txtEndDate.setDateFormatString("dd-MM-yyyy");
 
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_refresh_20px.png"))); // NOI18N
         btnRefresh.setText("Làm mới");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRefreshActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_remove_20px.png"))); // NOI18N
+        btnDelete.setText("Xóa");
+        btnDelete.setEnabled(false);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
             }
         });
 
@@ -241,7 +256,9 @@ public class UserIF extends javax.swing.JInternalFrame {
                                         .addComponent(optionMale)
                                         .addGap(18, 18, 18)
                                         .addComponent(optionFemail)
-                                        .addGap(0, 336, Short.MAX_VALUE))
+                                        .addGap(192, 192, 192)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(txtStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(18, 18, 18)
@@ -257,24 +274,22 @@ public class UserIF extends javax.swing.JInternalFrame {
                                     .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtFullname, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnChooseImage)
+                                        .addGap(53, 53, 53))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(10, 10, 10)
-                                                .addComponent(jLabel7))
-                                            .addComponent(btnChooseImage))
-                                        .addGap(68, 68, 68))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(containImg, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(47, 47, 47))))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                                        .addComponent(containImg, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap(41, Short.MAX_VALUE))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnRefresh)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnUpdate)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAdd)
                         .addContainerGap())
                     .addComponent(msgInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -310,11 +325,11 @@ public class UserIF extends javax.swing.JInternalFrame {
                         .addComponent(btnChooseImage)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel9)
                         .addComponent(optionMale)
-                        .addComponent(optionFemail)))
+                        .addComponent(optionFemail))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
@@ -345,9 +360,10 @@ public class UserIF extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAdd)
                             .addComponent(btnUpdate)
-                            .addComponent(btnRefresh)))
+                            .addComponent(btnRefresh)
+                            .addComponent(btnDelete)))
                     .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -359,7 +375,15 @@ public class UserIF extends javax.swing.JInternalFrame {
             new String [] {
                 "Họ và tên", "Username", "Chức vụ", "Số điện thoại", "Giới tính"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblUserMouseClicked(evt);
@@ -367,6 +391,7 @@ public class UserIF extends javax.swing.JInternalFrame {
         });
         jScrollPane3.setViewportView(tblUser);
 
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_search_20px.png"))); // NOI18N
         btnSearch.setText("Tìm kiếm");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -391,9 +416,9 @@ public class UserIF extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(36, 36, 36)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnSearch)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -405,8 +430,8 @@ public class UserIF extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSearch)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtKeySearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -436,10 +461,10 @@ public class UserIF extends javax.swing.JInternalFrame {
     private void btnChooseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImageActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("jpeg", "jpg", "png");
-        
+
         fileChooser.setFileFilter(imgFilter);
         fileChooser.setMultiSelectionEnabled(false);
-        
+
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             fileImg = fileChooser.getSelectedFile();
             pathFileImage = fileImg.getAbsolutePath();
@@ -448,9 +473,8 @@ public class UserIF extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnChooseImageActionPerformed
 
+
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        getValueOfFields();
-        
         if (checkValidate()) {
             User u = setPropertiesForObject();
             saveImage();
@@ -461,64 +485,56 @@ public class UserIF extends javax.swing.JInternalFrame {
             setDataTable(listUser);
         }
     }//GEN-LAST:event_btnAddActionPerformed
-    
+
 
     private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
-        btnAdd.setEnabled(false);
-        btnUpdate.setEnabled(true);
-        
         int indexSelected = tblUser.getSelectedRow();
-        
         User u = listUser.get(indexSelected);
         userId = u.getId();
         txtFullname.setText(u.getFullname());
-        txtPhone.setText(u.getPhone());
         txtUsername.setText(u.getUsername());
-        txtPassword.setText(u.getPassword());
-        txtDescript.setText(u.getDescript());
+        txtPhone.setText(u.getPhone());
+        txtPassword.setText(Security.decrypt(u.getPassword(), SystemConstant.SECRET_KEY));
         txtAddress.setText(u.getAddress());
-        
+        txtDescript.setText(u.getDescript());
+        txtBirthday.setDate(u.getBirthday());
+        txtStartDate.setDate(u.getStartDate());
+        txtEndDate.setDate(u.getEndDate());
+        image = u.getImage();
+        Utils.setImage(containImg, image);
+        for (Level level : listLevel) {
+            if (level.getId() == u.getLevelId()) {
+                cbLevel.setSelectedItem(level.getName());
+            }
+        }
         if (u.isGender() == SystemConstant.GENDER_FEMALE) {
             optionFemail.setSelected(true);
         } else {
             optionMale.setSelected(true);
         }
         
-        for (Level l : listLevel) {
-            if (l.getId() == u.getLevelId()) {
-                cbLevel.setSelectedItem(l.getName());
-            }
-        }
-        
-        txtBirthday.setDate(u.getBirthday());
-        txtStartDate.setDate(u.getStartDate());
-        txtEndDate.setDate(u.getEndDate());
-
-        // set image avatar
-        Utils.setImage(containImg, u.getImage());
+        btnAdd.setEnabled(false);
+        btnUpdate.setEnabled(true);
+        btnDelete.setEnabled(true);
+        msgInformation.setText("");
     }//GEN-LAST:event_tblUserMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_UPDATE);
-        
-        if (reply == 0) {            
-            getValueOfFields();
-            if (checkValidate()) {                
-                saveImage();
-                User u = setPropertiesForObject();                
-                userDAO.edit(u);
-                Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
-                setNullValueFields();
-                listUser = userDAO.findAll();
-                setDataTable(listUser);
-            }
+        if (checkValidate()) {
+            saveImage();
+            User u = setPropertiesForObject();            
+            userDAO.edit(u);
+            Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            setNullValueFields();
+            listUser = userDAO.findAll();
+            setDataTable(listUser);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         String keySearch = txtKeySearch.getText();
         listUser = userDAO.findByPhone(keySearch);
-        if (listUser.isEmpty()) {
+        if (listUser.equals("Họ tên, username, sdt")) {
             Utils.setMessageInformation(msgInformation, SystemConstant.ERROR_NO_RESULT, false);
             listUser = userDAO.findByFullname(keySearch);
             if (listUser.isEmpty()) {
@@ -528,16 +544,15 @@ public class UserIF extends javax.swing.JInternalFrame {
                     Utils.setMessageInformation(msgInformation, SystemConstant.ERROR_NO_RESULT, false);
                 }
             }
-        } else {
-            msgInformation.setText("");
-            setDataTable(listUser);
-        }        
+        }
+        setDataTable(listUser);
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         setNullValueFields();
         txtKeySearch.setText("Họ tên, username, sdt");
-        txtKeySearch.setForeground(new Color(153,153,153));
+        txtKeySearch.setForeground(new Color(153, 153, 153));
+        msgInformation.setText("");
         btnAdd.setEnabled(true);
         btnUpdate.setEnabled(false);
         listUser = userDAO.findAll();
@@ -554,17 +569,33 @@ public class UserIF extends javax.swing.JInternalFrame {
     private void txtKeySearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusLost
         if (txtKeySearch.getText().equals("")) {
             txtKeySearch.setText("Họ tên, username, sdt");
-            txtKeySearch.setForeground(new Color(153,153,153));
+            txtKeySearch.setForeground(new Color(153, 153, 153));
         }
     }//GEN-LAST:event_txtKeySearchFocusLost
-    
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int indexSelected = tblUser.getSelectedRow();
+        if (indexSelected == -1) {
+            Utils.setMessageInformation(msgInformation, SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
+        } else {
+            int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_DELETE);
+            if (reply == 0) {
+                userDAO.delete(userId);
+                Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+                setNullValueFields();
+                listUser = userDAO.findAll();
+                setDataTable(listUser);
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     private boolean checkValidate() {
         boolean check = false;
         getValueOfFields();
-        
+
         if (fullname.isEmpty()) {
             Utils.setMessageInformation(msgInformation, "Vui lòng nhập họ và tên!", false);
-        } else if (!fullname.matches("^[a-zA-Z\\s]+$")) {
+        } else if (!fullname.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")) {
             Utils.setMessageInformation(msgInformation, "Vui lòng họ tên không nhập kí tự đặc biệt!", false);
         } else if (username.isEmpty()) {
             Utils.setMessageInformation(msgInformation, "Vui lòng nhập tên tài khoản!", false);
@@ -578,26 +609,26 @@ public class UserIF extends javax.swing.JInternalFrame {
             Utils.setMessageInformation(msgInformation, "Vui lòng chọn giới tính!", false);
         } else if (startDate == null) {
             Utils.setMessageInformation(msgInformation, "Vui lòng chọn ngày bắt đầu! ", false);
-        } else if (startDate.before(endDate)) {
+        } else if (endDate != null && startDate.after(endDate)) {
             Utils.setMessageInformation(msgInformation, "Vui lòng không chọn ngày nghỉ trước ngày bắt đầu làm việc!", false);
         } else {
             check = true;
         }
         return check;
     }
-    
+
     private void setComboxModelLevel(List<Level> list) {
         for (Level l : list) {
             cbLevel.addItem(l.getName());
         }
     }
-    
+
     private User setPropertiesForObject() {
         User u = new User();
         u.setId(userId);
         u.setFullname(fullname);
         u.setUsername(username);
-        u.setPassword(password);
+        u.setPassword(Security.encrypt(password, SystemConstant.SECRET_KEY));
         u.setPhone(phone);
         for (Level l : listLevel) {
             if (l.getName().equals(levelName)) {
@@ -605,7 +636,7 @@ public class UserIF extends javax.swing.JInternalFrame {
             }
         }
         u.setAddress(address);
-        u.setImage(pathDirImage + image);
+        u.setImage(image);
         if (optionFemail.isSelected()) {
             u.setGender(SystemConstant.GENDER_FEMALE);
         } else {
@@ -615,10 +646,10 @@ public class UserIF extends javax.swing.JInternalFrame {
         u.setDescript(descript);
         u.setStartDate(startDate);
         u.setEndDate(endDate);
-        
+
         return u;
     }
-    
+
     private void getValueOfFields() {
         fullname = txtFullname.getText();
         username = txtUsername.getText();
@@ -627,16 +658,12 @@ public class UserIF extends javax.swing.JInternalFrame {
         levelName = cbLevel.getSelectedItem().toString();
         address = txtAddress.getText();
         descript = txtDescript.getText();
-        
         birthday = txtBirthday.getDate();
         startDate = txtStartDate.getDate();
         endDate = txtEndDate.getDate();
     }
-    
+
     private void setNullValueFields() {
-        btnAdd.setEnabled(true);
-        btnUpdate.setEnabled(false);
-        
         txtFullname.setText("");
         txtUsername.setText("");
         txtPhone.setText("");
@@ -647,34 +674,41 @@ public class UserIF extends javax.swing.JInternalFrame {
         txtBirthday.setDate(null);
         txtStartDate.setDate(null);
         txtEndDate.setDate(null);
-        
-        nameImg = "";
-        Utils.setImage(containImg, nameImg);
+        pathFileImage = "";
+        image = "";
+        Utils.setImage(containImg, image);
+
+        btnAdd.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        if (LoginDialog.levelUser == SystemConstant.LEVEL_ADMIN) {
+            btnDelete.setEnabled(false);
+        }
     }
-    
+
     private void saveImage() {
-        File dir = new File(pathDirImage);
-        if (dir.exists()) {
-            Path sourceDirectory = Paths.get(pathFileImage);
-            Path targetDirectory = Paths.get(pathDirImage + sourceDirectory.getFileName());
-            nameImg = sourceDirectory.getFileName().toString();
-            image = nameImg;
-            try {
-                //copy source to target using Files Class
-                Files.copy(sourceDirectory, targetDirectory, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException ex) {
-                Logger.getLogger(UserIF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        if (!pathFileImage.isEmpty()) {
+            File dir = new File(pathDirImage);
+            if (dir.exists()) {
+                Path sourceDirectory = Paths.get(pathFileImage);
+                Path targetDirectory = Paths.get(pathDirImage + sourceDirectory.getFileName());
+                image = pathDirImage + sourceDirectory.getFileName().toString();
+                try {
+                    //copy source to target using Files Class
+                    Files.copy(sourceDirectory, targetDirectory, StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                    Logger.getLogger(UserIF.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
             }
         }
     }
-    
+
     private void setDataTable(List<User> users) {
         modelUser.setRowCount(0);
         for (User u : users) {
             for (Level level : listLevel) {
                 if (level.getId() == u.getLevelId()) {
                     modelUser.addRow(new Object[]{
-                        u.getFullname(), u.getUsername(), level.getName(), u.getPhone(), u.isGender() == SystemConstant.GENDER_MALE ? "Nam" : "Nữ"
+                        u.getFullname(), u.getUsername(), level.getName(), u.getPhone(), u.isGender() == SystemConstant.GENDER_MALE ? SystemConstant.GENDER_TXT_MALE : SystemConstant.GENDER_TXT_FEMALE
                     });
                 }
             }
@@ -685,6 +719,7 @@ public class UserIF extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnChooseImage;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;

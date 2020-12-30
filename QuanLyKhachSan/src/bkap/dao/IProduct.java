@@ -17,4 +17,5 @@ public interface IProduct extends GenericDAO<Product>{
     void edit(Product p);
     void delete(int proId);
     List<Product> findAll();
+    List<Product> findByName(String name);
 }

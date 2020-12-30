@@ -30,13 +30,6 @@ ADD UNIQUE (roomId);
 go
 
 
-INSERT INTO tblRoom(typeId, image, descript, status) VALUES(1, null, null, 0)
-INSERT INTO tblRoom(typeId, image, descript, status) VALUES(1, null, null, 2)
-INSERT INTO tblRoom(typeId, image, descript, status) VALUES(2, null, 'view dep', 1)
-INSERT INTO tblRoom(typeId, image, descript, status) VALUES(2, null, null, 0)
-INSERT INTO tblRoom(typeId, image, descript, status) VALUES(1, null, null, 0)
-
-
 
 
 -----------
@@ -75,8 +68,8 @@ create table tblUser(
 go
 
 
-INSERT INTO tblUser(username, password, levelId, fullname, startDate, endDate) VALUES('congTua', '123456', 2, 'Công Chúa', GETDATE(), GETDATE())
-INSERT INTO tblUser(username, password, levelId, fullname, startDate, endDate) VALUES('hoangTu', '123456', 2, 'Hoàng Tử', GETDATE(), GETDATE())
+INSERT INTO tblUser(username, password, levelId, fullname, startDate, endDate) VALUES('congTua', '123456', 1, 'Công Chúa', GETDATE(), GETDATE())
+INSERT INTO tblUser(username, password, levelId, fullname, startDate, endDate) VALUES('hoangTu', '123456', 1, 'Hoàng Tử', GETDATE(), GETDATE())
 
 
 
@@ -242,6 +235,14 @@ begin
 end
 go
 
+create proc categoryService_findByName(@name nvarchar(255))
+as
+begin
+	select * from tblCategoryService where name like '%' + @name + '%'
+end
+go 
+
+
 
 -- PROC tblUser
 
@@ -317,7 +318,7 @@ go
 create proc user_findByFullname(@fullname nvarchar(255))
 as
 begin
-	select * from tblUser where username like '%' + @fullname + '%'
+	select * from tblUser where fullname like '%' + @fullname + '%'
 end
 go
 
@@ -328,6 +329,23 @@ begin
 	select * from tblUser where username like '%' + @phone + '%'
 end
 go
+
+
+create proc user_updateAccount(@id int,
+								@fullname nvarchar(255),
+								@phone nvarchar(255),
+								@username nvarchar(255),
+								@password nvarchar(255),
+								@address nvarchar(255),
+								@gender bit,
+								@birthday date)
+as
+begin
+	update tblUser set fullname=@fullname, username=@username, phone=@phone, password=@password, address=@address, gender=@gender, birthday=@birthday
+	where id=@id
+end
+go
+					
 
 
 
@@ -408,6 +426,14 @@ create proc product_findAll
 as
 begin
 	select * from tblProduct
+end
+go
+
+
+create proc product_findByName(@name nvarchar(255))
+as
+begin
+	select * from tblProduct where name like '%' + @name + '%'
 end
 go
 
@@ -558,20 +584,15 @@ end
 go
 
 
--- PROC tblCheckin
-
-create proc checkin_insert(@cusPhone nvarchar(255),
-							@totalPeople int,
-							@cuponId int,
-							@totalMoney float,
-							@totalServicePrice float,
-							@descript text)
-as
+create proc cupon_updateStatus(@id int, @status int)
+as	
 begin
-	insert into tblCheckin(cusPhone, totalPeople, cuponId, totalMoney, totalServicePrice, descript)
-	values(@cusPhone, @totalPeople, @cuponId, @totalMoney, @totalServicePrice, @descript)
+	update tblCupon set status=@status where id=@id
 end
 go
+
+
+-- PROC tblCheckin
 
 
 create proc checkin_delete(@id int)
@@ -632,6 +653,13 @@ begin
 end
 go
 
+create proc service_findByName(@name nvarchar(255))
+as
+begin
+	select * from tblService where name like '%' + @name + '%'
+end
+go
+
 
 
 
@@ -676,6 +704,13 @@ create proc level_findAll
 as
 begin
 	select * from tblLevel
+end
+go
+
+create proc level_findByName(@name nvarchar(255))
+as
+begin
+	select * from tblLevel where name like '%' + @name + '%'
 end
 go
 
@@ -737,6 +772,14 @@ end
 go
 
 
+create proc unit_findByName(@name nvarchar(255))
+as
+begin
+	select * from tblUnit where name like '%' + @name + '%'
+end
+go
+
+
 -- PROC tblCategoryRoom
 create proc categoryRoom_findAll
 as
@@ -772,6 +815,7 @@ begin
 	where id=@id
 end
 go
+
 
 create proc login(@username nvarchar(255), @password nvarchar(255))
 as
@@ -819,3 +863,7 @@ begin
 	select * from tblCheckoutProductDetails where model like '%' + @model + '%' and roomId=@roomId
 end
 go
+
+
+
+

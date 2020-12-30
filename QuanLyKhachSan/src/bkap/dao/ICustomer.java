@@ -13,7 +13,7 @@ import java.util.List;
  * @author THUY
  */
 public interface ICustomer extends GenericDAO<Customer>{
-    void add(Customer cus);
+    Integer add(Customer cus);
     void edit(Customer cus);
     void delete(String phone);
     List<Customer> findAll();

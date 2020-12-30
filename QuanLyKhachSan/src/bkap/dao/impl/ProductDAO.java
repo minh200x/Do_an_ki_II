@@ -39,5 +39,11 @@ public class ProductDAO extends AbstractDAO<Product> implements IProduct{
         String sql = "{call product_findAll()}";
         return query(sql, new ProductMapper());
     }
+
+    @Override
+    public List<Product> findByName(String name) {
+        String sql = "{call product_findByName(?)}";
+        return query(sql, new ProductMapper(), name);
+    }
     
 }

@@ -17,4 +17,5 @@ public interface ICategoryService extends GenericDAO<CategoryService>{
     void delete(int id);
     void edit(CategoryService c);
     List<CategoryService> findAll();
+    List<CategoryService> findByName(String name);
 }

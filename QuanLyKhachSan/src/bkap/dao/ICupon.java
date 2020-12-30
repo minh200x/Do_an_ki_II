@@ -16,6 +16,7 @@ public interface ICupon extends GenericDAO<Cupon>{
     void add(Cupon c);
     void delete(int id);
     void edit(Cupon c);
+    void updateStatus();
     List<Cupon> findAll();
     List<Cupon> findByName(String name);
     List<Cupon> findByStatus(int status);
