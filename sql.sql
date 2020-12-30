@@ -68,10 +68,10 @@ create table tblUser(
 go
 
 
-INSERT INTO tblUser(username, password, levelId, fullname, startDate, endDate) VALUES('congTua', '123456', 1, 'Công Chúa', GETDATE(), GETDATE())
-INSERT INTO tblUser(username, password, levelId, fullname, startDate, endDate) VALUES('hoangTu', '123456', 1, 'Hoàng Tử', GETDATE(), GETDATE())
+INSERT INTO tblUser(username, password, levelId, fullname, startDate, endDate) VALUES('congTua', 'M4eVH2Lgi1LYEwcoqLjUGw==', 1, 'Công Chúa', GETDATE(), GETDATE())
+INSERT INTO tblUser(username, password, levelId, fullname, startDate, endDate) VALUES('hoangTu', 'M4eVH2Lgi1LYEwcoqLjUGw==', 1, 'Hoàng Tử', GETDATE(), GETDATE())
 
-
+/*  M4eVH2Lgi1LYEwcoqLjUGw== (123456)*/
 
 -----------
 -----------
@@ -809,9 +809,7 @@ begin
 end
 go
 
-<<<<<<< HEAD
 
-=======
 create proc category_findByCateRoomId(@id int)
 as
 begin
@@ -821,7 +819,6 @@ go
 
 
 -- Login/ Logout
->>>>>>> 95f32277e8f6615b506a37989928f6b7af79cd9f
 create proc login(@username nvarchar(255), @password nvarchar(255))
 as
 begin 
