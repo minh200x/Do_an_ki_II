@@ -22,6 +22,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -42,15 +43,15 @@ public class MainJFrame extends javax.swing.JFrame {
         setCss();
 //        initComponents();
         showLogin();
-        
+
         if (LoginDialog.levelUser == SystemConstant.LEVEL_ADMIN) {
-             
+
         } else if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
-            jMenuItem5.setEnabled(false);
-            jMenuItem7.setEnabled(false);
-            jMenuItem9.setEnabled(false);
-            jMenuItem10.setEnabled(false);
-            jMenuItem11.setEnabled(false);
+            mnUnit.setEnabled(false);
+            mnLevel.setEnabled(false);
+            mnEmployee.setEnabled(false);
+            mnCatService.setEnabled(false);
+            mnCatProduct.setEnabled(false);
         }
     }
 
@@ -75,7 +76,7 @@ public class MainJFrame extends javax.swing.JFrame {
         }
         return false;
     }
-    
+
     public void setCss() {
         ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("bkap/images/logo.png")); // load the image to a imageIcon 
         Image image = imageIcon.getImage(); // transform it 
@@ -102,17 +103,16 @@ public class MainJFrame extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        mnRoom = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
+        mnCatRoom = new javax.swing.JMenuItem();
+        mnCatService = new javax.swing.JMenuItem();
+        mnUnit = new javax.swing.JMenuItem();
+        mnCupon = new javax.swing.JMenuItem();
+        mnLevel = new javax.swing.JMenuItem();
+        mnEmployee = new javax.swing.JMenuItem();
+        mnCatProduct = new javax.swing.JMenuItem();
+        mnAccount = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         btnLogout = new javax.swing.JMenu();
@@ -160,13 +160,13 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jMenu4.setText("Quản lý hệ thống");
 
-        jMenuItem1.setText("Phòng");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        mnRoom.setText("Phòng");
+        mnRoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                mnRoomActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem1);
+        jMenu4.add(mnRoom);
 
         jMenuItem2.setText("Menu / Dịch vụ");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -176,77 +176,69 @@ public class MainJFrame extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem2);
 
-        jMenuItem3.setText("Loại phòng");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        mnCatRoom.setText("Loại phòng");
+        mnCatRoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                mnCatRoomActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem3);
+        jMenu4.add(mnCatRoom);
 
-        jMenuItem4.setText("Loại dịch vụ");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        mnCatService.setText("Loại dịch vụ");
+        mnCatService.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                mnCatServiceActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem4);
+        jMenu4.add(mnCatService);
 
-        jMenuItem5.setText("Đơn vị");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        mnUnit.setText("Đơn vị");
+        mnUnit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                mnUnitActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem5);
+        jMenu4.add(mnUnit);
 
-        jMenuItem6.setText("Mã giảm giá");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        mnCupon.setText("Mã giảm giá");
+        mnCupon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                mnCuponActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem6);
+        jMenu4.add(mnCupon);
 
-        jMenuItem7.setText("Chức vụ");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        mnLevel.setText("Chức vụ");
+        mnLevel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                mnLevelActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem7);
+        jMenu4.add(mnLevel);
 
-        jMenuItem9.setText("Nhân viên");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+        mnEmployee.setText("Nhân viên");
+        mnEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
+                mnEmployeeActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem9);
+        jMenu4.add(mnEmployee);
 
-        jMenuItem10.setText("Dịch vụ");
-        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+        mnCatProduct.setText("Danh mục thiết bị");
+        mnCatProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem10ActionPerformed(evt);
+                mnCatProductActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem10);
+        jMenu4.add(mnCatProduct);
 
-        jMenuItem11.setText("Danh mục thiết bị");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+        mnAccount.setText("Tài khoản");
+        mnAccount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed(evt);
+                mnAccountActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem11);
-
-        jMenuItem12.setText("Tài khoản");
-        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem12ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem12);
+        jMenu4.add(mnAccount);
 
         jMenuBar1.add(jMenu4);
 
@@ -263,6 +255,11 @@ public class MainJFrame extends javax.swing.JFrame {
         jMenuBar1.add(jMenu6);
 
         btnLogout.setText("Đăng xuất");
+        btnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLogoutMouseClicked(evt);
+            }
+        });
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogoutActionPerformed(evt);
@@ -290,13 +287,13 @@ public class MainJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void mnRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnRoomActionPerformed
         // TODO add your handling code here:
         room = new RoomIF();
         dkpMain.add(room);
         room.setVisible(true);
         room.validate();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_mnRoomActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
@@ -306,45 +303,45 @@ public class MainJFrame extends javax.swing.JFrame {
         service.validate();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void mnCatRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCatRoomActionPerformed
         // TODO add your handling code here:
         CategoryRoomIF categoryRoom = new CategoryRoomIF();
         dkpMain.add(categoryRoom);
         categoryRoom.setVisible(true);
         categoryRoom.validate();
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_mnCatRoomActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void mnCatServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCatServiceActionPerformed
         // TODO add your handling code here:
         CategoryServiceIF categoryService = new CategoryServiceIF();
         dkpMain.add(categoryService);
         categoryService.setVisible(true);
         categoryService.validate();
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_mnCatServiceActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void mnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnUnitActionPerformed
         // TODO add your handling code here:
         UnitIF unit = new UnitIF();
         dkpMain.add(unit);
         unit.setVisible(true);
         unit.validate();
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_mnUnitActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    private void mnCuponActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCuponActionPerformed
         // TODO add your handling code here:
         CuponIF cupon = new CuponIF();
         dkpMain.add(cupon);
         cupon.setVisible(true);
         cupon.validate();
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_mnCuponActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+    private void mnLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnLevelActionPerformed
         // TODO add your handling code here:
         LevelIF level = new LevelIF();
         dkpMain.add(level);
         level.setVisible(true);
         level.validate();
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    }//GEN-LAST:event_mnLevelActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         // TODO add your handling code here:
@@ -354,13 +351,13 @@ public class MainJFrame extends javax.swing.JFrame {
         cus.validate();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+    private void mnEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnEmployeeActionPerformed
         // TODO add your handling code here:
         UserIF user = new UserIF();
         dkpMain.add(user);
         user.setVisible(true);
         user.validate();
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
+    }//GEN-LAST:event_mnEmployeeActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -370,35 +367,27 @@ public class MainJFrame extends javax.swing.JFrame {
         bookRoom.validate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-//        // TODO add your handling code here:
-        ServiceIF s = new ServiceIF();
-        dkpMain.add(s);
-        s.setVisible(true);
-        s.validate();
-    }//GEN-LAST:event_jMenuItem10ActionPerformed
-
-    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+    private void mnCatProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCatProductActionPerformed
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jMenuItem11ActionPerformed
+        CategoryServiceIF c = new CategoryServiceIF();
+        dkpMain.add(c);
+        c.setVisible(true);
+        c.validate();
+
+    }//GEN-LAST:event_mnCatProductActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        LoginDialog loginForm = new LoginDialog(this, true);
-        this.setVisible(false);
-        loginForm.setVisible(true);
-        loginForm.validate();
-        userDao.isLogin(false, userName);
+
     }//GEN-LAST:event_btnLogoutActionPerformed
 
 
-    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+    private void mnAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAccountActionPerformed
         // TODO add your handling code here:
         AccountDetailsIF acc = new AccountDetailsIF();
         dkpMain.add(acc);
         acc.setVisible(true);
         acc.validate();
-    }//GEN-LAST:event_jMenuItem12ActionPerformed
+    }//GEN-LAST:event_mnAccountActionPerformed
 
     private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
         // TODO add your handling code here:
@@ -408,6 +397,13 @@ public class MainJFrame extends javax.swing.JFrame {
         bookRoom.validate();
     }//GEN-LAST:event_jMenu3MouseClicked
 
+    private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
+        // TODO add your handling code here:
+        userDao.isLogin(false, userName);
+        this.dispose();
+        MainJFrame main = new MainJFrame();
+        main.setVisible(true);
+    }//GEN-LAST:event_btnLogoutMouseClicked
 
     /**
      * @param args the command line arguments
@@ -455,18 +451,17 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenuItem mnAccount;
+    private javax.swing.JMenuItem mnCatProduct;
+    private javax.swing.JMenuItem mnCatRoom;
+    private javax.swing.JMenuItem mnCatService;
+    private javax.swing.JMenuItem mnCupon;
+    private javax.swing.JMenuItem mnEmployee;
+    private javax.swing.JMenuItem mnLevel;
+    private javax.swing.JMenuItem mnRoom;
+    private javax.swing.JMenuItem mnUnit;
     // End of variables declaration//GEN-END:variables
 }

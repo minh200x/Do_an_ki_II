@@ -8,6 +8,11 @@ package bkap.dao.impl;
 import bkap.dao.ICustomer;
 import bkap.mapper.CustomerMapper;
 import bkap.model.Customer;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 
@@ -48,9 +53,54 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomer {
     }
 
     @Override
-    public Integer add(Customer c) {
+    public String add(Customer c) {
         String sql = "INSERT INTO tblCustomer(phone, fullname, email, address, gender, numIdentityCard, descript, createdAt, updatedAt)\n" +
 "	VALUES(?,?,?,?,?,?,?,?,?)";
-        return insertReturnId(sql, c.getPhone(), c.getFullname(), c.getEmail(), c.getAddress(), c.isGender(), c.getNumIdentityCard(), c.getDescript(), c.getCreatedAt(), c.getUpdatedAt());
-    }
+        ResultSet resultSet = null;
+        Connection conn = null;
+        PreparedStatement statement = null;
+
+        try {
+            String phone = null;
+            conn = getConnect();
+            conn.setAutoCommit(false);
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, c.getPhone());
+            statement.setString(2, c.getFullname());
+            statement.setString(3, c.getEmail());
+            statement.setString(4, c.getAddress());
+            statement.setBoolean(5, c.isGender());
+            statement.setString(6, c.getNumIdentityCard());
+            statement.setString(7, c.getDescript());
+            statement.setDate(8, (java.sql.Date) c.getCreatedAt());
+            statement.setDate(9, (java.sql.Date) c.getUpdatedAt());
+            statement.executeUpdate();
+
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                phone = resultSet.getString(1);
+            }
+            conn.commit();
+            return phone;
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                    statement.close();
+                }
+            } catch (Exception e2) {
+                // TODO: handle exception
+            }
+        }
+        return null;
+       }
 }

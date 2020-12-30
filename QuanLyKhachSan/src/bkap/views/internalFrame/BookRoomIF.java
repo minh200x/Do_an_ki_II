@@ -7,6 +7,7 @@ package bkap.views.internalFrame;
 
 import bkap.dao.impl.CategoryRoomDAO;
 import bkap.dao.impl.CheckinDAO;
+import bkap.dao.impl.CheckinDetailsDAO;
 import bkap.dao.impl.CuponDAO;
 import bkap.dao.impl.CustomerDAO;
 import bkap.dao.impl.RoomDAO;
@@ -36,6 +37,7 @@ import javax.swing.JOptionPane;
 public class BookRoomIF extends javax.swing.JInternalFrame {
 
     private CheckinDAO checkinDao = new CheckinDAO();
+    private CheckinDetailsDAO checkinDetailDao = new CheckinDetailsDAO();
     private CuponDAO cuponDao = new CuponDAO();
     private CustomerDAO cusDao = new CustomerDAO();
     private ServiceDAO serDao = new ServiceDAO();
@@ -46,7 +48,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     private Map<Integer, List<Integer>> listServiceSelected = new HashMap<Integer, List<Integer>>();
 
     private int idCheckin;
-    private int idCus;
     private int idService;
     private int idCheckinDetail;
     private int idCheckinSerDetail;
@@ -422,7 +423,14 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (checkValidate()) {
             Customer c = setPropertiesForObjectCustomer();
-//            cusDao.add(c);
+            phone = cusDao.add(c);
+            
+            Checkin checkin = setPropertiesForObjectCheckin();
+            idCheckin = checkinDao.add(checkin);
+            
+            CheckinDetails checkinDetail = setPropertiesForObjectCheckinDetails(idCheckin);
+            idCheckinDetail = checkinDetailDao.add(checkinDetail);
+            
 
             Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
             setNullValueFields();
@@ -438,11 +446,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
 
     private void getValueOfFields() {
         int totalPriceRoom = 0;
-        idCheckin = idCheckin;
-        idCheckinDetail = idCheckinDetail;
-        idCheckinSerDetail = idCheckinSerDetail;
-        idCus = idCus;
-        idService = idService;
         name = txtName.getText();
         phone = txtPhone.getText();
         startDate = txtStartDate.getDate();
@@ -495,7 +498,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         c.setPricePaymentAdvance(pricePaymentAdvance);
 
         // truyền mã giảm giá
-        c.setCuponId(0);
+//        c.setCuponId(0);
         c.setTotalServicePrice(totalServicePrice);
 
         return c;

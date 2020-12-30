@@ -658,6 +658,9 @@ create proc service_findByName(@name nvarchar(255))
 as
 begin
 	select * from tblService where name like '%' + @name + '%'
+end
+go
+
 create proc service_findByServiceId(@id int)
 as
 begin
