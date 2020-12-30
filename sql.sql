@@ -335,13 +335,14 @@ create proc user_updateAccount(@id int,
 								@fullname nvarchar(255),
 								@phone nvarchar(255),
 								@username nvarchar(255),
+								@image nvarchar(255),
 								@password nvarchar(255),
 								@address nvarchar(255),
 								@gender bit,
 								@birthday date)
 as
 begin
-	update tblUser set fullname=@fullname, username=@username, phone=@phone, password=@password, address=@address, gender=@gender, birthday=@birthday
+	update tblUser set fullname=@fullname, username=@username, image=@image, phone=@phone, password=@password, address=@address, gender=@gender, birthday=@birthday
 	where id=@id
 end
 go

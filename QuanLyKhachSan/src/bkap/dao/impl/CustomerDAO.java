@@ -72,8 +72,10 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomer {
             statement.setBoolean(5, c.isGender());
             statement.setString(6, c.getNumIdentityCard());
             statement.setString(7, c.getDescript());
-            statement.setDate(8, (java.sql.Date) c.getCreatedAt());
-            statement.setDate(9, (java.sql.Date) c.getUpdatedAt());
+            java.sql.Date createdDate = new java.sql.Date(c.getCreatedAt().getTime());
+            java.sql.Date updatedDate = new java.sql.Date(c.getUpdatedAt().getTime());
+            statement.setDate(8, createdDate);
+            statement.setDate(9, updatedDate);
             statement.executeUpdate();
 
             resultSet = statement.getGeneratedKeys();

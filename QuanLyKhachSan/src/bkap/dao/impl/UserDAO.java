@@ -79,8 +79,8 @@ public class UserDAO extends AbstractDAO<User> implements IUser {
 
     @Override
     public void updateAccount(User u) {
-        String sql = "{call user_updateAccount(?,?,?,?,?,?,?,?)}";
-        update(sql, u.getId(), u.getFullname(), u.getPhone(), u.getUsername(), u.getPassword(), u.getAddress(), u.isGender(), u.getBirthday());
+        String sql = "{call user_updateAccount(?,?,?,?,?,?,?,?,?)}";
+        update(sql, u.getId(), u.getFullname(), u.getPhone(), u.getUsername(), u.getImage(), u.getPassword(), u.getAddress(), u.isGender(), u.getBirthday());
 
     }
 
