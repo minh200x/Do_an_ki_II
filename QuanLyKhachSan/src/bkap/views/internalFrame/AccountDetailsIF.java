@@ -82,6 +82,7 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         msgInformation = new javax.swing.JLabel();
 
+        setClosable(true);
         setTitle("Tài khoản");
 
         jLabel1.setText("Họ và tên");

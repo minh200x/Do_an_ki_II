@@ -17,4 +17,6 @@ public interface ICategoryRoom extends GenericDAO<CategoryRoom>{
     void delete(int id);
     void edit(CategoryRoom c);
     List<CategoryRoom> findAll();
+    CategoryRoom findByCateId(int id);    
+    
 }

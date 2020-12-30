@@ -13,7 +13,6 @@ import bkap.views.internalFrame.CategoryServiceIF;
 import bkap.views.internalFrame.CuponIF;
 import bkap.views.internalFrame.CustomerIF;
 import bkap.views.internalFrame.LevelIF;
-import bkap.views.internalFrame.ProductIF;
 import bkap.views.internalFrame.RoomIF;
 import bkap.views.internalFrame.ServiceIF;
 import bkap.views.internalFrame.UnitIF;
@@ -148,6 +147,11 @@ public class MainJFrame extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Đặt phòng");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Quản lý hệ thống");
@@ -379,6 +383,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         // TODO add your handling code here:
         AccountDetailsIF acc = new AccountDetailsIF();
@@ -386,6 +391,15 @@ public class MainJFrame extends javax.swing.JFrame {
         acc.setVisible(true);
         acc.validate();
     }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        // TODO add your handling code here:
+        BookRoomIF bookRoom = new BookRoomIF();
+        dkpMain.add(bookRoom);
+        bookRoom.setVisible(true);
+        bookRoom.validate();
+    }//GEN-LAST:event_jMenu3MouseClicked
+
 
     /**
      * @param args the command line arguments

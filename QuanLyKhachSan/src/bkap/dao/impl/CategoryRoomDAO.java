@@ -40,4 +40,11 @@ public class CategoryRoomDAO extends AbstractDAO<CategoryRoom> implements ICateg
         update(sql, c.getId(), c.getName(), c.getPrice());
     }
     
+    @Override
+    public CategoryRoom findByCateId(int id) {
+        String sql = "{call category_findByCateRoomId(?)}";
+        List<CategoryRoom> list = query(sql, new CategoryRoomMapper(), id);
+        return list.isEmpty() ? null : list.get(0);
+    }
+    
 }

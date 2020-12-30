@@ -32,16 +32,16 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                       <Component id="msgInformation" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="327" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="310" max="-2" attributes="0"/>
                       <Component id="btnDeleteRoom" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnUpdateRoom" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnAddRoom" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jPanel1" min="-2" pref="551" max="-2" attributes="0"/>
-                      <EmptySpace pref="18" max="32767" attributes="0"/>
+                      <EmptySpace pref="36" max="32767" attributes="0"/>
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -53,11 +53,11 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jPanel1" max="32767" attributes="0"/>
                   <Component id="jPanel2" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="msgInformation" min="-2" pref="25" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -128,12 +128,12 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="btnRefesh" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
                                   <Component id="btnSearchRoom" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="txtKeySearchRoom" min="-2" pref="88" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="cbStatusRoomSearch" min="-2" pref="114" max="-2" attributes="0"/>
+                                  <Component id="cbStatusRoomSearch" min="-2" pref="149" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -192,15 +192,15 @@
                       <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" min="-2" pref="294" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jScrollPane2" min="-2" pref="198" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnRefesh" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtKeySearchRoom" alignment="0" min="-2" pref="29" max="-2" attributes="0"/>
                       <Component id="btnSearchRoom" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cbStatusRoomSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtKeySearchRoom" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace pref="17" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -268,9 +268,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnChooseImg">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/bkap/images/icon/icons8_folder_20px.png"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Ch&#x1ecd;n &#x1ea3;nh"/>
           </Properties>
           <Events>
@@ -356,9 +353,6 @@
         </Container>
         <Component class="javax.swing.JButton" name="btnRefesh">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/bkap/images/icon/icons8_refresh_20px.png"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
           </Properties>
           <Events>
@@ -367,9 +361,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnSearchRoom">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/bkap/images/icon/icons8_search_20px.png"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="T&#xec;m ph&#xf2;ng"/>
           </Properties>
           <Events>
@@ -418,11 +409,11 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="713" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="691" max="32767" attributes="0"/>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -431,7 +422,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Component id="jPanel3" alignment="1" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="40" max="32767" attributes="0"/>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -445,7 +439,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSeparator1" max="32767" attributes="0"/>
+                          <Component id="jSeparator1" pref="655" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -457,7 +451,7 @@
                                   <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="cbProduct" min="-2" pref="149" max="-2" attributes="0"/>
-                                      <EmptySpace pref="173" max="32767" attributes="0"/>
+                                      <EmptySpace pref="139" max="32767" attributes="0"/>
                                       <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="cbStatusProduct" min="-2" pref="214" max="-2" attributes="0"/>
@@ -468,19 +462,19 @@
                           <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="btnRefreshProduct" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="188" max="-2" attributes="0"/>
-                              <Component id="btnDeleteProduct" min="-2" pref="121" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="238" max="-2" attributes="0"/>
+                              <Component id="btnDeleteProduct" min="-2" pref="100" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnUpdateProduct" max="32767" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="btnAddProduct" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnAddProduct" min="-2" pref="109" max="-2" attributes="0"/>
                           </Group>
                           <Component id="msgForProduct" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="378" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Component id="txtKeySearchModel" min="-2" pref="175" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnSearchModel" min="-2" pref="129" max="-2" attributes="0"/>
+                              <Component id="btnSearchModel" min="-2" pref="107" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -507,12 +501,12 @@
                           <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jScrollPane3" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="18" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnDeleteProduct" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnAddProduct" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnUpdateProduct" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnDeleteProduct" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="btnRefreshProduct" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -521,13 +515,13 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnSearchModel" max="32767" attributes="0"/>
-                          <Component id="txtKeySearchModel" pref="29" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnSearchModel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtKeySearchModel" alignment="3" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" min="-2" pref="328" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane4" min="-2" pref="201" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -632,9 +626,6 @@
             </Container>
             <Component class="javax.swing.JButton" name="btnAddProduct">
               <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/bkap/images/icon/icons8_add_20px.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m thi&#x1ebf;t b&#x1ecb;"/>
               </Properties>
               <Events>
@@ -645,9 +636,6 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnDeleteProduct">
               <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/bkap/images/icon/icons8_remove_20px.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="X&#xf3;a thi&#x1ebf;t b&#x1ecb;"/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -666,9 +654,6 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnUpdateProduct">
               <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/bkap/images/icon/icons8_edit_20px.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="S&#x1eed;a thi&#x1ebf;t b&#x1ecb;"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
@@ -678,9 +663,6 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnSearchModel">
               <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/bkap/images/icon/icons8_search_20px.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="T&#xec;m model"/>
               </Properties>
               <Events>
@@ -698,9 +680,6 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnRefreshProduct">
               <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/bkap/images/icon/icons8_refresh_20px.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
               </Properties>
               <Events>
@@ -715,9 +694,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnUpdateRoom">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/bkap/images/icon/icons8_edit_20px.png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="L&#x1b0;u"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
@@ -727,9 +703,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnAddRoom">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/bkap/images/icon/icons8_add_20px.png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
       </Properties>
       <Events>
@@ -738,9 +711,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnDeleteRoom">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/bkap/images/icon/icons8_remove_20px.png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>

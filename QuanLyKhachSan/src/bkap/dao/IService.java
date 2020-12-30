@@ -18,4 +18,5 @@ public interface IService extends GenericDAO<Service>{
     void delete(int id);
     List<Service> findAll();
     List<Service> findByName(String name);
+    Service findByID(int id);
 }

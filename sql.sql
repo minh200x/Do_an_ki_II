@@ -46,7 +46,6 @@ INSERT INTO tblLevel(name) VALUES('Admin')
 INSERT INTO tblLevel(name) VALUES('Nhân viên')
 
 
-
 -----------
 -----------
 create table tblUser(
@@ -63,7 +62,8 @@ create table tblUser(
 	descript text null,
 	status tinyint default(0),
 	startDate date not null,
-	endDate date null
+	endDate date null,
+	isLogin bit default(0) 
 )
 go
 
@@ -653,10 +653,17 @@ begin
 end
 go
 
+<<<<<<< HEAD
 create proc service_findByName(@name nvarchar(255))
 as
 begin
 	select * from tblService where name like '%' + @name + '%'
+=======
+create proc service_findByServiceId(@id int)
+as
+begin
+	select * from tblService where id=@id
+>>>>>>> 95f32277e8f6615b506a37989928f6b7af79cd9f
 end
 go
 
@@ -802,12 +809,33 @@ begin
 end
 go
 
+<<<<<<< HEAD
 
+=======
+create proc category_findByCateRoomId(@id int)
+as
+begin
+	select * from tblCategoryRoom where id=@id
+end
+go
+
+
+-- Login/ Logout
+>>>>>>> 95f32277e8f6615b506a37989928f6b7af79cd9f
 create proc login(@username nvarchar(255), @password nvarchar(255))
 as
 begin 
 	select * from tblUser
 	where username = @username and password = @password
+end
+go
+
+create proc isLogin(@username nvarchar(255), @status bit)
+as
+begin
+	update tblUser
+	set islogin = @status
+	where username = @username
 end
 go
 

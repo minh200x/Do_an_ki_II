@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author THUY
  */
-public class ServiceDAO extends AbstractDAO<Service> implements IService{
+public class ServiceDAO extends AbstractDAO<Service> implements IService {
 
     @Override
     public void add(Service s) {
@@ -45,5 +45,11 @@ public class ServiceDAO extends AbstractDAO<Service> implements IService{
         String sql = "{call service_findByName(?)}";
         return query(sql, new ServiceMapper(), name);
     }
-    
+
+    public Service findByID(int id) {
+        String sql = "{call service_findByServiceId(?)}";
+        List<Service> list = query(sql, new ServiceMapper(), id);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
 }

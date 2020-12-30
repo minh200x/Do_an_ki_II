@@ -5,9 +5,12 @@
  */
 package bkap.views.internalFrame;
 
+import bkap.dao.impl.CategoryRoomDAO;
 import bkap.dao.impl.CheckinDAO;
 import bkap.dao.impl.CuponDAO;
 import bkap.dao.impl.CustomerDAO;
+import bkap.dao.impl.RoomDAO;
+import bkap.dao.impl.ServiceDAO;
 import bkap.model.Checkin;
 import bkap.model.CheckinDetails;
 import bkap.model.CheckinServiceDetails;
@@ -15,12 +18,15 @@ import bkap.model.Cupon;
 import bkap.model.Customer;
 import bkap.model.Room;
 import bkap.model.Service;
+import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import bkap.views.ListRoomEmptyJDialog;
 import bkap.views.ListServiceJDialog;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,16 +38,26 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     private CheckinDAO checkinDao = new CheckinDAO();
     private CuponDAO cuponDao = new CuponDAO();
     private CustomerDAO cusDao = new CustomerDAO();
+    private ServiceDAO serDao = new ServiceDAO();
+    private RoomDAO roomDao = new RoomDAO();
+    private CategoryRoomDAO catRoomDao = new CategoryRoomDAO();
     private List<Cupon> listCupon;
     private List<Integer> listRoomSelected = new ArrayList<>();
-    
-    private int id;
+    private Map<Integer, List<Integer>> listServiceSelected = new HashMap<Integer, List<Integer>>();
+
+    private int idCheckin;
+    private int idCus;
+    private int idService;
+    private int idCheckinDetail;
+    private int idCheckinSerDetail;
     private String name;
     private String phone;
     private Date startDate;
     private Date endDate;
     private float pricePaymentAdvance;
-    private float priceAgreement;
+    private float priceAgreement = 0;
+    private float totalServicePriceSub = 0;
+    private float totalServicePrice = 0;
     private String des;
     private int countRoomSingle;
     private int countRoomDouble;
@@ -98,8 +114,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         btnBookRoom = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         txtTotalPeople = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jLabel15 = new javax.swing.JLabel();
+        btnGetService = new javax.swing.JButton();
         txtRoomSingle = new javax.swing.JTextField();
         txtRoomDouble = new javax.swing.JTextField();
         txtInfo = new javax.swing.JLabel();
@@ -124,7 +139,11 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Tiền trả trước");
 
+        txtPricePaymentAdvance.setText("0");
+
         jLabel6.setText("Giá thỏa thuận");
+
+        txtPriceAgreement.setText("0");
 
         jLabel7.setText("Ghi chú");
 
@@ -169,19 +188,29 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         });
 
         btnDoubleIncrease.setText("+");
-
-        btnBookRoom.setText("Đặt phòng");
-
-        jLabel14.setText("Số người");
-
-        jButton1.setText("Dịch vụ");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnDoubleIncrease.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnDoubleIncreaseActionPerformed(evt);
             }
         });
 
-        jLabel15.setText("List dịch vụ");
+        btnBookRoom.setText("Đặt phòng");
+        btnBookRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBookRoomActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setText("Số người");
+
+        txtTotalPeople.setText("1");
+
+        btnGetService.setText("Dịch vụ");
+        btnGetService.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGetServiceActionPerformed(evt);
+            }
+        });
 
         txtRoomSingle.setText("1");
 
@@ -194,7 +223,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         jn1Layout.setHorizontalGroup(
             jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jn1Layout.createSequentialGroup()
-                .addComponent(txtInfo)
+                .addComponent(txtInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnBookRoom))
             .addGroup(jn1Layout.createSequentialGroup()
@@ -212,10 +241,8 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                     .addGroup(jn1Layout.createSequentialGroup()
                         .addComponent(txtShowRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel15)
-                        .addGap(228, 228, 228))
+                        .addComponent(btnGetService)
+                        .addGap(299, 299, 299))
                     .addGroup(jn1Layout.createSequentialGroup()
                         .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtName)
@@ -297,8 +324,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtShowRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnGetService))
                     .addComponent(btnGetRoom))
                 .addGap(18, 18, 18)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -319,10 +345,10 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                         .addComponent(jLabel11)
                         .addComponent(txtNumIdentityCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBookRoom)
-                    .addComponent(txtInfo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnBookRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -353,7 +379,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         listRoomSelected = listRoom.getListRoomSelected();
         String textList = "";
         for (Integer data : listRoomSelected) {
-            
             textList += "P" + data + ";  ";
         }
         txtShowRoom.setText(textList);
@@ -361,45 +386,80 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
 
     private void btnSingleIncreaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSingleIncreaseActionPerformed
         // TODO add your handling code here:
+        countRoomSingle = Integer.parseInt(txtRoomSingle.getText().trim()) + 1;
+        txtRoomSingle.setText(countRoomSingle + "");
     }//GEN-LAST:event_btnSingleIncreaseActionPerformed
 
     private void btnDoubleSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoubleSubActionPerformed
         // TODO add your handling code here:
+        if (Integer.parseInt(txtRoomDouble.getText().trim()) > 0) {
+            countRoomDouble = Integer.parseInt(txtRoomDouble.getText().trim()) - 1;
+            txtRoomDouble.setText(countRoomDouble+"");
+        }
     }//GEN-LAST:event_btnDoubleSubActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnGetServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetServiceActionPerformed
         // TODO add your handling code here:
-        ListServiceJDialog listService = new ListServiceJDialog(null, true, listRoomSelected);
+        ListServiceJDialog listService = new ListServiceJDialog(null, true, listRoomSelected, listServiceSelected);
         if (listRoomSelected.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn phòng! Vui lòng chọn phòng trước!");
         } else {
             listService.setVisible(true);
             listService.validate();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+        listServiceSelected = listService.getListServiceSelected();
+    }//GEN-LAST:event_btnGetServiceActionPerformed
 
     private void btnSingleSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSingleSubActionPerformed
         // TODO add your handling code here:
-        countRoomSingle = Integer.parseInt(txtRoomSingle.getText());
-        
+        if (Integer.parseInt(txtRoomSingle.getText().trim()) > 0) {
+            countRoomSingle = Integer.parseInt(txtRoomSingle.getText().trim()) - 1;
+            txtRoomSingle.setText(countRoomSingle + "");
+        }
     }//GEN-LAST:event_btnSingleSubActionPerformed
 
-    private void getValueOfFields(){
-        id = listCheckin.size() + 1;
+    private void btnBookRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookRoomActionPerformed
+        // TODO add your handling code here:
+        if (checkValidate()) {
+            Customer c = setPropertiesForObjectCustomer();
+//            cusDao.add(c);
+
+            Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
+            setNullValueFields();
+        }
+
+    }//GEN-LAST:event_btnBookRoomActionPerformed
+
+    private void btnDoubleIncreaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoubleIncreaseActionPerformed
+        // TODO add your handling code here:
+        countRoomDouble = Integer.parseInt(txtRoomDouble.getText().trim()) + 1;
+        txtRoomDouble.setText(countRoomDouble+"");
+    }//GEN-LAST:event_btnDoubleIncreaseActionPerformed
+
+    private void getValueOfFields() {
+        int totalPriceRoom = 0;
+        idCheckin = idCheckin;
+        idCheckinDetail = idCheckinDetail;
+        idCheckinSerDetail = idCheckinSerDetail;
+        idCus = idCus;
+        idService = idService;
         name = txtName.getText();
         phone = txtPhone.getText();
         startDate = txtStartDate.getDate();
         endDate = txtEndDate.getDate();
         pricePaymentAdvance = Float.parseFloat(txtPricePaymentAdvance.getText());
-        // giá thảo thuận get từ giá phòng + giá dịch vụ
-        priceAgreement = Float.parseFloat(txtPriceAgreement.getText());
-        
+        for (Integer listR : listRoomSelected) {
+            totalPriceRoom += catRoomDao.findByCateId(roomDao.findByRoomId(listR).getTypeId()).getPrice();
+            totalServicePrice += priceServiceOfRoom(listR);
+        }
+        priceAgreement = totalPriceRoom + totalServicePrice;
         des = txtDes.getText();
         countRoomSingle = Integer.parseInt(txtRoomSingle.getText());
         countRoomDouble = Integer.parseInt(txtRoomDouble.getText());
         totalPeople = Integer.parseInt(txtTotalPeople.getText());
         numIdentityCard = txtNumIdentityCard.getText();
     }
+
     private boolean checkValidate() {
         boolean check = false;
         getValueOfFields();
@@ -415,65 +475,61 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
             Utils.setMessageInformation(txtInfo, "Vui lòng chọn ngày kết thúc sau ngày bắt đầu!", false);
         } else if (pricePaymentAdvance < 0) {
             Utils.setMessageInformation(txtInfo, "Vui lòng nhập tiền trả trước phù hợp!", false);
-        }else if (countRoomSingle < 0 || countRoomDouble < 0){
+        } else if (countRoomSingle < 0 || countRoomDouble < 0) {
             Utils.setMessageInformation(txtInfo, "Vui lòng nhập số lượng phòng phù hợp!", false);
-        }else if (totalPeople < 1){
+        } else if (totalPeople < 1) {
             Utils.setMessageInformation(txtInfo, "Vui lòng nhập số lượng người phù hợp!", false);
-        }else {
+        } else {
             check = true;
         }
         return check;
     }
-    
-    private Checkin setPropertiesForObjectCheckin(){
+
+    private Checkin setPropertiesForObjectCheckin() {
         Checkin c = new Checkin();
-        c.setId(id);
+        c.setId(idCheckin);
         c.setCusPhone(phone);
         c.setTotalPeople(totalPeople);
         c.setDescript(des);
         c.setTotalMoney(priceAgreement);
         c.setPricePaymentAdvance(pricePaymentAdvance);
-        
+
         // truyền mã giảm giá
-        c.setCuponId(1);
-        // truyền tổng tiền dịch vụ tonaf bộ các phòng
-        c.setTotalServicePrice(23);
-        
+        c.setCuponId(0);
+        c.setTotalServicePrice(totalServicePrice);
+
         return c;
     }
-    
-    private Customer setPropertiesForObjectCustomer(){
+
+    private Customer setPropertiesForObjectCustomer() {
         Customer cus = new Customer();
         cus.setFullname(name);
         cus.setPhone(phone);
         cus.setNumIdentityCard(numIdentityCard);
         return cus;
     }
-    
-    private CheckinDetails setPropertiesForObjectCheckinDetails(){
+
+    private CheckinDetails setPropertiesForObjectCheckinDetails(int idRoom) {
         CheckinDetails c = new CheckinDetails();
-        
-        // truyền id checkindetail
-        c.setDetailId(1);
-        c.setCheckinId(id);
-        
-        // truyền id phòng
-        c.setRoomId(1);
-        //get giá phòng vào đây
-        c.setPrice(23);
-        
+
+        c.setDetailId(idCheckinDetail);
+        c.setCheckinId(idCheckin);
+
+        c.setRoomId(idRoom);
+        c.setPrice(catRoomDao.findByCateId(roomDao.findByRoomId(idRoom).getTypeId()).getPrice());
+
         c.setStartDate(startDate);
         c.setEndDate(endDate);
-        // truyền tổng tiền dịch vụ đã chọn
-        c.setTotalServicePrice(23);
+
+        c.setTotalServicePrice(priceServiceOfRoom(idRoom));
         c.setStatus(0);
-        
+
         return c;
     }
-    
-    private CheckinServiceDetails setPropertiesForObjectCheckinServiceDetails(){
+
+    private CheckinServiceDetails setPropertiesForObjectCheckinServiceDetails() {
         CheckinServiceDetails c = new CheckinServiceDetails();
-        
+
         // truyền id checkindetail
         c.setIdCheckinDetails(1);
         // truyền id dịch vụ 
@@ -485,20 +541,48 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         return c;
     }
 
+    private void setNullValueFields() {
+        txtName.setText("");
+        txtPhone.setText("");
+        txtDes.setText("");
+        txtEndDate.setDate(null);
+        txtStartDate.setDate(null);
+        txtNumIdentityCard.setText("");
+        txtPriceAgreement.setText("0");
+        txtPricePaymentAdvance.setText("0");
+        txtRoomDouble.setText("0");
+        txtRoomSingle.setText("1");
+        txtTotalPeople.setText("1");
+        txtShowRoom.setText("Trống");
+    }
+
+    private int priceServiceOfRoom(int id) {
+        int price = 0;
+        for (Map.Entry<Integer, List<Integer>> entrySet : listServiceSelected.entrySet()) {
+            Integer key = entrySet.getKey();
+            List<Integer> value = entrySet.getValue();
+            if (key == id) {
+                for (Integer v : value) {
+                    price += serDao.findByID(v).getPrice();
+                }
+            }
+        }
+        return price;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBookRoom;
     private javax.swing.JButton btnDoubleIncrease;
     private javax.swing.JButton btnDoubleSub;
     private javax.swing.JButton btnGetRoom;
+    private javax.swing.JButton btnGetService;
     private javax.swing.JButton btnSingleIncrease;
     private javax.swing.JButton btnSingleSub;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

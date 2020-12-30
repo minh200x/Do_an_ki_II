@@ -50,7 +50,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <Component id="txtInfo" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtInfo" min="-2" pref="81" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="btnBookRoom" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -70,10 +70,8 @@
                       <Group type="102" attributes="0">
                           <Component id="txtShowRoom" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="228" max="-2" attributes="0"/>
+                          <Component id="btnGetService" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="299" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -179,8 +177,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="txtShowRoom" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                          <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel15" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="btnGetService" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="btnGetRoom" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -207,10 +204,10 @@
                       </Group>
                       <Component id="jLabel14" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="10" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnBookRoom" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtInfo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="14" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="btnBookRoom" max="32767" attributes="0"/>
+                      <Component id="txtInfo" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -248,6 +245,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtPricePaymentAdvance">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
@@ -255,6 +255,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtPriceAgreement">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
@@ -332,11 +335,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="+"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDoubleIncreaseActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnBookRoom">
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x110;&#x1eb7;t ph&#xf2;ng"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBookRoomActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel14">
           <Properties>
@@ -344,19 +353,17 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtTotalPeople">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="1"/>
+          </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnGetService">
           <Properties>
             <Property name="text" type="java.lang.String" value="D&#x1ecb;ch v&#x1ee5;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGetServiceActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel15">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="List d&#x1ecb;ch v&#x1ee5;"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtRoomSingle">
           <Properties>

@@ -7,8 +7,10 @@ package bkap.views;
 
 import bkap.dao.impl.CategoryServiceDAO;
 import bkap.dao.impl.ProductDAO;
+import bkap.dao.impl.RoomDAO;
 import bkap.dao.impl.ServiceDAO;
 import bkap.model.CategoryService;
+import bkap.model.Room;
 import bkap.model.Service;
 import java.awt.CardLayout;
 import java.awt.Checkbox;
@@ -17,7 +19,12 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -37,50 +44,61 @@ import javax.swing.border.Border;
 public class ListServiceJDialog extends javax.swing.JDialog {
 
     private ProductDAO proDao = new ProductDAO();
+    private RoomDAO roomDAO = new RoomDAO();
     private ServiceDAO serDao = new ServiceDAO();
     private CategoryServiceDAO catSerDao = new CategoryServiceDAO();
     private List<Service> listSer;
     private List<CategoryService> listCatSer;
     private List<Integer> listRoomSelected;
     private DefaultComboBoxModel modelListRoom;
-    private List<List> listServiceSelected;
+    private Map<Integer, List<Integer>> listServiceSelected;
     private List<Integer> listServiceitem;
     private JPanel pnl;
-    private int indexSelected;
     private Border blackline;
-    private JCheckBox[] checkbox;
-    private JList l;
+    private JCheckBox checkbox;
+    private Room r;
+    private boolean check = false;
 
     /**
      * Creates new form ListServiceJDialog
      */
-    public ListServiceJDialog(java.awt.Frame parent, boolean modal, List<Integer> listRoom) {
+    public ListServiceJDialog(java.awt.Frame parent, boolean modal, List<Integer> listRoom, Map<Integer, List<Integer>> listSS) {
         super(parent, modal);
         initComponents();
 
         this.listRoomSelected = listRoom;
+        this.listServiceSelected = listSS;
+
         listSer = serDao.findAll();
         listCatSer = catSerDao.findAll();
 
         modelListRoom = (DefaultComboBoxModel) cbRoom.getModel();
         setComboxModel();
+
         pnlContainer.setLayout(new CardLayout());
-        indexSelected = cbRoom.getSelectedIndex();
-        createNewPanel(indexSelected);
+        if (listServiceSelected.size() == 0) {
+            for (Integer listRoom1 : listRoomSelected) {
+                listServiceSelected.put(listRoom1, new ArrayList<>());
+            }
+        }
+        createNewPanel();
+
     }
 
     private void setComboxModel() {
         modelListRoom.addElement("Tất cả");
         for (Integer listR : listRoomSelected) {
-            modelListRoom.addElement("Phòng " + listR);
+            modelListRoom.addElement(roomDAO.findByRoomId(listR));
         }
     }
 
-    private void createNewPanel(int index) {
+    private void createNewPanel() {
+
+        listServiceitem = new ArrayList<>();
         pnlContainer.removeAll();
-        if(pnl != null){
+        if (pnl != null) {
             pnl.removeAll();
-        }else{
+        } else {
             pnl = new JPanel();
         }
         for (CategoryService listC : listCatSer) {
@@ -99,21 +117,77 @@ public class ListServiceJDialog extends javax.swing.JDialog {
                 blackline = BorderFactory.createTitledBorder(listC.getName());
             }
         }
-
-        checkbox = new JCheckBox[listSer.size()];
         pnlItem.setBorder(blackline);
         pnlItem.setLayout(new FlowLayout(5));
-        int index = 0;
+
+        checkbox = new JCheckBox();
         for (Service list : listSer) {
             if (id == list.getCatService()) {
-                checkbox[index] = new JCheckBox(list.getName(), false);
-                pnlItem.add(checkbox[index]);
-                index++;
+                checkbox = new JCheckBox(list.getName(), false);
+                try {
+                    Room r = (Room) cbRoom.getSelectedItem();
+                    if (listServiceSelected.get(r.getRoomId()).contains(list.getId())) {
+                        checkbox.setSelected(true);
+                    }
+                } catch (Exception e) {
+                    checkbox.setSelected(true);
+                    for (Map.Entry<Integer, List<Integer>> entrySet : listServiceSelected.entrySet()) {
+                        Integer key = entrySet.getKey();
+                        List<Integer> value = entrySet.getValue();
+                        if (!value.contains(list.getId())) {
+                            checkbox.setSelected(false);
+                            break;
+                        }
+                    }
+                }
+
+                pnlItem.add(checkbox);
+                checkbox.setName(list.getId() + "");
+                checkbox.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        chbServiceActionPerformed(ae);
+                    }
+                });
             }
         }
         pnl.add(pnlItem);
         pnlItem.setVisible(true);
         pnlItem.validate();
+    }
+
+    private void chbServiceActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+        JCheckBox checkbox = ((JCheckBox) evt.getSource());
+        int serviceId = Integer.parseInt(checkbox.getName());
+        try {
+            Room r = (Room) cbRoom.getSelectedItem();
+            List<Integer> data = listServiceSelected.get(r.getRoomId());
+            if (checkbox.isSelected()) {
+                data.add(serviceId);
+            } else {
+                data.removeIf(x -> x == serviceId);
+            }
+        } catch (Exception e) {
+            for (Map.Entry<Integer, List<Integer>> entrySet : listServiceSelected.entrySet()) {
+                Integer key = entrySet.getKey();
+                List<Integer> value = entrySet.getValue();
+                if (checkbox.isSelected()) {
+                    if (!value.contains(serviceId)) {
+                        value.add(serviceId);
+                    }
+                } else {
+                    value.removeIf(x -> x == serviceId);
+                }
+            }
+        }
+        //JOptionPane.showMessageDialog(pnl, checkbox.isSelected() + checkbox.getName());
+
+        listServiceitem.add(Integer.parseInt(checkbox.getName()));
+    }
+
+    public Map<Integer, List<Integer>> getListServiceSelected() {
+        return listServiceSelected;
     }
 
     /**
@@ -131,6 +205,11 @@ public class ListServiceJDialog extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         cbRoom.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -143,6 +222,11 @@ public class ListServiceJDialog extends javax.swing.JDialog {
         pnlContainer.setLayout(new java.awt.CardLayout());
 
         jButton1.setText("Thêm");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -188,28 +272,19 @@ public class ListServiceJDialog extends javax.swing.JDialog {
 
     private void cbRoomItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbRoomItemStateChanged
         // TODO add your handling code here:
-        
-        createNewPanel(indexSelected);
-        if (checkbox != null) {
-            printSelectedNames(checkbox);
-        } else {
-//            createNewPanel(indexSelected);
-            System.out.println("aaaaaaa");
-        }
+        createNewPanel();
     }//GEN-LAST:event_cbRoomItemStateChanged
-    public void printSelectedNames(JCheckBox[] boxes) {
-        if (boxes == null) {
-            System.out.println("false");
-        } else {
-            System.out.println("true");
-//            for (JCheckBox box : boxes) {
-//                if (box.isSelected()) {
-//                    System.out.println(box.getText());
-//                }
-//            }
-        }
 
-    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        JOptionPane.showMessageDialog(pnl, "Thêm dịch vụ thành công");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        createNewPanel();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -241,7 +316,7 @@ public class ListServiceJDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ListServiceJDialog dialog = new ListServiceJDialog(new javax.swing.JFrame(), true, null);
+                ListServiceJDialog dialog = new ListServiceJDialog(new javax.swing.JFrame(), true, null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

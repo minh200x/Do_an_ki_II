@@ -22,4 +22,5 @@ public interface IUser extends GenericDAO<User>{
     List<User> findByFullname(String fullname);
     List<User> findByPhone(String phone);
     void updateAccount(User user);
+    Boolean isLogin(boolean status, String username);
 }
