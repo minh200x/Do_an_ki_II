@@ -364,18 +364,15 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
 //        // TODO add your handling code here:
-        AccountDetailsIF acc = new AccountDetailsIF();
-        dkpMain.add(acc);
-        acc.setVisible(true);
-        acc.validate();
+        ServiceIF s = new ServiceIF();
+        dkpMain.add(s);
+        s.setVisible(true);
+        s.validate();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         // TODO add your handling code here:
-        ProductIF pro = new ProductIF();
-        dkpMain.add(pro);
-        pro.setVisible(true);
-        pro.validate();
+        
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -384,6 +381,10 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         // TODO add your handling code here:
+        AccountDetailsIF acc = new AccountDetailsIF();
+        dkpMain.add(acc);
+        acc.setVisible(true);
+        acc.validate();
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     /**

@@ -665,20 +665,6 @@ go
 
 -- PROC tblCheckinDetails
 
-create proc checkinDetails_insert(@detailId int,
-									@checkinId int,
-									@roomId int,
-									@totalServicePricee float,
-									@price float,
-									@startDate date,
-									@endDate date,
-									@status int)
-as
-begin
-	insert into tblCheckinDetails(detailId, checkinId, roomId, totalServicePrice, price, startDate, endDate, status)
-	values(@detailId, @checkinId, @roomId, @totalServicePricee, @price, @startDate, @endDate, @status)
-end
-go
 
 
 create proc checkinDetails_delete(@detailId int)
