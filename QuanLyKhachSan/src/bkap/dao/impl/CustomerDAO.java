@@ -77,13 +77,8 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomer {
             statement.setDate(8, createdDate);
             statement.setDate(9, updatedDate);
             statement.executeUpdate();
-
-            resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                phone = resultSet.getString(1);
-            }
             conn.commit();
-            return phone;
+            return c.getPhone();
         } catch (SQLException e) {
             if (conn != null) {
                 try {

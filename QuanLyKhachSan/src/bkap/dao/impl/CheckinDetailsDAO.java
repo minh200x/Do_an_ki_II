@@ -8,7 +8,14 @@ package bkap.dao.impl;
 import bkap.dao.ICheckinDetails;
 import bkap.mapper.CheckinDetailsMapper;
 import bkap.model.CheckinDetails;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,6 +27,7 @@ public class CheckinDetailsDAO extends AbstractDAO<CheckinDetails> implements IC
     public Integer add(CheckinDetails c) {
         String sql = "INSERT INTO tblCheckinDetails(detailId, checkinId, roomId, totalServicePrice, price, startDate, endDate, status) VALUES(?,?,?,?,?,?,?,?)";
         return insertReturnId(sql, c.getDetailId(), c.getCheckinId(), c.getRoomId(), c.getTotalServicePrice(), c.getPrice(), c.getStartDate(), c.getEndDate(), c.getStatus());
+        
     }
 
     @Override

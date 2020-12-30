@@ -100,5 +100,4 @@ public class RoomDAO extends AbstractDAO<Room> implements IRoom {
         List<Room> list = query(sql, new RoomMapper(), roomId);
         return list.isEmpty() ? null : list.get(0);
     }
-
 }

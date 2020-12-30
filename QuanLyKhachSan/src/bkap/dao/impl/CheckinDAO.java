@@ -8,13 +8,17 @@ package bkap.dao.impl;
 import bkap.dao.ICheckin;
 import bkap.mapper.CheckinMapper;
 import bkap.model.Checkin;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
  *
  * @author THUY
  */
-public class CheckinDAO extends AbstractDAO<Checkin> implements ICheckin{
+public class CheckinDAO extends AbstractDAO<Checkin> implements ICheckin {
 
     @Override
     public void delete(int id) {
@@ -30,8 +34,22 @@ public class CheckinDAO extends AbstractDAO<Checkin> implements ICheckin{
 
     @Override
     public Integer add(Checkin c) {
-        String sql = "INSERT INTO tblCheckin(cusPhone, totalPeople, cuponId, totalMoney, totalServicePrice, descript) VALUES(?,?,?,?,?,?)";
-        return insertReturnId(sql, c.getCusPhone(), c.getTotalPeople(), c.getCuponId(), c.getTotalMoney(), c.getTotalServicePrice(), c.getDescript());
+        String sql = "INSERT INTO tblCheckin(cusPhone, totalPeople, cuponId, pricePaymentAdvance, totalMoney, totalServicePrice, descript) VALUES(?,?,?,?,?,?,?)";
+        return insertReturnId(sql, c.getCusPhone(), c.getTotalPeople(), c.getCuponId(), c.getPricePaymentAdvance(), c.getTotalMoney(), c.getTotalServicePrice(), c.getDescript());
+
     }
-    
+
+    public static void main(String[] args) {
+        CheckinDAO dao = new CheckinDAO();
+        Checkin c = new Checkin();
+        c.setCusPhone("0968323743");
+        c.setTotalPeople(5);
+        c.setCuponId(1);
+        c.setTotalMoney(500000);
+        c.setTotalServicePrice(2000);
+        c.setPricePaymentAdvance(500000);
+        c.setDescript("lorem");
+        dao.add(c);
+        System.out.println("idCheckin: " + dao.add(c));
+    }
 }

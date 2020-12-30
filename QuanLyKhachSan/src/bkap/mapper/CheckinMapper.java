@@ -23,6 +23,7 @@ public class CheckinMapper implements RowMapper<Checkin> {
             Checkin c = new Checkin();
             c.setId(rs.getInt("id"));
             c.setCusPhone(rs.getString("cusPhone"));
+            c.setPricePaymentAdvance(rs.getFloat("pricePaymentAdvance"));
             c.setTotalPeople(rs.getInt("totalPeople"));
             c.setTotalMoney(rs.getFloat("totalMoney"));
             c.setTotalServicePrice(rs.getFloat("totalServicePrice"));

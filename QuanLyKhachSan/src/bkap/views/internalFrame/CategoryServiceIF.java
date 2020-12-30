@@ -96,6 +96,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_edit_20px.png"))); // NOI18N
         btnEdit.setText("Sửa");
+        btnEdit.setEnabled(false);
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -104,6 +105,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_remove_20px.png"))); // NOI18N
         btnDelete.setText("Xóa");
+        btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -263,6 +265,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         btnAdd.setEnabled(false);
         btnEdit.setEnabled(true);
+        btnDelete.setEnabled(true);
         
         int indexSelected = tblCatService.getSelectedRow();
         CategoryService catSer = listCatService.get(indexSelected);

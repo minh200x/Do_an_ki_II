@@ -50,8 +50,8 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <Component id="txtInfo" min="-2" pref="81" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="txtInfo" max="32767" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="btnBookRoom" min="-2" max="-2" attributes="0"/>
               </Group>
               <Group type="102" attributes="0">
@@ -204,7 +204,7 @@
                       </Group>
                       <Component id="jLabel14" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="14" max="32767" attributes="0"/>
+                  <EmptySpace pref="18" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="btnBookRoom" max="32767" attributes="0"/>
                       <Component id="txtInfo" max="32767" attributes="0"/>
@@ -378,8 +378,14 @@
         <Component class="javax.swing.JLabel" name="txtInfo">
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="txtStartDate">
+          <Properties>
+            <Property name="dateFormatString" type="java.lang.String" value="dd-MM-yyyy"/>
+          </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="txtEndDate">
+          <Properties>
+            <Property name="dateFormatString" type="java.lang.String" value="dd-MM-yyyy"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">
           <Properties>

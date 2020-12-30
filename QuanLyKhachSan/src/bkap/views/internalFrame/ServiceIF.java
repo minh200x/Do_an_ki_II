@@ -156,6 +156,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_remove_20px.png"))); // NOI18N
         btnDelete.setText("Xóa");
+        btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -164,6 +165,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
 
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_edit_20px.png"))); // NOI18N
         btnUpdate.setText("Sửa");
+        btnUpdate.setEnabled(false);
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
@@ -273,11 +275,12 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4)
                     .addComponent(cbUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd)
-                    .addComponent(btnUpdate)
-                    .addComponent(btnDelete)
-                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAdd)
+                        .addComponent(btnUpdate)
+                        .addComponent(btnDelete)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -321,7 +324,9 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     private void tblSerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSerMouseClicked
         // TODO add your handling code here:
         btnAdd.setEnabled(false);
+        btnDelete.setEnabled(true);
         btnUpdate.setEnabled(true);
+        
         int indexSelected = tblSer.getSelectedRow();
         Service ser = listSer.get(indexSelected);
         id = ser.getId();
@@ -404,6 +409,10 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         txtKeySearch.setForeground(new Color(153,153,153));
         listSer = serviceDao.findAll();
         setDataTable(listSer);
+        
+        btnDelete.setEnabled(false);
+        btnUpdate.setEnabled(false);
+        btnAdd.setEnabled(true);
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void getValueOfFields() {
