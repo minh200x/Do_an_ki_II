@@ -809,9 +809,6 @@ begin
 end
 go
 
-<<<<<<< HEAD
-
-=======
 create proc category_findByCateRoomId(@id int)
 as
 begin
@@ -821,7 +818,6 @@ go
 
 
 -- Login/ Logout
->>>>>>> 95f32277e8f6615b506a37989928f6b7af79cd9f
 create proc login(@username nvarchar(255), @password nvarchar(255))
 as
 begin 
