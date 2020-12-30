@@ -839,6 +839,7 @@ go
 
 
 -- PROC tblCheckoutProductDetails
+
 create proc checkoutProductDetails_add(@model nvarchar(255),
 										@proId int,
 										@roomId int,
@@ -877,4 +878,39 @@ go
 
 
 
+-- PROC tblCheckoutSeriviceDetails
+
+create proc checkinServiceDetail_insert(@idService int,
+										@idCheckinDetails int,
+										@quantity int,
+										@price float)
+as
+begin
+	insert into tblCheckinServiceDetails(idServicee, idCheckinDetails, quantity, price)
+	values(@idService, @idCheckinDetails, @quantity, @price)
+end
+go
+
+
+create proc checkinServiceDetail_delete(@idService int)
+as
+begin
+	delete from tblCheckinServiceDetails where idServicee=@idService
+end
+go
+
+create proc checkinServiceDetail_update(@idService int,
+										@quantity int)
+as
+begin
+	update tblCheckinServiceDetails set  quantity=@quantity where idServicee=@idService
+end
+go
+
+create proc checkinServiceDetail_findAll
+as
+begin
+	select * from tblCheckinServiceDetails
+end
+go
 
