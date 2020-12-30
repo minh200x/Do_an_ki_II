@@ -53,7 +53,6 @@ INSERT INTO tblLevel(name) VALUES('Admin')
 INSERT INTO tblLevel(name) VALUES('Nhân viên')
 
 
-
 -----------
 -----------
 create table tblUser(
@@ -70,7 +69,8 @@ create table tblUser(
 	descript text null,
 	status tinyint default(0),
 	startDate date not null,
-	endDate date null
+	endDate date null,
+	isLogin bit default(0) 
 )
 go
 
@@ -788,12 +788,21 @@ end
 go
 
 
-
+-- Login/ Logout
 create proc login(@username nvarchar(255), @password nvarchar(255))
 as
 begin 
 	select * from tblUser
 	where username = @username and password = @password
+end
+go
+
+create proc isLogin(@username nvarchar(255), @status bit)
+as
+begin
+	update tblUser
+	set islogin = @status
+	where username = @username
 end
 go
 

@@ -29,11 +29,12 @@ public class User {
     private Date startDate;
     private Date endDate;
     private int status;
+    private boolean isLogin;
 
     public User() {
     }
 
-    public User(int id, String fullname, String username, String password, int levelId, String phone, String address, String image, boolean gender, Date birthday, String descript, Date startDate, Date endDate, int status) {
+    public User(int id, String fullname, String username, String password, int levelId, String phone, String address, String image, boolean gender, Date birthday, String descript, Date startDate, Date endDate, int status, boolean isLogin) {
         this.id = id;
         this.fullname = fullname;
         this.username = username;
@@ -48,6 +49,7 @@ public class User {
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
+        this.isLogin = isLogin;
     }
 
     public int getId() {
@@ -161,4 +163,14 @@ public class User {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public boolean isIsLogin() {
+        return isLogin;
+    }
+
+    public void setIsLogin(boolean isLogin) {
+        this.isLogin = isLogin;
+    }
+
+    
 }

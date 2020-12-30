@@ -379,7 +379,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         listRoomSelected = listRoom.getListRoomSelected();
         String textList = "";
         for (Integer data : listRoomSelected) {
-
             textList += "P" + data + ";  ";
         }
         txtShowRoom.setText(textList);
@@ -389,7 +388,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         countRoomSingle = Integer.parseInt(txtRoomSingle.getText().trim()) + 1;
         txtRoomSingle.setText(countRoomSingle + "");
-
     }//GEN-LAST:event_btnSingleIncreaseActionPerformed
 
     private void btnDoubleSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoubleSubActionPerformed
@@ -418,8 +416,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
             countRoomSingle = Integer.parseInt(txtRoomSingle.getText().trim()) - 1;
             txtRoomSingle.setText(countRoomSingle + "");
         }
-
-
     }//GEN-LAST:event_btnSingleSubActionPerformed
 
     private void btnBookRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookRoomActionPerformed
@@ -438,7 +434,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         countRoomDouble = Integer.parseInt(txtRoomDouble.getText().trim()) + 1;
         txtRoomDouble.setText(countRoomDouble+"");
-        
     }//GEN-LAST:event_btnDoubleIncreaseActionPerformed
 
     private void getValueOfFields() {

@@ -76,21 +76,12 @@ public class UserDAO extends AbstractDAO<User> implements IUser {
         List<User> list = query(sql, new UserMapper(),username, password);
         return list.isEmpty() ? null : list.get(0);
     }
-    
-    public static void main(String[] args) {
-        UserDAO dao = new UserDAO();
-        Date date = new Date();
-        User u = new User();
-        u.setFullname("demo");
-        u.setUsername("demo 1");
-        u.setPassword("123456");
-        u.setBirthday(date);
-        u.setLevelId(1);
-        u.setDescript(null);
-        u.setGender(true);
-        u.setPhone("131");
-        u.setStartDate(date);
-        u.setEndDate(null);
-        dao.add(u);
+
+    @Override
+    public Boolean isLogin(boolean status) {
+        String sql = "{call isLogin(?,?)}";
+        
+        return true;
     }
+    
 }
