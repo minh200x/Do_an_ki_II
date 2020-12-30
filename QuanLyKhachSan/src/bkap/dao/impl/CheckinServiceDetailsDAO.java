@@ -30,8 +30,8 @@ public class CheckinServiceDetailsDAO extends AbstractDAO<CheckinServiceDetails>
 
     @Override
     public void edit(CheckinServiceDetails c) {
-        String sql = "{call checkinServiceDetail_update(?,?,?,?)}";
-        update(sql, c.getIdService(), c.getIdCheckinDetails(), c.getPrice(), c.getQuantity());
+        String sql = "{call checkinServiceDetail_update(?,?)}";
+        update(sql, c.getIdService(), c.getQuantity());
     }
 
     @Override
