@@ -23,6 +23,7 @@ import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import bkap.views.ListRoomEmptyJDialog;
 import bkap.views.ListServiceJDialog;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -422,11 +423,36 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     private void btnBookRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookRoomActionPerformed
         // TODO add your handling code here:
         if (checkValidate()) {
+            
+            // add customer
             Customer c = setPropertiesForObjectCustomer();
             phone = cusDao.add(c);
+            System.out.println("sdt khách hàng: "+phone);
             
+            // add checkin
             Checkin checkin = setPropertiesForObjectCheckin();
             idCheckin = checkinDao.add(checkin);
+            System.out.println("id checkin: "+idCheckin);
+            
+            for (Integer idRoomItem : listRoomSelected) {
+                // add checkinDetail
+                CheckinDetails checkinDetail = setPropertiesForObjectCheckinDetails(idRoomItem);
+                idCheckinDetail = checkinDetailDao.add(checkinDetail);
+                System.out.println("id checkin detail: "+idCheckinDetail);
+                
+                for (Map.Entry<Integer, List<Integer>> entrySet : listServiceSelected.entrySet()) {
+                    Integer key = entrySet.getKey();
+                    List<Integer> value = entrySet.getValue();
+                    if(idRoomItem == key){
+                        for (Integer v : value) {
+                            
+                            // add checkinServicer Detail
+                            CheckinServiceDetails checkinSerDetail = setPropertiesForObjectCheckinServiceDetails(v);
+                        }
+                    }
+                }
+                
+            }
             
             CheckinDetails checkinDetail = setPropertiesForObjectCheckinDetails(idCheckin);
             idCheckinDetail = checkinDetailDao.add(checkinDetail);
@@ -508,8 +534,16 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         Customer cus = new Customer();
         cus.setFullname(name);
         cus.setPhone(phone);
+        cus.setEmail(null);
+        cus.setAddress(null);
+        cus.setDescript(null);
+        cus.setGender(true);
+        cus.setCreatedAt(startDate);
+        cus.setUpdatedAt(endDate);
         cus.setNumIdentityCard(numIdentityCard);
         return cus;
+        
+//        phone, fullname, email, address, gender, numIdentityCard, descript, createdAt, updatedAt
     }
 
     private CheckinDetails setPropertiesForObjectCheckinDetails(int idRoom) {
@@ -530,17 +564,13 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         return c;
     }
 
-    private CheckinServiceDetails setPropertiesForObjectCheckinServiceDetails() {
+    private CheckinServiceDetails setPropertiesForObjectCheckinServiceDetails(int idSer) {
         CheckinServiceDetails c = new CheckinServiceDetails();
 
-        // truyền id checkindetail
-        c.setIdCheckinDetails(1);
-        // truyền id dịch vụ 
-        c.setIdService(1);
-        // get giá dịch vụ 
-        c.setPrice(23);
-        // truyền số lượng dịch vụ đặt
-        c.setQuantity(10);
+        c.setIdCheckinDetails(idCheckinDetail);
+        c.setIdService(idSer);
+        c.setPrice(serDao.findByID(idSer).getPrice());
+        c.setQuantity(1);
         return c;
     }
 

@@ -14,6 +14,7 @@ import bkap.views.internalFrame.CategoryServiceIF;
 import bkap.views.internalFrame.CuponIF;
 import bkap.views.internalFrame.CustomerIF;
 import bkap.views.internalFrame.LevelIF;
+import bkap.views.internalFrame.ProductIF;
 import bkap.views.internalFrame.RoomIF;
 import bkap.views.internalFrame.ServiceIF;
 import bkap.views.internalFrame.UnitIF;
@@ -369,10 +370,10 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void mnCatProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCatProductActionPerformed
         // TODO add your handling code here:
-        CategoryServiceIF c = new CategoryServiceIF();
-        dkpMain.add(c);
-        c.setVisible(true);
-        c.validate();
+        ProductIF p = new ProductIF();
+        dkpMain.add(p);
+        p.setVisible(true);
+        p.validate();
 
     }//GEN-LAST:event_mnCatProductActionPerformed
 
