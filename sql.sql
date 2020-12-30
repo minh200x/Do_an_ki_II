@@ -653,17 +653,15 @@ begin
 end
 go
 
-<<<<<<< HEAD
+
 create proc service_findByName(@name nvarchar(255))
 as
 begin
 	select * from tblService where name like '%' + @name + '%'
-=======
 create proc service_findByServiceId(@id int)
 as
 begin
 	select * from tblService where id=@id
->>>>>>> 95f32277e8f6615b506a37989928f6b7af79cd9f
 end
 go
 
