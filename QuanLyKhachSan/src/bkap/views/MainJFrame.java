@@ -5,6 +5,7 @@
  */
 package bkap.views;
 
+import bkap.dao.impl.UserDAO;
 import bkap.utils.SystemConstant;
 import bkap.views.internalFrame.AccountDetailsIF;
 import bkap.views.internalFrame.BookRoomIF;
@@ -28,10 +29,11 @@ import javax.swing.JInternalFrame;
  */
 public class MainJFrame extends javax.swing.JFrame {
 
+    private UserDAO userDao = new UserDAO();
     private ImageIcon imgLogo;
     private BufferedImage backgroundImage;
     private RoomIF room;
-    private boolean isLogin = false;
+    private String userName;
 
     /**
      * Creates new form MainJFrame
@@ -58,6 +60,8 @@ public class MainJFrame extends javax.swing.JFrame {
         loginForm.setVisible(true);
         loginForm.validate();
         if (LoginDialog.isLogin == true) {
+            userName = loginForm.getUserName();
+            userDao.isLogin(true, userName);
             initComponents();
         }
     }
@@ -380,7 +384,11 @@ public class MainJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-
+        LoginDialog loginForm = new LoginDialog(this, true);
+        this.setVisible(false);
+        loginForm.setVisible(true);
+        loginForm.validate();
+        userDao.isLogin(false, userName);
     }//GEN-LAST:event_btnLogoutActionPerformed
 
 

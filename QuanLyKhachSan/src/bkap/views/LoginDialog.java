@@ -36,6 +36,10 @@ public class LoginDialog extends javax.swing.JDialog {
         setTitle("HOTEL - Quản lý khách sạn");
         setLocationRelativeTo(null);
     }
+    
+    public String getUserName(){
+        return username;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
