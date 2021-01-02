@@ -9,6 +9,7 @@ import bkap.dao.impl.CategoryRoomDAO;
 import bkap.dao.impl.RoomDAO;
 import bkap.model.CategoryRoom;
 import bkap.model.Room;
+import bkap.utils.Helper;
 import bkap.utils.SystemConstant;
 import bkap.views.LoginDialog;
 import java.awt.Color;
@@ -57,6 +58,7 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
         }
+        setNameLabel();
     }
 
     /**
@@ -69,9 +71,9 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbNameCategoryRoom = new javax.swing.JLabel();
         txtCategoryRoomName = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        lbRoomPrice = new javax.swing.JLabel();
         txtPrice = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCategoryRoom = new javax.swing.JTable();
@@ -87,9 +89,9 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Loại phòng");
 
-        jLabel1.setText("Tên loại phòng");
+        lbNameCategoryRoom.setText("Tên loại phòng");
 
-        jLabel2.setText("Giá phòng");
+        lbRoomPrice.setText("Giá phòng");
 
         tblCategoryRoom.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -153,8 +155,8 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(lbNameCategoryRoom)
+                            .addComponent(lbRoomPrice))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCategoryRoomName)
@@ -174,11 +176,11 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lbNameCategoryRoom)
                     .addComponent(txtCategoryRoomName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lbRoomPrice)
                     .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -330,15 +332,20 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
         }
     }
 
+    private void setNameLabel() {
+        lbNameCategoryRoom.setText(Helper.getResources("nameCategoryRoom"));
+        lbRoomPrice.setText(Helper.getResources("priceRoom"));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnRefesh;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbNameCategoryRoom;
+    private javax.swing.JLabel lbRoomPrice;
     private javax.swing.JLabel msgInformation;
     private javax.swing.JTable tblCategoryRoom;
     private javax.swing.JTextField txtCategoryRoomName;

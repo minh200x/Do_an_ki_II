@@ -63,24 +63,24 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         buttonGroupGender = new javax.swing.ButtonGroup();
-        jLabel1 = new javax.swing.JLabel();
+        lbFullname = new javax.swing.JLabel();
         txtFullname = new javax.swing.JTextField();
         txtUsername = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lbUsername = new javax.swing.JLabel();
+        lbPassword = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
         txtPhone = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        optionMale = new javax.swing.JRadioButton();
-        optionFemail = new javax.swing.JRadioButton();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        lbPhone = new javax.swing.JLabel();
+        lbMale = new javax.swing.JRadioButton();
+        lbFemale = new javax.swing.JRadioButton();
+        lbGender = new javax.swing.JLabel();
+        lbBirthday = new javax.swing.JLabel();
         txtBirthday = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtAddress = new javax.swing.JTextArea();
-        jLabel6 = new javax.swing.JLabel();
+        lbAddress = new javax.swing.JLabel();
         btnChooseImage = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        lbAvartar = new javax.swing.JLabel();
         btnUpdate = new javax.swing.JButton();
         msgInformation = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -89,23 +89,23 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
         setClosable(true);
         setTitle("Tài khoản");
 
-        jLabel1.setText("Họ và tên");
+        lbFullname.setText("Họ và tên");
 
-        jLabel2.setText("Username");
+        lbUsername.setText("Username");
 
-        jLabel3.setText("Password");
+        lbPassword.setText("Password");
 
-        jLabel4.setText("Số điện thoại");
+        lbPhone.setText("Số điện thoại");
 
-        buttonGroupGender.add(optionMale);
-        optionMale.setText("Nam");
+        buttonGroupGender.add(lbMale);
+        lbMale.setText("Nam");
 
-        buttonGroupGender.add(optionFemail);
-        optionFemail.setText("Nữ");
+        buttonGroupGender.add(lbFemale);
+        lbFemale.setText("Nữ");
 
-        jLabel9.setText("Giới tính");
+        lbGender.setText("Giới tính");
 
-        jLabel10.setText("Ngày sinh");
+        lbBirthday.setText("Ngày sinh");
 
         txtBirthday.setDateFormatString("dd-MM-yyyy");
 
@@ -113,7 +113,7 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
         txtAddress.setRows(2);
         jScrollPane1.setViewportView(txtAddress);
 
-        jLabel6.setText("Địa chỉ");
+        lbAddress.setText("Địa chỉ");
 
         btnChooseImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_folder_20px.png"))); // NOI18N
         btnChooseImage.setText("Chọn ảnh");
@@ -123,7 +123,7 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel7.setText("Ảnh đại diện");
+        lbAvartar.setText("Ảnh đại diện");
 
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_edit_20px.png"))); // NOI18N
         btnUpdate.setText("Lưu");
@@ -158,23 +158,23 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnUpdate))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel6)
+                        .addComponent(lbAddress)
                         .addGap(70, 70, 70)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10))
+                            .addComponent(lbGender)
+                            .addComponent(lbBirthday))
                         .addGap(56, 56, 56)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(optionMale)
+                                .addComponent(lbMale)
                                 .addGap(18, 18, 18)
-                                .addComponent(optionFemail))
+                                .addComponent(lbFemale))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel7)))))
+                                .addComponent(lbAvartar)))))
                 .addContainerGap(70, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -188,10 +188,10 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel4))
+                        .addComponent(lbUsername)
+                        .addComponent(lbFullname)
+                        .addComponent(lbPassword)
+                        .addComponent(lbPhone))
                     .addGap(34, 34, 34)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtFullname, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
@@ -209,21 +209,21 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(optionMale)
-                            .addComponent(optionFemail))
+                            .addComponent(lbGender)
+                            .addComponent(lbMale)
+                            .addComponent(lbFemale))
                         .addGap(13, 13, 13)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
+                            .addComponent(lbBirthday)
                             .addComponent(txtBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnChooseImage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7)
+                        .addComponent(lbAvartar)
                         .addGap(17, 17, 17)))
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
+                    .addComponent(lbAddress)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -235,18 +235,18 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtFullname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lbFullname, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtUsername)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lbUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
+                        .addComponent(lbPassword)
                         .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel4)
+                        .addComponent(lbPhone)
                         .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(257, Short.MAX_VALUE)))
         );
@@ -290,7 +290,7 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
             Utils.setMessageInformation(msgInformation, "Vui lòng nhập số điện thoại!", false);
         } else if (!phone.matches("^[0-9]{10}+$")) {
             Utils.setMessageInformation(msgInformation, "Vui lòng nhập đúng định dạng số điện thoại!", isMaximum);
-        } else if (!optionFemail.isSelected() && !optionMale.isSelected()) {
+        } else if (!lbFemale.isSelected() && !lbMale.isSelected()) {
             Utils.setMessageInformation(msgInformation, "Vui lòng chọn giới tính!", false);
         } else {
             user = new User();
@@ -301,7 +301,7 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
             user.setPhone(phone);
             user.setAddress(address);
             user.setBirthday(birthday);
-            if (optionFemail.isSelected()) {
+            if (lbFemale.isSelected()) {
                 user.setGender(SystemConstant.GENDER_FEMALE);
             } else {
                 user.setGender(SystemConstant.GENDER_MALE);
@@ -320,9 +320,9 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
         txtAddress.setText(user.getAddress());
         txtPassword.setText(Security.decrypt(user.getPassword(), SystemConstant.SECRET_KEY));
         if (user.isGender() == SystemConstant.GENDER_MALE) {
-            optionMale.setSelected(true);
+            lbMale.setSelected(true);
         } else {
-            optionFemail.setSelected(true);
+            lbFemale.setSelected(true);
         }
         txtBirthday.setDate(user.getBirthday());
         image = user.getImage();
@@ -351,19 +351,19 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroupGender;
     private javax.swing.JLabel containImg;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbAddress;
+    private javax.swing.JLabel lbAvartar;
+    private javax.swing.JLabel lbBirthday;
+    private javax.swing.JRadioButton lbFemale;
+    private javax.swing.JLabel lbFullname;
+    private javax.swing.JLabel lbGender;
+    private javax.swing.JRadioButton lbMale;
+    private javax.swing.JLabel lbPassword;
+    private javax.swing.JLabel lbPhone;
+    private javax.swing.JLabel lbUsername;
     private javax.swing.JLabel msgInformation;
-    private javax.swing.JRadioButton optionFemail;
-    private javax.swing.JRadioButton optionMale;
     private javax.swing.JTextArea txtAddress;
     private com.toedter.calendar.JDateChooser txtBirthday;
     private javax.swing.JTextField txtFullname;

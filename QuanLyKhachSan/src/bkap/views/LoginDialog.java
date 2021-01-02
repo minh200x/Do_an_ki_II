@@ -8,10 +8,12 @@ package bkap.views;
 import bkap.dao.impl.UserDAO;
 import bkap.model.Level;
 import bkap.model.User;
+import bkap.utils.AppConfig;
 import bkap.utils.Security;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import java.util.List;
+import java.util.Locale;
 
 /**
  *
@@ -27,6 +29,7 @@ public class LoginDialog extends javax.swing.JDialog {
     private List<Level> listLevel;
     public static boolean isLogin;
     public static int levelUser;
+    public static int optionLanguage;
     public static String username;
 
     public LoginDialog(java.awt.Frame parent, boolean modal) {
@@ -35,6 +38,7 @@ public class LoginDialog extends javax.swing.JDialog {
         setResizable(false);
         setTitle("HOTEL - Quản lý khách sạn");
         setLocationRelativeTo(null);
+        optionVN.setSelected(true);
     }
     
     public String getUserName(){
@@ -50,6 +54,7 @@ public class LoginDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroupLanguage = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -59,6 +64,8 @@ public class LoginDialog extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         msgInfomation = new javax.swing.JLabel();
+        optionVN = new javax.swing.JRadioButton();
+        optionUS = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -110,6 +117,24 @@ public class LoginDialog extends javax.swing.JDialog {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/users.jpg"))); // NOI18N
 
+        optionVN.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroupLanguage.add(optionVN);
+        optionVN.setText("Tiếng Việt");
+        optionVN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optionVNActionPerformed(evt);
+            }
+        });
+
+        optionUS.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroupLanguage.add(optionUS);
+        optionUS.setText("Tiếng Anh");
+        optionUS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optionUSActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -128,6 +153,10 @@ public class LoginDialog extends javax.swing.JDialog {
                                 .addGap(150, 150, 150)
                                 .addComponent(jLabel1))
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(optionVN)
+                                    .addGap(35, 35, 35)
+                                    .addComponent(optionUS))
                                 .addComponent(msgInfomation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtPassword)
                                 .addComponent(txtUserName, javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,13 +174,17 @@ public class LoginDialog extends javax.swing.JDialog {
                 .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(optionVN)
+                    .addComponent(optionUS))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(msgInfomation, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -184,6 +217,14 @@ public class LoginDialog extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_jPanel3MouseClicked
+
+    private void optionVNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionVNActionPerformed
+       AppConfig.locale = new Locale("vi", "VN");
+    }//GEN-LAST:event_optionVNActionPerformed
+
+    private void optionUSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionUSActionPerformed
+       AppConfig.locale = Locale.US;
+    }//GEN-LAST:event_optionUSActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,6 +269,7 @@ public class LoginDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroupLanguage;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -235,6 +277,8 @@ public class LoginDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel msgInfomation;
+    private javax.swing.JRadioButton optionUS;
+    private javax.swing.JRadioButton optionVN;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUserName;
     // End of variables declaration//GEN-END:variables

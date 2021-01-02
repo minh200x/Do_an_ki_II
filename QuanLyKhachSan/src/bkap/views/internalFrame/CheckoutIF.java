@@ -5,6 +5,8 @@
  */
 package bkap.views.internalFrame;
 
+import bkap.utils.Helper;
+
 /**
  *
  * @author hongb
@@ -17,6 +19,7 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
     public CheckoutIF() {
         initComponents();
         setTitle("Trả phòng - P101");
+        setNameLable();
     }
 
     /**
@@ -29,30 +32,30 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lbStartDate = new javax.swing.JLabel();
+        lbEndDate = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lbRoomPrice = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        lbPriceAgreeing = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        lbAdvancedPrice = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
+        lbExPrice = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
+        lbTotalMoney = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
-        jLabel19 = new javax.swing.JLabel();
+        lbNote = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
@@ -67,9 +70,9 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Trả phòng");
 
-        jLabel1.setText("Thời gian bắt đầu");
+        lbStartDate.setText("Thời gian bắt đầu");
 
-        jLabel3.setText("Thời gian kết thúc");
+        lbEndDate.setText("Thời gian kết thúc");
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icons8_sand_clock_20px.png"))); // NOI18N
 
@@ -79,19 +82,19 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Nhận phòng sớm 46 phút / Trả phòng muộn 1 giờ 13 phút");
 
-        jLabel7.setText("Tiền phòng");
+        lbRoomPrice.setText("Tiền phòng");
 
         jLabel8.setText("Tiền phòng 4 ngày");
 
-        jLabel9.setText("Giá thỏa thuận");
+        lbPriceAgreeing.setText("Giá thỏa thuận");
 
         jLabel10.setText("1.000.00");
 
-        jLabel11.setText("Tiền trả trước");
+        lbAdvancedPrice.setText("Tiền trả trước");
 
         jTextField2.setText("500.000");
 
-        jLabel12.setText("Thu, giảm trừ");
+        lbExPrice.setText("Thu, giảm trừ");
 
         jTextField3.setText("0.000");
 
@@ -99,7 +102,7 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
 
         jTextField4.setText("0.000");
 
-        jLabel14.setText("Tổng tiền");
+        lbTotalMoney.setText("Tổng tiền");
 
         jLabel15.setText("1020.000");
 
@@ -116,7 +119,7 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel19.setText("Ghi chú");
+        lbNote.setText("Ghi chú");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(2);
@@ -137,10 +140,10 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel9))
+                            .addComponent(lbStartDate)
+                            .addComponent(lbEndDate)
+                            .addComponent(lbRoomPrice)
+                            .addComponent(lbPriceAgreeing))
                         .addGap(51, 51, 51)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -152,7 +155,7 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel8)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel11)
+                                            .addComponent(lbAdvancedPrice)
                                             .addComponent(jLabel16))
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -170,9 +173,9 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel19))
+                            .addComponent(lbExPrice)
+                            .addComponent(lbTotalMoney)
+                            .addComponent(lbNote))
                         .addGap(71, 71, 71)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -208,12 +211,12 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addComponent(lbStartDate)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(jLabel3))
+                        .addComponent(lbEndDate))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -225,18 +228,18 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
+                    .addComponent(lbRoomPrice)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
+                    .addComponent(lbPriceAgreeing)
                     .addComponent(jLabel10)
-                    .addComponent(jLabel11)
+                    .addComponent(lbAdvancedPrice)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
+                    .addComponent(lbExPrice)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -244,13 +247,13 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
+                    .addComponent(lbTotalMoney)
                     .addComponent(jLabel15)
                     .addComponent(jLabel16)
                     .addComponent(jLabel17))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel19)
+                    .addComponent(lbNote)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -279,32 +282,34 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
 
+    private void setNameLable() {
+        lbAdvancedPrice.setText(Helper.getResources("paymentAdvanced"));
+        lbEndDate.setText(Helper.getResources("endDate"));
+        lbExPrice.setText(Helper.getResources("exPrice"));
+        lbNote.setText(Helper.getResources("note"));
+        lbPriceAgreeing.setText(Helper.getResources("priceAgreeing"));
+        lbRoomPrice.setText(Helper.getResources("priceRoom"));
+        lbStartDate.setText(Helper.getResources("startDate"));
+        lbTotalMoney.setText(Helper.getResources("totalMoney"));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
@@ -313,5 +318,13 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JLabel lbAdvancedPrice;
+    private javax.swing.JLabel lbEndDate;
+    private javax.swing.JLabel lbExPrice;
+    private javax.swing.JLabel lbNote;
+    private javax.swing.JLabel lbPriceAgreeing;
+    private javax.swing.JLabel lbRoomPrice;
+    private javax.swing.JLabel lbStartDate;
+    private javax.swing.JLabel lbTotalMoney;
     // End of variables declaration//GEN-END:variables
 }

@@ -13,6 +13,7 @@ import bkap.model.CategoryRoom;
 import bkap.model.CheckoutProductDetails;
 import bkap.model.Product;
 import bkap.model.Room;
+import bkap.utils.Helper;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import bkap.views.LoginDialog;
@@ -115,6 +116,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             btnUpdateRoom.setEnabled(false);
             btnDeleteRoom.setEnabled(false);
         }
+        setNameLabel();
     }
 
     public static boolean getStatus() {
@@ -131,19 +133,19 @@ public class RoomIF extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbNameRoom = new javax.swing.JLabel();
         txtRoomId = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        lbCategoryRoom = new javax.swing.JLabel();
         cbCategoryRoom = new javax.swing.JComboBox();
-        jLabel3 = new javax.swing.JLabel();
+        lbRoomPrice = new javax.swing.JLabel();
         txtPrice = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lbNoteRoom = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtRoomDescript = new javax.swing.JTextArea();
-        jLabel6 = new javax.swing.JLabel();
+        lbImgDescript = new javax.swing.JLabel();
         btnChooseImg = new javax.swing.JButton();
         txtNumOfImg = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        lbStatusRoom = new javax.swing.JLabel();
         cbStatusRoom = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -154,14 +156,14 @@ public class RoomIF extends javax.swing.JInternalFrame {
         txtKeySearchRoom = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
+        lbProduct = new javax.swing.JLabel();
         cbProduct = new javax.swing.JComboBox();
-        jLabel10 = new javax.swing.JLabel();
+        lbStatusProduct = new javax.swing.JLabel();
         cbStatusProduct = new javax.swing.JComboBox();
-        jLabel11 = new javax.swing.JLabel();
+        lbNoteProduct = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtProductDescript = new javax.swing.JTextArea();
-        jLabel12 = new javax.swing.JLabel();
+        lbModel = new javax.swing.JLabel();
         txtModelNameProduct = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblProduct = new javax.swing.JTable();
@@ -186,11 +188,11 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Phòng"));
 
-        jLabel1.setText("Tên phòng");
+        lbNameRoom.setText("Tên phòng");
 
         txtRoomId.setEditable(false);
 
-        jLabel2.setText("Loại phòng");
+        lbCategoryRoom.setText("Loại phòng");
 
         cbCategoryRoom.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -198,17 +200,17 @@ public class RoomIF extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel3.setText("Giá phòng");
+        lbRoomPrice.setText("Giá phòng");
 
         txtPrice.setText("price");
 
-        jLabel5.setText("Mô tả");
+        lbNoteRoom.setText("Mô tả");
 
         txtRoomDescript.setColumns(20);
         txtRoomDescript.setRows(5);
         jScrollPane1.setViewportView(txtRoomDescript);
 
-        jLabel6.setText("Ảnh mô tả");
+        lbImgDescript.setText("Ảnh mô tả");
 
         btnChooseImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_folder_20px.png"))); // NOI18N
         btnChooseImg.setText("Chọn ảnh");
@@ -218,7 +220,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel8.setText("Trạng thái");
+        lbStatusRoom.setText("Trạng thái");
 
         cbStatusRoom.setEnabled(false);
 
@@ -292,12 +294,12 @@ public class RoomIF extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel8))
+                                    .addComponent(lbNameRoom)
+                                    .addComponent(lbCategoryRoom)
+                                    .addComponent(lbRoomPrice)
+                                    .addComponent(lbNoteRoom)
+                                    .addComponent(lbImgDescript)
+                                    .addComponent(lbStatusRoom))
                                 .addGap(67, 67, 67)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -338,21 +340,21 @@ public class RoomIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtRoomId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(lbNameRoom))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addComponent(lbCategoryRoom)
                     .addComponent(cbCategoryRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
+                            .addComponent(lbRoomPrice)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(txtPrice)
                                 .addComponent(jLabel4)))
                         .addGap(20, 20, 20)
-                        .addComponent(jLabel6))
+                        .addComponent(lbImgDescript))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -360,12 +362,12 @@ public class RoomIF extends javax.swing.JInternalFrame {
                             .addComponent(txtNumOfImg, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
+                    .addComponent(lbNoteRoom)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbStatusRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
+                    .addComponent(lbStatusRoom))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -379,19 +381,19 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Thiết bị trong phòng"));
 
-        jLabel9.setText("Sản phẩm");
+        lbProduct.setText("Sản phẩm");
 
-        jLabel10.setText("Trạng thái");
+        lbStatusProduct.setText("Trạng thái");
 
         cbStatusProduct.setEnabled(false);
 
-        jLabel11.setText("Mô tả");
+        lbNoteProduct.setText("Mô tả");
 
         txtProductDescript.setColumns(20);
         txtProductDescript.setRows(5);
         jScrollPane3.setViewportView(txtProductDescript);
 
-        jLabel12.setText("Model");
+        lbModel.setText("Model");
 
         tblProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -478,16 +480,16 @@ public class RoomIF extends javax.swing.JInternalFrame {
                     .addComponent(jSeparator1)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel11))
+                            .addComponent(lbProduct)
+                            .addComponent(lbModel)
+                            .addComponent(lbNoteProduct))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(cbProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 184, Short.MAX_VALUE)
-                                .addComponent(jLabel10)
+                                .addComponent(lbStatusProduct)
                                 .addGap(18, 18, 18)
                                 .addComponent(cbStatusProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtModelNameProduct)))
@@ -513,17 +515,17 @@ public class RoomIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
+                    .addComponent(lbProduct)
                     .addComponent(cbProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
+                    .addComponent(lbStatusProduct)
                     .addComponent(cbStatusProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
+                    .addComponent(lbModel)
                     .addComponent(txtModelNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
+                    .addComponent(lbNoteProduct)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1126,6 +1128,19 @@ public class RoomIF extends javax.swing.JInternalFrame {
             }
         }
     }
+    
+    private void setNameLabel() {
+        lbCategoryRoom.setText(Helper.getResources("categoryRoom"));
+        lbImgDescript.setText(Helper.getResources("image"));
+        lbModel.setText(Helper.getResources("model"));
+        lbNameRoom.setText(Helper.getResources("nameRoom"));
+        lbNoteProduct.setText(Helper.getResources("note"));
+        lbNoteRoom.setText(Helper.getResources("note"));
+        lbProduct.setText(Helper.getResources("product"));
+        lbRoomPrice.setText(Helper.getResources("priceRoom"));
+        lbStatusProduct.setText(Helper.getResources("status"));
+        lbStatusRoom.setText(Helper.getResources("status"));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddProduct;
@@ -1144,17 +1159,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cbStatusProduct;
     private javax.swing.JComboBox cbStatusRoom;
     private javax.swing.JComboBox<String> cbStatusRoomSearch;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1163,6 +1168,16 @@ public class RoomIF extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbCategoryRoom;
+    private javax.swing.JLabel lbImgDescript;
+    private javax.swing.JLabel lbModel;
+    private javax.swing.JLabel lbNameRoom;
+    private javax.swing.JLabel lbNoteProduct;
+    private javax.swing.JLabel lbNoteRoom;
+    private javax.swing.JLabel lbProduct;
+    private javax.swing.JLabel lbRoomPrice;
+    private javax.swing.JLabel lbStatusProduct;
+    private javax.swing.JLabel lbStatusRoom;
     private javax.swing.JLabel msgForProduct;
     private javax.swing.JLabel msgInformation;
     private javax.swing.JTable tblProduct;

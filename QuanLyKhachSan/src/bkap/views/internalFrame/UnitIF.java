@@ -7,6 +7,7 @@ package bkap.views.internalFrame;
 
 import bkap.dao.impl.UnitDAO;
 import bkap.model.Unit;
+import bkap.utils.Helper;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import java.awt.Color;
@@ -35,6 +36,8 @@ public class UnitIF extends javax.swing.JInternalFrame {
         list = unitDao.findAll();
         modelUnit = (DefaultTableModel) tblUnit.getModel();
         setDataTable(list);
+        
+        setNameLabel();
     }
     
 
@@ -48,7 +51,7 @@ public class UnitIF extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbUnit = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         btnDelete = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
@@ -67,7 +70,7 @@ public class UnitIF extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Đơn vị");
 
-        jLabel1.setText("Đơn vị");
+        lbUnit.setText("Đơn vị");
 
         btnDelete.setText("Xóa");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -143,7 +146,7 @@ public class UnitIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lbUnit)
                         .addGap(18, 18, 18)
                         .addComponent(txtName))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -171,7 +174,7 @@ public class UnitIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lbUnit)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -336,16 +339,21 @@ public class UnitIF extends javax.swing.JInternalFrame {
         btnDelete.setEnabled(false);
         txtName.setText("");
     }
+    
+    private void setNameLabel() {
+        lbUnit.setText(Helper.getResources("unit"));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbUnit;
     private javax.swing.JTable tblUnit;
     private javax.swing.JLabel txtInfo;
     private javax.swing.JTextField txtKeySearch;

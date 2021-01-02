@@ -7,6 +7,7 @@ package bkap.views.internalFrame;
 
 import bkap.dao.impl.CategoryServiceDAO;
 import bkap.model.CategoryService;
+import bkap.utils.Helper;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import bkap.views.LoginDialog;
@@ -20,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  * @author hongb
  */
 public class CategoryServiceIF extends javax.swing.JInternalFrame {
-    
+
     private CategoryServiceDAO catServiceDao = new CategoryServiceDAO();
     private List<CategoryService> listCatService;
     private DefaultTableModel modelCatService;
@@ -35,14 +36,15 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         listCatService = catServiceDao.findAll();
         modelCatService = (DefaultTableModel) tblCatService.getModel();
         setDataTable(listCatService);
-        
+
         if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
             btnAdd.setEnabled(false);
             btnEdit.setEnabled(false);
             btnDelete.setEnabled(false);
-        } 
+        }
+        setNameLabel();
     }
-    
+
     private void setDataTable(List<CategoryService> catSer) {
         modelCatService.setRowCount(0);
         for (CategoryService catSer1 : catSer) {
@@ -63,7 +65,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
 
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbCategoryService = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
@@ -84,7 +86,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Loại dịch vụ");
 
-        jLabel1.setText("Loại dịch vụ");
+        lbCategoryService.setText("Loại dịch vụ");
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_add_20px.png"))); // NOI18N
         btnAdd.setText("Thêm");
@@ -137,7 +139,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAdd))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lbCategoryService)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                         .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -147,7 +149,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lbCategoryService)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -240,7 +242,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
             listCatService = catServiceDao.findAll();
             setDataTable(listCatService);
         }
-        
+
 
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -257,7 +259,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
                 listCatService = catServiceDao.findAll();
                 setDataTable(listCatService);
             }
-            
+
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
@@ -266,7 +268,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         btnAdd.setEnabled(false);
         btnEdit.setEnabled(true);
         btnDelete.setEnabled(true);
-        
+
         int indexSelected = tblCatService.getSelectedRow();
         CategoryService catSer = listCatService.get(indexSelected);
         txtName.setText(catSer.getName());
@@ -309,7 +311,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         listCatService = catServiceDao.findAll();
         setDataTable(listCatService);
         txtInfo.setText("");
-        
+
         btnEdit.setEnabled(false);
         btnDelete.setEnabled(false);
     }//GEN-LAST:event_btnRefeshActionPerformed
@@ -324,10 +326,10 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
     private void txtKeySearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusLost
         if (txtKeySearch.getText().equals("")) {
             txtKeySearch.setText("Tên loại dịch vụ");
-            txtKeySearch.setForeground(new Color(153,153,153));
+            txtKeySearch.setForeground(new Color(153, 153, 153));
         }
     }//GEN-LAST:event_txtKeySearchFocusLost
-    
+
     private boolean checkValidate() {
         boolean check = false;
         getValueOfFields();
@@ -340,23 +342,27 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         }
         return check;
     }
-    
+
     private void getValueOfFields() {
         name = txtName.getText();
         id = id;
     }
-    
+
     private CategoryService setPropertiesForObject() {
         CategoryService catService = new CategoryService();
         catService.setName(name);
         catService.setId(id);
         return catService;
     }
-    
+
     private void setNullValueFields() {
         btnAdd.setEnabled(true);
         btnEdit.setEnabled(false);
         txtName.setText("");
+    }
+    
+    private void setNameLabel() {
+        lbCategoryService.setText(Helper.getResources("categoryService"));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -366,10 +372,10 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnRefesh;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbCategoryService;
     private javax.swing.JTable tblCatService;
     private javax.swing.JLabel txtInfo;
     private javax.swing.JTextField txtKeySearch;

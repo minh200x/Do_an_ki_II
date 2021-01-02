@@ -56,19 +56,19 @@
               </Group>
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbNameCustomer" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbPhone" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbCheckinDate" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbAdvancedPrice" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="btnGetRoom" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbCategoryRoom" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbTotalPeople" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="txtShowRoom" max="32767" attributes="0"/>
+                          <Component id="lbEmpty" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnGetService" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="299" max="-2" attributes="0"/>
@@ -86,7 +86,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="txtTotalPeople" min="-2" pref="137" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                                  <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbIdentityCard" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="txtNumIdentityCard" max="32767" attributes="0"/>
                               </Group>
@@ -100,19 +100,19 @@
                                           <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lbPriceAgreeing" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Component id="txtPriceAgreement" min="-2" pref="182" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lbCheckoutDate" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Component id="txtEndDate" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lbSingleRoom" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="btnSingleSub" min="-2" pref="37" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -143,18 +143,18 @@
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="txtName" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lbNameCustomer" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbPhone" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtPhone" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbCheckinDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbCheckoutDate" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="txtStartDate" min="-2" max="-2" attributes="0"/>
                       <Component id="txtEndDate" min="-2" max="-2" attributes="0"/>
@@ -163,10 +163,10 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="txtPricePaymentAdvance" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbPriceAgreeing" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtPriceAgreement" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbAdvancedPrice" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -176,7 +176,7 @@
                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="txtShowRoom" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="lbEmpty" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="btnGetService" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="btnGetRoom" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -185,7 +185,7 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jLabel12" alignment="0" min="-2" pref="23" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel10" alignment="3" max="32767" attributes="0"/>
+                          <Component id="lbSingleRoom" alignment="3" max="32767" attributes="0"/>
                           <Component id="btnSingleSub" alignment="3" max="32767" attributes="0"/>
                           <Component id="btnSingleIncrease" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnDoubleIncrease" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -193,16 +193,16 @@
                           <Component id="txtRoomDouble" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnDoubleSub" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jLabel9" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lbCategoryRoom" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txtTotalPeople" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbIdentityCard" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtNumIdentityCard" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jLabel14" max="32767" attributes="0"/>
+                      <Component id="lbTotalPeople" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="18" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -215,31 +215,31 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="lbNameCustomer">
           <Properties>
             <Property name="text" type="java.lang.String" value="H&#x1ecd; t&#xea;n kh&#xe1;ch h&#xe0;ng"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtName">
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
+        <Component class="javax.swing.JLabel" name="lbPhone">
           <Properties>
             <Property name="text" type="java.lang.String" value="S&#x1ed1; &#x111;i&#x1ec7;n tho&#x1ea1;i"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtPhone">
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="lbCheckinDate">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ng&#xe0;y nh&#x1ead;n ph&#xf2;ng"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
+        <Component class="javax.swing.JLabel" name="lbCheckoutDate">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ng&#xe0;y tr&#x1ea3; ph&#xf2;ng"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
+        <Component class="javax.swing.JLabel" name="lbAdvancedPrice">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ti&#x1ec1;n tr&#x1ea3; tr&#x1b0;&#x1edb;c"/>
           </Properties>
@@ -249,7 +249,7 @@
             <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel6">
+        <Component class="javax.swing.JLabel" name="lbPriceAgreeing">
           <Properties>
             <Property name="text" type="java.lang.String" value="Gi&#xe1; th&#x1ecf;a thu&#x1ead;n"/>
           </Properties>
@@ -287,17 +287,17 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGetRoomActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="txtShowRoom">
+        <Component class="javax.swing.JLabel" name="lbEmpty">
           <Properties>
             <Property name="text" type="java.lang.String" value="Tr&#x1ed1;ng"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel9">
+        <Component class="javax.swing.JLabel" name="lbCategoryRoom">
           <Properties>
             <Property name="text" type="java.lang.String" value="Lo&#x1ea1;i ph&#xf2;ng"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel10">
+        <Component class="javax.swing.JLabel" name="lbSingleRoom">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ph&#xf2;ng &#x111;&#x1a1;n"/>
           </Properties>
@@ -347,7 +347,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBookRoomActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel14">
+        <Component class="javax.swing.JLabel" name="lbTotalPeople">
           <Properties>
             <Property name="text" type="java.lang.String" value="S&#x1ed1; ng&#x1b0;&#x1edd;i"/>
           </Properties>
@@ -387,7 +387,7 @@
             <Property name="dateFormatString" type="java.lang.String" value="dd-MM-yyyy"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel11">
+        <Component class="javax.swing.JLabel" name="lbIdentityCard">
           <Properties>
             <Property name="text" type="java.lang.String" value="CMND/ CCCD"/>
           </Properties>

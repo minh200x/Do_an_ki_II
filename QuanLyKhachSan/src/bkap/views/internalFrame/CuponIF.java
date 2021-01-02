@@ -7,6 +7,7 @@ package bkap.views.internalFrame;
 
 import bkap.dao.impl.CuponDAO;
 import bkap.model.Cupon;
+import bkap.utils.Helper;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import bkap.views.LoginDialog;
@@ -22,15 +23,15 @@ import javax.swing.table.DefaultTableModel;
  * @author hongb
  */
 public class CuponIF extends javax.swing.JInternalFrame {
-    
+
     private List<Cupon> listCupon;
     private CuponDAO cuponDAO = new CuponDAO();
-    
+
     private DefaultTableModel modelCupon;
-    
+
     private int indexSelected = 0;
     private int idCupon;
-    
+
     private String name;
     private String discount;
     private String maxQuantity;
@@ -45,19 +46,20 @@ public class CuponIF extends javax.swing.JInternalFrame {
      */
     public CuponIF() {
         initComponents();
-        cuponDAO.updateStatus();        
+        cuponDAO.updateStatus();
         listCupon = cuponDAO.findAll();
-        
+
         modelCupon = (DefaultTableModel) tblCupon.getModel();
-        
+
         setDataTable(modelCupon, listCupon);
-        setDataCombox();        
-        
+        setDataCombox();
+
         if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
             btnAdd.setEnabled(false);
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
         }
+        setNameLabel();
     }
 
     /**
@@ -70,12 +72,12 @@ public class CuponIF extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbNameCupon = new javax.swing.JLabel();
         txtNameCupon = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        lbQuantity = new javax.swing.JLabel();
         txtMaxQuantity = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lbEndDate = new javax.swing.JLabel();
+        lbStartDate = new javax.swing.JLabel();
         btnDelete = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
@@ -84,7 +86,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
         txtStartDate = new com.toedter.calendar.JDateChooser();
         txtEndDate = new com.toedter.calendar.JDateChooser();
         messageInformation = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lbDiscount = new javax.swing.JLabel();
         txtDiscount = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -99,13 +101,13 @@ public class CuponIF extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Mã giảm giá");
 
-        jLabel1.setText("Mã giảm giá");
+        lbNameCupon.setText("Mã giảm giá");
 
-        jLabel2.setText("Số lượng");
+        lbQuantity.setText("Số lượng");
 
-        jLabel3.setText("Ngày kết thúc");
+        lbEndDate.setText("Ngày kết thúc");
 
-        jLabel4.setText("Ngày bắt đầu");
+        lbStartDate.setText("Ngày bắt đầu");
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_remove_20px.png"))); // NOI18N
         btnDelete.setText("Xóa");
@@ -160,7 +162,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
 
         txtEndDate.setDateFormatString("dd-MM-yyyy");
 
-        jLabel5.setText("Discount");
+        lbDiscount.setText("Discount");
 
         jLabel6.setText("%");
 
@@ -213,9 +215,9 @@ public class CuponIF extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(33, 33, 33)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel5))
+                                    .addComponent(lbStartDate)
+                                    .addComponent(lbNameCupon)
+                                    .addComponent(lbDiscount))
                                 .addGap(28, 28, 28)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtNameCupon)
@@ -226,8 +228,8 @@ public class CuponIF extends javax.swing.JInternalFrame {
                                         .addComponent(jLabel6)))
                                 .addGap(39, 39, 39)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2))
+                                    .addComponent(lbEndDate)
+                                    .addComponent(lbQuantity))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
@@ -263,18 +265,18 @@ public class CuponIF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtNameCupon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtMaxQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbNameCupon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4)
+                    .addComponent(lbStartDate)
                     .addComponent(txtStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
+                    .addComponent(lbDiscount)
                     .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
@@ -324,7 +326,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
             Cupon c = setPropertiesForObject();
             cuponDAO.add(c);
             Utils.setMessageInformation(messageInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
-            
+
             setNullValueFields();
             listCupon = cuponDAO.findAll();
             setDataTable(modelCupon, listCupon);
@@ -336,9 +338,9 @@ public class CuponIF extends javax.swing.JInternalFrame {
         btnUpdate.setEnabled(true);
         btnDelete.setEnabled(true);
         btnAdd.setEnabled(false);
-        
+
         indexSelected = tblCupon.getSelectedRow();
-        
+
         if (indexSelected == -1) {
             Utils.setMessageInformation(messageInformation, SystemConstant.MSG_ERROR_CHOOSE_ROW_TABLE, false);
         } else {
@@ -355,11 +357,11 @@ public class CuponIF extends javax.swing.JInternalFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_DELETE);
-        
+
         if (reply == 0) {
             cuponDAO.delete(idCupon);
             Utils.setMessageInformation(messageInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
-            
+
             setNullValueFields();
             listCupon = cuponDAO.findAll();
             setDataTable(modelCupon, listCupon);
@@ -368,14 +370,14 @@ public class CuponIF extends javax.swing.JInternalFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_UPDATE);
-        
+
         if (reply == 0) {
             getValueOfFields();
             if (checkValidate()) {
                 Cupon c = setPropertiesForObject();
                 cuponDAO.edit(c);
                 Utils.setMessageInformation(messageInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
-                
+
                 setNullValueFields();
                 listCupon = cuponDAO.findAll();
                 setDataTable(modelCupon, listCupon);
@@ -438,13 +440,13 @@ public class CuponIF extends javax.swing.JInternalFrame {
             txtKeySearch.setForeground(Color.black);
         }
     }//GEN-LAST:event_txtKeySearchFocusGained
-    
+
     private void setDataCombox() {
         cbStatus.addItem("Tất cả");
         cbStatus.addItem(SystemConstant.STATUS_TXT_CUPON_ON);
         cbStatus.addItem(SystemConstant.STATUS_TXT_CUPON_OFF);
     }
-    
+
     private void getValueOfFields() {
         name = txtNameCupon.getText();
         discount = txtDiscount.getText();
@@ -452,10 +454,10 @@ public class CuponIF extends javax.swing.JInternalFrame {
         startDate = txtStartDate.getDate();
         endDate = txtEndDate.getDate();
     }
-    
+
     private boolean checkValidate() {
         boolean check = false;
-        
+
         if (name.isEmpty()) {
             Utils.setMessageInformation(messageInformation, "Vui lòng nhập tên mã giảm giá!", false);
         } else if (startDate == null && endDate == null && maxQuantity.isEmpty()) {
@@ -467,7 +469,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
         }
         return check;
     }
-    
+
     private Cupon setPropertiesForObject() {
         Cupon c = new Cupon();
         c.setId(idCupon);
@@ -481,21 +483,21 @@ public class CuponIF extends javax.swing.JInternalFrame {
         c.setStatus(SystemConstant.STATUS_CUPON_ON);
         return c;
     }
-    
+
     private void setNullValueFields() {
         txtNameCupon.setText("");
         txtMaxQuantity.setText("");
         txtDiscount.setText("");
         txtStartDate.setDate(null);
         txtEndDate.setDate(null);
-        
+
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
         btnAdd.setEnabled(true);
         txtKeySearch.setText("Mã giảm giá");
         txtKeySearch.setForeground(new Color(153, 153, 153));
     }
-    
+
     private void setDataTable(DefaultTableModel model, List<Cupon> list) {
         model.setRowCount(0);
         for (Cupon c : list) {
@@ -505,6 +507,14 @@ public class CuponIF extends javax.swing.JInternalFrame {
         }
     }
 
+    private void setNameLabel() {
+        lbDiscount.setText(Helper.getResources("discount"));
+        lbEndDate.setText(Helper.getResources("endDate"));
+        lbNameCupon.setText(Helper.getResources("nameCupon"));
+        lbQuantity.setText(Helper.getResources("quantity"));
+        lbStartDate.setText(Helper.getResources("startDate"));
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
@@ -512,15 +522,15 @@ public class CuponIF extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbStatus;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbDiscount;
+    private javax.swing.JLabel lbEndDate;
+    private javax.swing.JLabel lbNameCupon;
+    private javax.swing.JLabel lbQuantity;
+    private javax.swing.JLabel lbStartDate;
     private javax.swing.JLabel messageInformation;
     private javax.swing.JTable tblCupon;
     private javax.swing.JTextField txtDiscount;

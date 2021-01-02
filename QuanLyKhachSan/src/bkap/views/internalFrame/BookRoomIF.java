@@ -19,6 +19,7 @@ import bkap.model.Cupon;
 import bkap.model.Customer;
 import bkap.model.Room;
 import bkap.model.Service;
+import bkap.utils.Helper;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import bkap.views.ListRoomEmptyJDialog;
@@ -79,6 +80,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     public BookRoomIF() {
         initComponents();
         listCheckin = checkinDao.findAll();
+        setNameLabel();
     }
 
     /**
@@ -91,30 +93,30 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jn1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbNameCustomer = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        lbPhone = new javax.swing.JLabel();
         txtPhone = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lbCheckinDate = new javax.swing.JLabel();
+        lbCheckoutDate = new javax.swing.JLabel();
+        lbAdvancedPrice = new javax.swing.JLabel();
         txtPricePaymentAdvance = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        lbPriceAgreeing = new javax.swing.JLabel();
         txtPriceAgreement = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDes = new javax.swing.JTextArea();
         btnGetRoom = new javax.swing.JButton();
-        txtShowRoom = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        lbEmpty = new javax.swing.JLabel();
+        lbCategoryRoom = new javax.swing.JLabel();
+        lbSingleRoom = new javax.swing.JLabel();
         btnSingleSub = new javax.swing.JButton();
         btnSingleIncrease = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         btnDoubleSub = new javax.swing.JButton();
         btnDoubleIncrease = new javax.swing.JButton();
         btnBookRoom = new javax.swing.JButton();
-        jLabel14 = new javax.swing.JLabel();
+        lbTotalPeople = new javax.swing.JLabel();
         txtTotalPeople = new javax.swing.JTextField();
         btnGetService = new javax.swing.JButton();
         txtRoomSingle = new javax.swing.JTextField();
@@ -122,7 +124,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         txtInfo = new javax.swing.JLabel();
         txtStartDate = new com.toedter.calendar.JDateChooser();
         txtEndDate = new com.toedter.calendar.JDateChooser();
-        jLabel11 = new javax.swing.JLabel();
+        lbIdentityCard = new javax.swing.JLabel();
         txtNumIdentityCard = new javax.swing.JTextField();
 
         setClosable(true);
@@ -131,19 +133,19 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Đặt phòng");
 
-        jLabel1.setText("Họ tên khách hàng");
+        lbNameCustomer.setText("Họ tên khách hàng");
 
-        jLabel2.setText("Số điện thoại");
+        lbPhone.setText("Số điện thoại");
 
-        jLabel3.setText("Ngày nhận phòng");
+        lbCheckinDate.setText("Ngày nhận phòng");
 
-        jLabel4.setText("Ngày trả phòng");
+        lbCheckoutDate.setText("Ngày trả phòng");
 
-        jLabel5.setText("Tiền trả trước");
+        lbAdvancedPrice.setText("Tiền trả trước");
 
         txtPricePaymentAdvance.setText("0");
 
-        jLabel6.setText("Giá thỏa thuận");
+        lbPriceAgreeing.setText("Giá thỏa thuận");
 
         txtPriceAgreement.setText("0");
 
@@ -160,11 +162,11 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
             }
         });
 
-        txtShowRoom.setText("Trống");
+        lbEmpty.setText("Trống");
 
-        jLabel9.setText("Loại phòng");
+        lbCategoryRoom.setText("Loại phòng");
 
-        jLabel10.setText("Phòng đơn");
+        lbSingleRoom.setText("Phòng đơn");
 
         btnSingleSub.setText("-");
         btnSingleSub.addActionListener(new java.awt.event.ActionListener() {
@@ -203,7 +205,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel14.setText("Số người");
+        lbTotalPeople.setText("Số người");
 
         txtTotalPeople.setText("1");
 
@@ -222,7 +224,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
 
         txtEndDate.setDateFormatString("dd-MM-yyyy");
 
-        jLabel11.setText("CMND/ CCCD");
+        lbIdentityCard.setText("CMND/ CCCD");
 
         javax.swing.GroupLayout jn1Layout = new javax.swing.GroupLayout(jn1);
         jn1.setLayout(jn1Layout);
@@ -234,18 +236,18 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                 .addComponent(btnBookRoom))
             .addGroup(jn1Layout.createSequentialGroup()
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5)
+                    .addComponent(lbNameCustomer)
+                    .addComponent(lbPhone)
+                    .addComponent(lbCheckinDate)
+                    .addComponent(lbAdvancedPrice)
                     .addComponent(jLabel7)
                     .addComponent(btnGetRoom)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel14))
+                    .addComponent(lbCategoryRoom)
+                    .addComponent(lbTotalPeople))
                 .addGap(18, 18, 18)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jn1Layout.createSequentialGroup()
-                        .addComponent(txtShowRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbEmpty, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGetService)
                         .addGap(299, 299, 299))
@@ -260,7 +262,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                             .addGroup(jn1Layout.createSequentialGroup()
                                 .addComponent(txtTotalPeople, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(64, 64, 64)
-                                .addComponent(jLabel11)
+                                .addComponent(lbIdentityCard)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtNumIdentityCard))
                             .addGroup(jn1Layout.createSequentialGroup()
@@ -272,15 +274,15 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                                         .addGap(97, 97, 97)
                                         .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(jn1Layout.createSequentialGroup()
-                                                .addComponent(jLabel6)
+                                                .addComponent(lbPriceAgreeing)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(txtPriceAgreement, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(jn1Layout.createSequentialGroup()
-                                                .addComponent(jLabel4)
+                                                .addComponent(lbCheckoutDate)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(txtEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                                     .addGroup(jn1Layout.createSequentialGroup()
-                                        .addComponent(jLabel10)
+                                        .addComponent(lbSingleRoom)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(btnSingleSub, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
@@ -303,25 +305,25 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
             .addGroup(jn1Layout.createSequentialGroup()
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtName)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbNameCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lbPhone)
                     .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel4))
+                        .addComponent(lbCheckinDate)
+                        .addComponent(lbCheckoutDate))
                     .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtPricePaymentAdvance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6)
+                        .addComponent(lbPriceAgreeing)
                         .addComponent(txtPriceAgreement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel5))
+                    .addComponent(lbAdvancedPrice))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
@@ -329,28 +331,28 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                 .addGap(9, 9, 9)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtShowRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbEmpty, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnGetService))
                     .addComponent(btnGetRoom))
                 .addGap(18, 18, 18)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbSingleRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSingleSub, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSingleIncrease)
                         .addComponent(btnDoubleIncrease)
                         .addComponent(txtRoomSingle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtRoomDouble, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnDoubleSub))
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbCategoryRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtTotalPeople, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel11)
+                        .addComponent(lbIdentityCard)
                         .addComponent(txtNumIdentityCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbTotalPeople, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnBookRoom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -387,7 +389,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         for (Integer data : listRoomSelected) {
             textList += "P" + data + ";  ";
         }
-        txtShowRoom.setText(textList);
+        lbEmpty.setText(textList);
     }//GEN-LAST:event_btnGetRoomActionPerformed
 
     private void btnSingleIncreaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSingleIncreaseActionPerformed
@@ -590,7 +592,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         txtRoomDouble.setText("0");
         txtRoomSingle.setText("1");
         txtTotalPeople.setText("1");
-        txtShowRoom.setText("Trống");
+        lbEmpty.setText("Trống");
     }
 
     private int priceServiceOfRoom(int id) {
@@ -607,6 +609,20 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         return price;
     }
 
+    private void setNameLabel() {
+        lbAdvancedPrice.setText(Helper.getResources("paymentAdvanced"));
+        lbCategoryRoom.setText(Helper.getResources("categoryRoom"));
+        lbCheckinDate.setText(Helper.getResources("checkinDate"));
+        lbCheckoutDate.setText(Helper.getResources("checkoutDate"));
+        lbEmpty.setText(Helper.getResources("empty"));
+        lbIdentityCard.setText(Helper.getResources("numOfIdentityCard"));
+        lbNameCustomer.setText(Helper.getResources("fullnameCus"));
+        lbPhone.setText(Helper.getResources("phone"));
+        lbSingleRoom.setText(Helper.getResources("sigleRoom"));
+        lbPriceAgreeing.setText(Helper.getResources("priceAgreeing"));
+        lbTotalPeople.setText(Helper.getResources("totalPeople"));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBookRoom;
     private javax.swing.JButton btnDoubleIncrease;
@@ -615,20 +631,21 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnGetService;
     private javax.swing.JButton btnSingleIncrease;
     private javax.swing.JButton btnSingleSub;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel jn1;
+    private javax.swing.JLabel lbAdvancedPrice;
+    private javax.swing.JLabel lbCategoryRoom;
+    private javax.swing.JLabel lbCheckinDate;
+    private javax.swing.JLabel lbCheckoutDate;
+    private javax.swing.JLabel lbEmpty;
+    private javax.swing.JLabel lbIdentityCard;
+    private javax.swing.JLabel lbNameCustomer;
+    private javax.swing.JLabel lbPhone;
+    private javax.swing.JLabel lbPriceAgreeing;
+    private javax.swing.JLabel lbSingleRoom;
+    private javax.swing.JLabel lbTotalPeople;
     private javax.swing.JTextArea txtDes;
     private com.toedter.calendar.JDateChooser txtEndDate;
     private javax.swing.JLabel txtInfo;
@@ -639,7 +656,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtPricePaymentAdvance;
     private javax.swing.JTextField txtRoomDouble;
     private javax.swing.JTextField txtRoomSingle;
-    private javax.swing.JLabel txtShowRoom;
     private com.toedter.calendar.JDateChooser txtStartDate;
     private javax.swing.JTextField txtTotalPeople;
     // End of variables declaration//GEN-END:variables

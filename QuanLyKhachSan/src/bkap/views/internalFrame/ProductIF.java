@@ -7,6 +7,7 @@ package bkap.views.internalFrame;
 
 import bkap.dao.impl.ProductDAO;
 import bkap.model.Product;
+import bkap.utils.Helper;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import java.awt.Color;
@@ -36,7 +37,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
         listPro = proDao.findAll();
         modelPro = (DefaultTableModel) tblPro.getModel();
         setDataTable(listPro);
-        // commits
+        setNameLabel();
     }
 
     private void setDataTable(List<Product> listUnit) {
@@ -58,9 +59,9 @@ public class ProductIF extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbNameProduct = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        lbQuantity = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPro = new javax.swing.JTable();
         btnDelete = new javax.swing.JButton();
@@ -79,9 +80,9 @@ public class ProductIF extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Thiết bị trong phòng");
 
-        jLabel1.setText("Tên sản phẩm");
+        lbNameProduct.setText("Tên sản phẩm");
 
-        jLabel2.setText("Số lượng");
+        lbQuantity.setText("Số lượng");
 
         tblPro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -170,8 +171,8 @@ public class ProductIF extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(lbNameProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbQuantity, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(50, 50, 50)
@@ -193,10 +194,10 @@ public class ProductIF extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(lbNameProduct))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lbQuantity)
                     .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -356,6 +357,11 @@ public class ProductIF extends javax.swing.JInternalFrame {
         txtName.setText("");
         txtQuantity.setText("1");
     }
+    
+    private void setNameLabel() {
+        lbNameProduct.setText(Helper.getResources("nameProduct"));
+        lbQuantity.setText(Helper.getResources("quantity"));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -363,11 +369,11 @@ public class ProductIF extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbNameProduct;
+    private javax.swing.JLabel lbQuantity;
     private javax.swing.JTable tblPro;
     private javax.swing.JLabel txtInfo;
     private javax.swing.JTextField txtKeySearch;

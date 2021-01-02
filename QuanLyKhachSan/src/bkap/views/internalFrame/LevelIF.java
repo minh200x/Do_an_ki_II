@@ -7,6 +7,7 @@ package bkap.views.internalFrame;
 
 import bkap.dao.impl.LevelDAO;
 import bkap.model.Level;
+import bkap.utils.Helper;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import java.awt.Color;
@@ -38,6 +39,7 @@ public class LevelIF extends javax.swing.JInternalFrame {
         modelLevel = (DefaultTableModel) tblLevel.getModel();
 
         setDataTable(listLevel);
+        setNameLabel();
     }
 
     /**
@@ -50,7 +52,7 @@ public class LevelIF extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbLevel = new javax.swing.JLabel();
         txtLevelName = new javax.swing.JTextField();
         btnDelete = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
@@ -69,7 +71,7 @@ public class LevelIF extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Chức vụ");
 
-        jLabel1.setText("Chức vụ");
+        lbLevel.setText("Chức vụ");
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_remove_20px.png"))); // NOI18N
         btnDelete.setText("Xóa");
@@ -160,7 +162,7 @@ public class LevelIF extends javax.swing.JInternalFrame {
                         .addComponent(btnAdd))
                     .addComponent(msgInfomation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lbLevel)
                         .addGap(18, 18, 18)
                         .addComponent(txtLevelName))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -176,7 +178,7 @@ public class LevelIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lbLevel)
                     .addComponent(txtLevelName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -331,6 +333,10 @@ public class LevelIF extends javax.swing.JInternalFrame {
             });
         }
     }
+    
+    private void setNameLabel() {
+        lbLevel.setText(Helper.getResources("level"));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -338,10 +344,10 @@ public class LevelIF extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbLevel;
     private javax.swing.JLabel msgInfomation;
     private javax.swing.JTable tblLevel;
     private javax.swing.JTextField txtKeySearch;

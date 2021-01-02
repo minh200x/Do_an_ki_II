@@ -11,6 +11,7 @@ import bkap.dao.impl.UnitDAO;
 import bkap.model.CategoryService;
 import bkap.model.Service;
 import bkap.model.Unit;
+import bkap.utils.Helper;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import bkap.views.LoginDialog;
@@ -63,12 +64,13 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         setComboxModel(listCatSer);
         setComboxModel(listUnit);
         setDataTable(listSer);
-        
+
         if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
             btnAdd.setEnabled(false);
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
         }
+        setNameLabel();
     }
 
     private <T> void setComboxModel(List<T> list) {
@@ -113,13 +115,13 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbNameService = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        lbCategoryService = new javax.swing.JLabel();
         cbCatSer = new javax.swing.JComboBox();
-        jLabel3 = new javax.swing.JLabel();
+        lbPrice = new javax.swing.JLabel();
         txtPrice = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        lbUnit = new javax.swing.JLabel();
         cbUnit = new javax.swing.JComboBox();
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -138,13 +140,13 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Dịch vụ");
 
-        jLabel1.setText("Tên dịch vụ");
+        lbNameService.setText("Tên dịch vụ");
 
-        jLabel2.setText("Loại dịch vụ");
+        lbCategoryService.setText("Loại dịch vụ");
 
-        jLabel3.setText("Giá");
+        lbPrice.setText("Giá");
 
-        jLabel4.setText("Đơn vị");
+        lbUnit.setText("Đơn vị");
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_add_20px.png"))); // NOI18N
         btnAdd.setText("Thêm");
@@ -227,9 +229,9 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
+                            .addComponent(lbNameService)
+                            .addComponent(lbCategoryService)
+                            .addComponent(lbPrice))
                         .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtName)
@@ -237,7 +239,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel4)
+                                .addComponent(lbUnit)
                                 .addGap(18, 18, 18)
                                 .addComponent(cbUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -262,17 +264,17 @@ public class ServiceIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lbNameService)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lbCategoryService)
                     .addComponent(cbCatSer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(lbPrice)
                     .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
+                    .addComponent(lbUnit)
                     .addComponent(cbUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,7 +328,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         btnAdd.setEnabled(false);
         btnDelete.setEnabled(true);
         btnUpdate.setEnabled(true);
-        
+
         int indexSelected = tblSer.getSelectedRow();
         Service ser = listSer.get(indexSelected);
         id = ser.getId();
@@ -375,7 +377,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-       String keySearch = txtKeySearch.getText();
+        String keySearch = txtKeySearch.getText();
         if (keySearch.equals("Tên dịch vụ")) {
             Utils.setMessageInformation(msgInfomation, "Vui lòng nhạp tên dịch vụ cần tìm kiếm!", false);
         } else {
@@ -399,17 +401,17 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     private void txtKeySearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusLost
         if (txtKeySearch.getText().equals("")) {
             txtKeySearch.setText("Tên dịch vụ");
-            txtKeySearch.setForeground(new Color(153,153,153));
+            txtKeySearch.setForeground(new Color(153, 153, 153));
         }
     }//GEN-LAST:event_txtKeySearchFocusLost
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         setNullValueFields();
         txtKeySearch.setText("Tên dịch vụ");
-        txtKeySearch.setForeground(new Color(153,153,153));
+        txtKeySearch.setForeground(new Color(153, 153, 153));
         listSer = serviceDao.findAll();
         setDataTable(listSer);
-        
+
         btnDelete.setEnabled(false);
         btnUpdate.setEnabled(false);
         btnAdd.setEnabled(true);
@@ -465,6 +467,13 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         cbUnit.setSelectedIndex(0);
     }
 
+    private void setNameLabel() {
+        lbCategoryService.setText(Helper.getResources("categoryService"));
+        lbNameService.setText(Helper.getResources("nameService"));
+        lbPrice.setText(Helper.getResources("price"));
+        lbUnit.setText(Helper.getResources("unit"));
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
@@ -473,13 +482,13 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox cbCatSer;
     private javax.swing.JComboBox cbUnit;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbCategoryService;
+    private javax.swing.JLabel lbNameService;
+    private javax.swing.JLabel lbPrice;
+    private javax.swing.JLabel lbUnit;
     private javax.swing.JLabel msgInfomation;
     private javax.swing.JTable tblSer;
     private javax.swing.JTextField txtKeySearch;

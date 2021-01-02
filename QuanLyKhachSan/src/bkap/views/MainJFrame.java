@@ -96,6 +96,7 @@ public class MainJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroupLanguage = new javax.swing.ButtonGroup();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         dkpMain = new javax.swing.JDesktopPane();
@@ -444,6 +445,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu btnLogout;
+    private javax.swing.ButtonGroup buttonGroupLanguage;
     private javax.swing.JDesktopPane dkpMain;
     private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;

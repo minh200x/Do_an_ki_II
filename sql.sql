@@ -125,7 +125,7 @@ create table tblCheckin(
 	cusPhone nvarchar(255) foreign key references tblCustomer(phone) not null,
 	totalPeople int not null,
 	cuponId int foreign key references tblCupon(id) not null,
-	pricePaymentAdvance float not null,
+	  float not null,
 	totalMoney float not null,
 	totalServicePrice float not null,
 	descript text null,

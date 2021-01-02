@@ -7,6 +7,7 @@ package bkap.views.internalFrame;
 
 import bkap.dao.impl.CustomerDAO;
 import bkap.model.Customer;
+import bkap.utils.Helper;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import bkap.views.LoginDialog;
@@ -54,6 +55,7 @@ public class CustomerIF extends javax.swing.JInternalFrame {
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
         }
+        setNameLabel();
     }
 
     /**
@@ -67,21 +69,21 @@ public class CustomerIF extends javax.swing.JInternalFrame {
 
         buttonGroupGender = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbFullname = new javax.swing.JLabel();
         txtFullname = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        lbPhone = new javax.swing.JLabel();
         txtPhone = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        lbEmail = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        lbAddress = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtAddress = new javax.swing.JTextArea();
-        jLabel5 = new javax.swing.JLabel();
-        optionMale = new javax.swing.JRadioButton();
-        optionFemale = new javax.swing.JRadioButton();
-        jLabel6 = new javax.swing.JLabel();
+        lbGender = new javax.swing.JLabel();
+        lbMale = new javax.swing.JRadioButton();
+        lbFemale = new javax.swing.JRadioButton();
+        lbIdentityCard = new javax.swing.JLabel();
         txtIdentityCard = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
+        lbNote = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtDescript = new javax.swing.JTextArea();
         btnDelete = new javax.swing.JButton();
@@ -102,29 +104,29 @@ public class CustomerIF extends javax.swing.JInternalFrame {
         setTitle("Khách hàng");
         setRequestFocusEnabled(false);
 
-        jLabel1.setText("Họ và tên");
+        lbFullname.setText("Họ và tên");
 
-        jLabel2.setText("Số điện thoại");
+        lbPhone.setText("Số điện thoại");
 
-        jLabel3.setText("Email");
+        lbEmail.setText("Email");
 
-        jLabel4.setText("Địa chỉ");
+        lbAddress.setText("Địa chỉ");
 
         txtAddress.setColumns(20);
         txtAddress.setRows(2);
         jScrollPane1.setViewportView(txtAddress);
 
-        jLabel5.setText("Giới tính");
+        lbGender.setText("Giới tính");
 
-        buttonGroupGender.add(optionMale);
-        optionMale.setText("Nam");
+        buttonGroupGender.add(lbMale);
+        lbMale.setText("Nam");
 
-        buttonGroupGender.add(optionFemale);
-        optionFemale.setText("Nữ");
+        buttonGroupGender.add(lbFemale);
+        lbFemale.setText("Nữ");
 
-        jLabel6.setText("Thẻ CMND/ CCCD");
+        lbIdentityCard.setText("Thẻ CMND/ CCCD");
 
-        jLabel7.setText("Ghi chú");
+        lbNote.setText("Ghi chú");
 
         txtDescript.setColumns(20);
         txtDescript.setRows(5);
@@ -177,10 +179,10 @@ public class CustomerIF extends javax.swing.JInternalFrame {
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
+                            .addComponent(lbFullname)
+                            .addComponent(lbPhone)
+                            .addComponent(lbAddress)
+                            .addComponent(lbGender))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(36, 36, 36)
@@ -189,20 +191,20 @@ public class CustomerIF extends javax.swing.JInternalFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jLabel3)
+                                        .addComponent(lbEmail)
                                         .addGap(18, 18, 18)
                                         .addComponent(txtEmail))
                                     .addComponent(jScrollPane1)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(44, 44, 44)
-                                .addComponent(optionMale)
+                                .addComponent(lbMale)
                                 .addGap(18, 18, 18)
-                                .addComponent(optionFemale)
+                                .addComponent(lbFemale)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
+                            .addComponent(lbIdentityCard)
+                            .addComponent(lbNote))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtIdentityCard)
@@ -222,31 +224,31 @@ public class CustomerIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lbFullname)
                     .addComponent(txtFullname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lbPhone)
                     .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
+                    .addComponent(lbEmail)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
+                    .addComponent(lbAddress)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
+                    .addComponent(lbGender)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(optionMale)
-                        .addComponent(optionFemale)))
+                        .addComponent(lbMale)
+                        .addComponent(lbFemale)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
+                    .addComponent(lbIdentityCard)
                     .addComponent(txtIdentityCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
+                    .addComponent(lbNote)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -381,9 +383,9 @@ public class CustomerIF extends javax.swing.JInternalFrame {
         txtDescript.setText(c.getDescript());
 
         if (c.isGender() == SystemConstant.GENDER_FEMALE) {
-            optionFemale.setSelected(true);
+            lbFemale.setSelected(true);
         } else {
-            optionMale.setSelected(true);
+            lbMale.setSelected(true);
         }
 
     }//GEN-LAST:event_tblCustomerMouseClicked
@@ -451,7 +453,7 @@ public class CustomerIF extends javax.swing.JInternalFrame {
         c.setFullname(fullname);
         c.setEmail(email);
         c.setAddress(address);
-        if (optionFemale.isSelected()) {
+        if (lbFemale.isSelected()) {
             c.setGender(SystemConstant.GENDER_FEMALE);
         } else {
             c.setGender(SystemConstant.GENDER_MALE);
@@ -484,7 +486,7 @@ public class CustomerIF extends javax.swing.JInternalFrame {
             Utils.setMessageInformation(msgInformation, "Vui lòng nhập đúng định dạng email!", false);
         } else if (address.isEmpty()) {
             Utils.setMessageInformation(msgInformation, "Vui lòng nhập đỉa chị khách hàng!", false);
-        } else if (!optionFemale.isSelected() && !optionMale.isSelected()) {
+        } else if (!lbFemale.isSelected() && !lbMale.isSelected()) {
             Utils.setMessageInformation(msgInformation, "Vui lòng chọn giới tính!", false);
         } else if (identityCard.isEmpty()) {
             Utils.setMessageInformation(msgInformation, "Vui lòng nhập số chứng minh thư!", false);
@@ -519,6 +521,18 @@ public class CustomerIF extends javax.swing.JInternalFrame {
             });
         }
     }
+    
+    private void setNameLabel() {
+        lbAddress.setText(Helper.getResources("address"));
+        lbEmail.setText(Helper.getResources("address"));
+        lbFemale.setText(Helper.getResources("female"));
+        lbFullname.setText(Helper.getResources("fullname"));
+        lbGender.setText(Helper.getResources("gender"));
+        lbIdentityCard.setText(Helper.getResources("numOfIdentityCard"));
+        lbMale.setText(Helper.getResources("male"));
+        lbNote.setText(Helper.getResources("note"));
+        lbPhone.setText(Helper.getResources("phone"));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -527,21 +541,21 @@ public class CustomerIF extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroupGender;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbAddress;
+    private javax.swing.JLabel lbEmail;
+    private javax.swing.JRadioButton lbFemale;
+    private javax.swing.JLabel lbFullname;
+    private javax.swing.JLabel lbGender;
+    private javax.swing.JLabel lbIdentityCard;
+    private javax.swing.JRadioButton lbMale;
+    private javax.swing.JLabel lbNote;
+    private javax.swing.JLabel lbPhone;
     private javax.swing.JLabel msgInformation;
-    private javax.swing.JRadioButton optionFemale;
-    private javax.swing.JRadioButton optionMale;
     private javax.swing.JTable tblCustomer;
     private javax.swing.JTextArea txtAddress;
     private javax.swing.JTextArea txtDescript;
