@@ -36,15 +36,15 @@ public class MainJFrame extends javax.swing.JFrame {
     private BufferedImage backgroundImage;
     private RoomIF room;
     private String userName;
+    private LoginDialog loginForm = new LoginDialog(this, true);
 
     /**
      * Creates new form MainJFrame
      */
     public MainJFrame() {
         setCss();
-//        initComponents();
         showLogin();
-
+        
         if (LoginDialog.levelUser == SystemConstant.LEVEL_ADMIN) {
 
         } else if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
@@ -57,11 +57,10 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     private void showLogin() {
-        LoginDialog loginForm = new LoginDialog(this, true);
         this.setVisible(false);
         loginForm.setVisible(true);
         loginForm.validate();
-        if (LoginDialog.isLogin == true) {
+        if (loginForm.isIsLogin() == true) {
             userName = loginForm.getUserName();
             userDao.isLogin(true, userName);
             initComponents();
@@ -403,8 +402,8 @@ public class MainJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         userDao.isLogin(false, userName);
         this.dispose();
-        MainJFrame main = new MainJFrame();
-        main.setVisible(true);
+        loginForm.setIsLogin(false);
+        main(null);
     }//GEN-LAST:event_btnLogoutMouseClicked
 
     /**

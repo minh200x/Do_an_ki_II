@@ -27,7 +27,7 @@ public class LoginDialog extends javax.swing.JDialog {
     private UserDAO userDAO = new UserDAO();
 
     private List<Level> listLevel;
-    public static boolean isLogin;
+    private boolean isLogin = false;
     public static int levelUser;
     public static int optionLanguage;
     public static String username;
@@ -44,6 +44,15 @@ public class LoginDialog extends javax.swing.JDialog {
     public String getUserName(){
         return username;
     }
+
+    public boolean isIsLogin() {
+        return isLogin;
+    }
+
+    public void setIsLogin(boolean isLogin) {
+        this.isLogin = isLogin;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -207,12 +216,12 @@ public class LoginDialog extends javax.swing.JDialog {
         User user = new User();
         user = userDAO.login(username, password);
         if (user != null) {
-            this.isLogin = true;
+            setIsLogin(true);
             levelUser = user.getLevelId();
             Utils.setMessageInformation(msgInfomation, "Đăng nhập thành công!", true);
             dispose();
         } else {
-            isLogin = false;
+            setIsLogin(false);
             Utils.setMessageInformation(msgInfomation, "Đăng nhập thất bại!", false);
         }
 
