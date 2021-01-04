@@ -59,7 +59,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
         }
-        setNameLabel();
+        setNameLabelAndButton();
     }
 
     /**
@@ -507,12 +507,18 @@ public class CuponIF extends javax.swing.JInternalFrame {
         }
     }
 
-    private void setNameLabel() {
+    private void setNameLabelAndButton() {
         lbDiscount.setText(Helper.getResources("discount"));
         lbEndDate.setText(Helper.getResources("endDate"));
         lbNameCupon.setText(Helper.getResources("nameCupon"));
         lbQuantity.setText(Helper.getResources("quantity"));
         lbStartDate.setText(Helper.getResources("startDate"));
+        
+        btnAdd.setText(Helper.getResources("add"));
+        btnDelete.setText(Helper.getResources("delete"));
+        btnRefresh.setText(Helper.getResources("refresh"));
+        btnSearch.setText(Helper.getResources("search"));
+        btnUpdate.setText(Helper.getResources("update")); 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

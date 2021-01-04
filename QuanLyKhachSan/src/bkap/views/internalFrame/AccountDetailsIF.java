@@ -7,10 +7,13 @@ package bkap.views.internalFrame;
 
 import bkap.dao.impl.UserDAO;
 import bkap.model.User;
+import bkap.utils.Helper;
 import bkap.utils.Security;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import bkap.views.LoginDialog;
+import com.toedter.calendar.demo.DemoTable;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -30,11 +33,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author THUY
  */
 public class AccountDetailsIF extends javax.swing.JInternalFrame {
-    
+
+    public static final int WIDTH = 250;
+    public static final int HEIGHT = 250;
     private UserDAO userDAO = new UserDAO();
     private User user = null;
     private List<User> listUser;
-    
+
     private String pathDirImage = "src\\bkap\\images\\users\\";
     private String pathFileImage = "";
     private File fileImg = null;
@@ -46,11 +51,12 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
      */
     public AccountDetailsIF() {
         initComponents();
-        
+
         listUser = userDAO.findByUsername(LoginDialog.username);
         user = listUser.get(0);
         userId = user.getId();
         setValueFields();
+        setNameLabelAndButton();
     }
 
     /**
@@ -83,7 +89,6 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
         lbAvartar = new javax.swing.JLabel();
         btnUpdate = new javax.swing.JButton();
         msgInformation = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
         containImg = new javax.swing.JLabel();
 
         setClosable(true);
@@ -133,18 +138,7 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(containImg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(containImg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-        );
+        containImg.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(204, 204, 204)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -177,13 +171,11 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
                                 .addComponent(lbAvartar)))))
                 .addContainerGap(70, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(btnChooseImage)))
-                .addGap(37, 37, 37))
+                .addContainerGap(403, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnChooseImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(containImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(44, 44, 44))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -203,8 +195,8 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(containImg, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -229,7 +221,7 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUpdate)
                     .addComponent(msgInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38))
+                .addContainerGap(38, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -257,10 +249,10 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
     private void btnChooseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImageActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("jpeg", "jpg", "png");
-        
+
         fileChooser.setFileFilter(imgFilter);
         fileChooser.setMultiSelectionEnabled(false);
-        
+
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             fileImg = fileChooser.getSelectedFile();
             pathFileImage = fileImg.getAbsolutePath();
@@ -270,14 +262,14 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnChooseImageActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        
+
         String fullname = txtFullname.getText();
         String username = txtUsername.getText();
         String phone = txtPhone.getText();
         String password = txtPassword.getText().toString();
         String address = txtAddress.getText();
         Date birthday = txtBirthday.getDate();
-        
+
         if (fullname.isEmpty()) {
             Utils.setMessageInformation(msgInformation, "Vui lòng nhập họ và tên!", false);
         } else if (!fullname.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")) {
@@ -312,7 +304,7 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
             Utils.setMessageInformation(msgInformation, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
-    
+
     private void setValueFields() {
         txtFullname.setText(user.getFullname());
         txtUsername.setText(user.getUsername());
@@ -326,9 +318,12 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
         }
         txtBirthday.setDate(user.getBirthday());
         image = user.getImage();
-        Utils.setImage(containImg, image);
+//        containImg.setPreferredSize(new Dimension(294,294));
+
+//        Utils.setImage(containImg, image);
+        System.out.println("oke" + containImg.getWidth() + containImg.getHeight());
     }
-    
+
     private void saveImage() {
         if (!pathFileImage.isEmpty()) {
             File dir = new File(pathDirImage);
@@ -346,12 +341,27 @@ public class AccountDetailsIF extends javax.swing.JInternalFrame {
         }
     }
 
+    private void setNameLabelAndButton() {
+        lbAddress.setText(Helper.getResources("address"));
+        lbAvartar.setText(Helper.getResources("avatar"));
+        lbBirthday.setText(Helper.getResources("birthday"));
+        lbFemale.setText(Helper.getResources("female"));
+        lbFullname.setText(Helper.getResources("fullname"));
+        lbGender.setText(Helper.getResources("gender"));
+        lbMale.setText(Helper.getResources("male"));
+        lbPassword.setText(Helper.getResources("password"));
+        lbPhone.setText(Helper.getResources("phone"));
+        lbUsername.setText(Helper.getResources("username"));
+
+        btnChooseImage.setText(Helper.getResources("chooseImg"));
+        btnUpdate.setText(Helper.getResources("update"));
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChooseImage;
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroupGender;
     private javax.swing.JLabel containImg;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbAddress;
     private javax.swing.JLabel lbAvartar;

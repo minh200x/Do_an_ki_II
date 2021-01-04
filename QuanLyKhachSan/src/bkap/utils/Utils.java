@@ -32,13 +32,13 @@ public class Utils {
         return formated;
     }
 
-    public static void setImage(JLabel lbContainImg, String pathImg) {
+    public static void setImage(JLabel containImg, String pathImg) {
         ImageIcon imgIcon = new ImageIcon(pathImg);
         Image img = imgIcon.getImage();
-        Image newImage = img.getScaledInstance(lbContainImg.getWidth(), lbContainImg.getHeight(), Image.SCALE_SMOOTH);
+        Image newImage = img.getScaledInstance(containImg.getWidth(), containImg.getHeight(), Image.SCALE_SMOOTH);
         imgIcon = new ImageIcon(newImage);
 
-        lbContainImg.setIcon(imgIcon);
+        containImg.setIcon(imgIcon);
     }
 
     public static void setMessageInformation(JLabel label, String msg, Boolean status) {

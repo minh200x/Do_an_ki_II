@@ -39,10 +39,10 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
 
         if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
             btnAdd.setEnabled(false);
-            btnEdit.setEnabled(false);
+            btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
         }
-        setNameLabel();
+        setNameLabelAndButton();
     }
 
     private void setDataTable(List<CategoryService> catSer) {
@@ -68,10 +68,10 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         lbCategoryService = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
-        btnEdit = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        btnRefesh = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCatService = new javax.swing.JTable();
         btnSearch = new javax.swing.JButton();
@@ -96,12 +96,12 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
             }
         });
 
-        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_edit_20px.png"))); // NOI18N
-        btnEdit.setText("Sửa");
-        btnEdit.setEnabled(false);
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_edit_20px.png"))); // NOI18N
+        btnUpdate.setText("Sửa");
+        btnUpdate.setEnabled(false);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
+                btnUpdateActionPerformed(evt);
             }
         });
 
@@ -114,11 +114,11 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
             }
         });
 
-        btnRefesh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_refresh_20px.png"))); // NOI18N
-        btnRefesh.setText("Làm mới");
-        btnRefesh.addActionListener(new java.awt.event.ActionListener() {
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_refresh_20px.png"))); // NOI18N
+        btnRefresh.setText("Làm mới");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefeshActionPerformed(evt);
+                btnRefreshActionPerformed(evt);
             }
         });
 
@@ -131,11 +131,11 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnRefesh)
+                        .addComponent(btnRefresh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEdit)
+                        .addComponent(btnUpdate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAdd))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -154,9 +154,9 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
-                    .addComponent(btnEdit)
+                    .addComponent(btnUpdate)
                     .addComponent(btnDelete)
-                    .addComponent(btnRefesh))
+                    .addComponent(btnRefresh))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8))
@@ -246,7 +246,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnAddActionPerformed
 
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         getValueOfFields();
         if (checkValidate()) {
@@ -261,12 +261,12 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
             }
 
         }
-    }//GEN-LAST:event_btnEditActionPerformed
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void tblCatServiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCatServiceMouseClicked
         // TODO add your handling code here:
         btnAdd.setEnabled(false);
-        btnEdit.setEnabled(true);
+        btnUpdate.setEnabled(true);
         btnDelete.setEnabled(true);
 
         int indexSelected = tblCatService.getSelectedRow();
@@ -304,7 +304,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void btnRefeshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefeshActionPerformed
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         setNullValueFields();
         txtKeySearch.setText("Tên loại dịch vụ");
         txtKeySearch.setForeground(new Color(153, 153, 153));
@@ -312,9 +312,9 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
         setDataTable(listCatService);
         txtInfo.setText("");
 
-        btnEdit.setEnabled(false);
+        btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
-    }//GEN-LAST:event_btnRefeshActionPerformed
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void txtKeySearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKeySearchFocusGained
         if (txtKeySearch.getText().equals("Tên loại dịch vụ")) {
@@ -357,20 +357,26 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
 
     private void setNullValueFields() {
         btnAdd.setEnabled(true);
-        btnEdit.setEnabled(false);
+        btnUpdate.setEnabled(false);
         txtName.setText("");
     }
     
-    private void setNameLabel() {
+    private void setNameLabelAndButton() {
         lbCategoryService.setText(Helper.getResources("categoryService"));
+        
+        btnAdd.setText(Helper.getResources("add"));
+        btnDelete.setText(Helper.getResources("delete"));
+        btnRefresh.setText(Helper.getResources("refresh"));
+        btnSearch.setText(Helper.getResources("search"));
+        btnUpdate.setText(Helper.getResources("update")); 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnEdit;
-    private javax.swing.JButton btnRefesh;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

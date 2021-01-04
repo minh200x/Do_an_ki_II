@@ -6,6 +6,7 @@
 package bkap.views;
 
 import bkap.dao.impl.UserDAO;
+import bkap.utils.Helper;
 import bkap.utils.SystemConstant;
 import bkap.views.internalFrame.AccountDetailsIF;
 import bkap.views.internalFrame.BookRoomIF;
@@ -54,6 +55,7 @@ public class MainJFrame extends javax.swing.JFrame {
             mnCatService.setEnabled(false);
             mnCatProduct.setEnabled(false);
         }
+        setNameMenu();
     }
 
     private void showLogin() {
@@ -100,13 +102,13 @@ public class MainJFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         dkpMain = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
+        mnHome = new javax.swing.JMenu();
+        mnCheckin_Checkout = new javax.swing.JMenu();
+        mnBookRoom = new javax.swing.JMenu();
+        mnManageSystem = new javax.swing.JMenu();
         mnRoom = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        mnCatRoom = new javax.swing.JMenuItem();
+        mnService = new javax.swing.JMenuItem();
+        mnCategoryRoom = new javax.swing.JMenuItem();
         mnCatService = new javax.swing.JMenuItem();
         mnUnit = new javax.swing.JMenuItem();
         mnCupon = new javax.swing.JMenuItem();
@@ -114,8 +116,8 @@ public class MainJFrame extends javax.swing.JFrame {
         mnEmployee = new javax.swing.JMenuItem();
         mnCatProduct = new javax.swing.JMenuItem();
         mnAccount = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        mnCustomer = new javax.swing.JMenu();
+        mnAddCustomer = new javax.swing.JMenuItem();
         btnLogout = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -145,21 +147,21 @@ public class MainJFrame extends javax.swing.JFrame {
             .addGap(0, 784, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("Trang chủ");
-        jMenuBar1.add(jMenu1);
+        mnHome.setText("Trang chủ");
+        jMenuBar1.add(mnHome);
 
-        jMenu2.setText("Thuê - Trả phòng");
-        jMenuBar1.add(jMenu2);
+        mnCheckin_Checkout.setText("Thuê - Trả phòng");
+        jMenuBar1.add(mnCheckin_Checkout);
 
-        jMenu3.setText("Đặt phòng");
-        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+        mnBookRoom.setText("Đặt phòng");
+        mnBookRoom.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu3MouseClicked(evt);
+                mnBookRoomMouseClicked(evt);
             }
         });
-        jMenuBar1.add(jMenu3);
+        jMenuBar1.add(mnBookRoom);
 
-        jMenu4.setText("Quản lý hệ thống");
+        mnManageSystem.setText("Quản lý hệ thống");
 
         mnRoom.setText("Phòng");
         mnRoom.addActionListener(new java.awt.event.ActionListener() {
@@ -167,23 +169,23 @@ public class MainJFrame extends javax.swing.JFrame {
                 mnRoomActionPerformed(evt);
             }
         });
-        jMenu4.add(mnRoom);
+        mnManageSystem.add(mnRoom);
 
-        jMenuItem2.setText("Menu / Dịch vụ");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        mnService.setText("Menu / Dịch vụ");
+        mnService.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                mnServiceActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem2);
+        mnManageSystem.add(mnService);
 
-        mnCatRoom.setText("Loại phòng");
-        mnCatRoom.addActionListener(new java.awt.event.ActionListener() {
+        mnCategoryRoom.setText("Loại phòng");
+        mnCategoryRoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnCatRoomActionPerformed(evt);
+                mnCategoryRoomActionPerformed(evt);
             }
         });
-        jMenu4.add(mnCatRoom);
+        mnManageSystem.add(mnCategoryRoom);
 
         mnCatService.setText("Loại dịch vụ");
         mnCatService.addActionListener(new java.awt.event.ActionListener() {
@@ -191,7 +193,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 mnCatServiceActionPerformed(evt);
             }
         });
-        jMenu4.add(mnCatService);
+        mnManageSystem.add(mnCatService);
 
         mnUnit.setText("Đơn vị");
         mnUnit.addActionListener(new java.awt.event.ActionListener() {
@@ -199,7 +201,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 mnUnitActionPerformed(evt);
             }
         });
-        jMenu4.add(mnUnit);
+        mnManageSystem.add(mnUnit);
 
         mnCupon.setText("Mã giảm giá");
         mnCupon.addActionListener(new java.awt.event.ActionListener() {
@@ -207,7 +209,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 mnCuponActionPerformed(evt);
             }
         });
-        jMenu4.add(mnCupon);
+        mnManageSystem.add(mnCupon);
 
         mnLevel.setText("Chức vụ");
         mnLevel.addActionListener(new java.awt.event.ActionListener() {
@@ -215,7 +217,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 mnLevelActionPerformed(evt);
             }
         });
-        jMenu4.add(mnLevel);
+        mnManageSystem.add(mnLevel);
 
         mnEmployee.setText("Nhân viên");
         mnEmployee.addActionListener(new java.awt.event.ActionListener() {
@@ -223,7 +225,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 mnEmployeeActionPerformed(evt);
             }
         });
-        jMenu4.add(mnEmployee);
+        mnManageSystem.add(mnEmployee);
 
         mnCatProduct.setText("Danh mục thiết bị");
         mnCatProduct.addActionListener(new java.awt.event.ActionListener() {
@@ -231,7 +233,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 mnCatProductActionPerformed(evt);
             }
         });
-        jMenu4.add(mnCatProduct);
+        mnManageSystem.add(mnCatProduct);
 
         mnAccount.setText("Tài khoản");
         mnAccount.addActionListener(new java.awt.event.ActionListener() {
@@ -239,31 +241,26 @@ public class MainJFrame extends javax.swing.JFrame {
                 mnAccountActionPerformed(evt);
             }
         });
-        jMenu4.add(mnAccount);
+        mnManageSystem.add(mnAccount);
 
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(mnManageSystem);
 
-        jMenu6.setText("Khách hàng");
+        mnCustomer.setText("Khách hàng");
 
-        jMenuItem8.setText("Thêm khách hàng");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        mnAddCustomer.setText("Thêm khách hàng");
+        mnAddCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
+                mnAddCustomerActionPerformed(evt);
             }
         });
-        jMenu6.add(jMenuItem8);
+        mnCustomer.add(mnAddCustomer);
 
-        jMenuBar1.add(jMenu6);
+        jMenuBar1.add(mnCustomer);
 
         btnLogout.setText("Đăng xuất");
         btnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnLogoutMouseClicked(evt);
-            }
-        });
-        btnLogout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogoutActionPerformed(evt);
             }
         });
         jMenuBar1.add(btnLogout);
@@ -296,21 +293,21 @@ public class MainJFrame extends javax.swing.JFrame {
         room.validate();
     }//GEN-LAST:event_mnRoomActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void mnServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnServiceActionPerformed
         // TODO add your handling code here:
         ServiceIF service = new ServiceIF();
         dkpMain.add(service);
         service.setVisible(true);
         service.validate();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_mnServiceActionPerformed
 
-    private void mnCatRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCatRoomActionPerformed
+    private void mnCategoryRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCategoryRoomActionPerformed
         // TODO add your handling code here:
         CategoryRoomIF categoryRoom = new CategoryRoomIF();
         dkpMain.add(categoryRoom);
         categoryRoom.setVisible(true);
         categoryRoom.validate();
-    }//GEN-LAST:event_mnCatRoomActionPerformed
+    }//GEN-LAST:event_mnCategoryRoomActionPerformed
 
     private void mnCatServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCatServiceActionPerformed
         // TODO add your handling code here:
@@ -344,13 +341,13 @@ public class MainJFrame extends javax.swing.JFrame {
         level.validate();
     }//GEN-LAST:event_mnLevelActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    private void mnAddCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAddCustomerActionPerformed
         // TODO add your handling code here:
         CustomerIF cus = new CustomerIF();
         dkpMain.add(cus);
         cus.setVisible(true);
         cus.validate();
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_mnAddCustomerActionPerformed
 
     private void mnEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnEmployeeActionPerformed
         // TODO add your handling code here:
@@ -377,10 +374,6 @@ public class MainJFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_mnCatProductActionPerformed
 
-    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-
-    }//GEN-LAST:event_btnLogoutActionPerformed
-
 
     private void mnAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAccountActionPerformed
         // TODO add your handling code here:
@@ -390,13 +383,13 @@ public class MainJFrame extends javax.swing.JFrame {
         acc.validate();
     }//GEN-LAST:event_mnAccountActionPerformed
 
-    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+    private void mnBookRoomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnBookRoomMouseClicked
         // TODO add your handling code here:
         BookRoomIF bookRoom = new BookRoomIF();
         dkpMain.add(bookRoom);
         bookRoom.setVisible(true);
         bookRoom.validate();
-    }//GEN-LAST:event_jMenu3MouseClicked
+    }//GEN-LAST:event_mnBookRoomMouseClicked
 
     private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
         // TODO add your handling code here:
@@ -406,6 +399,27 @@ public class MainJFrame extends javax.swing.JFrame {
         main(null);
     }//GEN-LAST:event_btnLogoutMouseClicked
 
+    private void setNameMenu() {
+        mnAccount.setText(Helper.getResources("account"));
+        mnAddCustomer.setText(Helper.getResources("addCustomer"));
+        mnBookRoom.setText(Helper.getResources("bookRoom"));
+        mnCatProduct.setText(Helper.getResources("categoryProduct"));
+        mnCatService.setText(Helper.getResources("categoryService"));
+        mnCategoryRoom.setText(Helper.getResources("categoryRoom"));
+        mnCheckin_Checkout.setText(Helper.getResources("checkinCheckout"));
+        mnCupon.setText(Helper.getResources("cupon"));
+        mnCustomer.setText(Helper.getResources("customer"));
+        mnEmployee.setText(Helper.getResources("employee"));
+        mnHome.setText(Helper.getResources("home"));
+        mnLevel.setText(Helper.getResources("level"));
+        mnManageSystem.setText(Helper.getResources("manageSystem"));
+        mnRoom.setText(Helper.getResources("room"));
+        mnService.setText(Helper.getResources("service"));
+        mnUnit.setText(Helper.getResources("unit"));
+        
+        btnLogout.setText(Helper.getResources("logout"));
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -447,23 +461,23 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroupLanguage;
     private javax.swing.JDesktopPane dkpMain;
     private javax.swing.JButton jButton1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem mnAccount;
+    private javax.swing.JMenuItem mnAddCustomer;
+    private javax.swing.JMenu mnBookRoom;
     private javax.swing.JMenuItem mnCatProduct;
-    private javax.swing.JMenuItem mnCatRoom;
     private javax.swing.JMenuItem mnCatService;
+    private javax.swing.JMenuItem mnCategoryRoom;
+    private javax.swing.JMenu mnCheckin_Checkout;
     private javax.swing.JMenuItem mnCupon;
+    private javax.swing.JMenu mnCustomer;
     private javax.swing.JMenuItem mnEmployee;
+    private javax.swing.JMenu mnHome;
     private javax.swing.JMenuItem mnLevel;
+    private javax.swing.JMenu mnManageSystem;
     private javax.swing.JMenuItem mnRoom;
+    private javax.swing.JMenuItem mnService;
     private javax.swing.JMenuItem mnUnit;
     // End of variables declaration//GEN-END:variables
 }

@@ -37,7 +37,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
         listPro = proDao.findAll();
         modelPro = (DefaultTableModel) tblPro.getModel();
         setDataTable(listPro);
-        setNameLabel();
+        setNameLabelAndButton();
     }
 
     private void setDataTable(List<Product> listUnit) {
@@ -358,9 +358,15 @@ public class ProductIF extends javax.swing.JInternalFrame {
         txtQuantity.setText("1");
     }
     
-    private void setNameLabel() {
+    private void setNameLabelAndButton() {
         lbNameProduct.setText(Helper.getResources("nameProduct"));
         lbQuantity.setText(Helper.getResources("quantity"));
+        
+        btnAdd.setText(Helper.getResources("add"));
+        btnDelete.setText(Helper.getResources("delete"));
+        btnRefresh.setText(Helper.getResources("refresh"));
+        btnSearch.setText(Helper.getResources("search"));
+        btnUpdate.setText(Helper.getResources("update")); 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

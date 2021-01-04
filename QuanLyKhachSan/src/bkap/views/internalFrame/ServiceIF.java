@@ -70,7 +70,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
         }
-        setNameLabel();
+        setNameLabelAndButton();
     }
 
     private <T> void setComboxModel(List<T> list) {
@@ -467,11 +467,17 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         cbUnit.setSelectedIndex(0);
     }
 
-    private void setNameLabel() {
+    private void setNameLabelAndButton() {
         lbCategoryService.setText(Helper.getResources("categoryService"));
         lbNameService.setText(Helper.getResources("nameService"));
         lbPrice.setText(Helper.getResources("price"));
         lbUnit.setText(Helper.getResources("unit"));
+        
+        btnAdd.setText(Helper.getResources("add"));
+        btnDelete.setText(Helper.getResources("delete"));
+        btnRefresh.setText(Helper.getResources("refresh"));
+        btnSearch.setText(Helper.getResources("search"));
+        btnUpdate.setText(Helper.getResources("update"));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

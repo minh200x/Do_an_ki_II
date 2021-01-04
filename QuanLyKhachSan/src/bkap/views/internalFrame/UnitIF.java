@@ -37,7 +37,7 @@ public class UnitIF extends javax.swing.JInternalFrame {
         modelUnit = (DefaultTableModel) tblUnit.getModel();
         setDataTable(list);
         
-        setNameLabel();
+        setNameLabelAndButton();
     }
     
 
@@ -340,8 +340,14 @@ public class UnitIF extends javax.swing.JInternalFrame {
         txtName.setText("");
     }
     
-    private void setNameLabel() {
+    private void setNameLabelAndButton() {
         lbUnit.setText(Helper.getResources("unit"));
+        
+        btnAdd.setText(Helper.getResources("add"));
+        btnDelete.setText(Helper.getResources("delete"));
+        btnRefresh.setText(Helper.getResources("refresh"));
+        btnSearch.setText(Helper.getResources("search"));
+        btnUpdate.setText(Helper.getResources("update")); 
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
