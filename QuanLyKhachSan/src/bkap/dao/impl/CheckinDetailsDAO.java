@@ -13,9 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,28 +40,6 @@ public class CheckinDetailsDAO extends AbstractDAO<CheckinDetails> implements IC
     public List<CheckinDetails> findByDetailId(int detailId) {
         String sql = "{call checkinDetails_findByDetailId(?)}";
         return query(sql, new CheckinDetailsMapper(), detailId);
-    }
-    
-    public static void main(String[] args) {
-
-            CheckinDetailsDAO dao = new CheckinDetailsDAO();
-            CheckinDetails c = new CheckinDetails();
-            
-            c.setDetailId(1);
-            c.setCheckinId(2);
-            
-            c.setRoomId(1);
-            c.setPrice(22);
-            Date d = new Date();
-            SimpleDateFormat s = new SimpleDateFormat();
-            c.setStartDate(d);
-            c.setEndDate(d);
-            
-            c.setTotalServicePrice(234);
-            c.setStatus(0);
-            
-            
-            System.out.println("id checkinDetail: "+dao.add(c));
     }
 
 }
