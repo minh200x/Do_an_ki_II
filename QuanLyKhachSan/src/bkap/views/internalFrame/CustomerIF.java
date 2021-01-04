@@ -49,13 +49,13 @@ public class CustomerIF extends javax.swing.JInternalFrame {
         modelCustomer = (DefaultTableModel) tblCustomer.getModel();
 
         setDataTable(listCustomer);
-        
+
         if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
             btnAdd.setEnabled(false);
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
         }
-        setNameLabel();
+        setNameLabelAndButton();
     }
 
     /**
@@ -521,8 +521,8 @@ public class CustomerIF extends javax.swing.JInternalFrame {
             });
         }
     }
-    
-    private void setNameLabel() {
+
+    private void setNameLabelAndButton() {
         lbAddress.setText(Helper.getResources("address"));
         lbEmail.setText(Helper.getResources("address"));
         lbFemale.setText(Helper.getResources("female"));
@@ -532,6 +532,12 @@ public class CustomerIF extends javax.swing.JInternalFrame {
         lbMale.setText(Helper.getResources("male"));
         lbNote.setText(Helper.getResources("note"));
         lbPhone.setText(Helper.getResources("phone"));
+
+        btnAdd.setText(Helper.getResources("add"));
+        btnDelete.setText(Helper.getResources("delete"));
+        btnRefresh.setText(Helper.getResources("refresh"));
+        btnSearch.setText(Helper.getResources("search"));
+        btnUpdate.setText(Helper.getResources("update"));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -39,7 +39,7 @@ public class LevelIF extends javax.swing.JInternalFrame {
         modelLevel = (DefaultTableModel) tblLevel.getModel();
 
         setDataTable(listLevel);
-        setNameLabel();
+        setNameLabelAndButton();
     }
 
     /**
@@ -334,8 +334,14 @@ public class LevelIF extends javax.swing.JInternalFrame {
         }
     }
     
-    private void setNameLabel() {
+    private void setNameLabelAndButton() {
         lbLevel.setText(Helper.getResources("level"));
+        
+        btnAdd.setText(Helper.getResources("add"));
+        btnDelete.setText(Helper.getResources("delete"));
+        btnRefresh.setText(Helper.getResources("refresh"));
+        btnSearch.setText(Helper.getResources("search"));
+        btnUpdate.setText(Helper.getResources("update")); 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

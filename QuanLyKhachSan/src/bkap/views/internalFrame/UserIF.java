@@ -80,8 +80,7 @@ public class UserIF extends javax.swing.JInternalFrame {
 
         setComboxModelLevel(listLevel);
         setDataTable(listUser);
-        
-        setNameLabel();
+        setNameLabelAndButton();
     }
 
     /**
@@ -133,7 +132,6 @@ public class UserIF extends javax.swing.JInternalFrame {
         tblUser = new javax.swing.JTable();
         btnSearch = new javax.swing.JButton();
         txtKeySearch = new javax.swing.JTextField();
-        lbDemo = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -412,8 +410,6 @@ public class UserIF extends javax.swing.JInternalFrame {
             }
         });
 
-        lbDemo.setText("jLabel1");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -426,8 +422,6 @@ public class UserIF extends javax.swing.JInternalFrame {
                         .addComponent(btnSearch)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtKeySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(lbDemo)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -437,12 +431,10 @@ public class UserIF extends javax.swing.JInternalFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtKeySearch)
-                        .addComponent(lbDemo)))
+                    .addComponent(txtKeySearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -524,6 +516,8 @@ public class UserIF extends javax.swing.JInternalFrame {
         btnUpdate.setEnabled(true);
         btnDelete.setEnabled(true);
         msgInformation.setText("");
+        
+        System.out.println("oke" + containImg.getWidth() + containImg.getHeight());
     }//GEN-LAST:event_tblUserMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -722,7 +716,7 @@ public class UserIF extends javax.swing.JInternalFrame {
         }
     }
     
-    private void setNameLabel() {
+    private void setNameLabelAndButton() {
         lbFullname.setText("full lamen lew elw");
         lbFullname.setText(Helper.getResources("fullname"));
         lbUsername.setText(Helper.getResources("username"));
@@ -737,7 +731,13 @@ public class UserIF extends javax.swing.JInternalFrame {
         lbNote.setText(Helper.getResources("note"));
         lbStartDate.setText(Helper.getResources("startDate"));
         lbEndDate.setText(Helper.getResources("endDate"));
-        System.out.println(AppConfig.locale);
+        
+        btnAdd.setText(Helper.getResources("add"));
+        btnChooseImage.setText(Helper.getResources("chooseImg"));
+        btnDelete.setText(Helper.getResources("delete"));
+        btnRefresh.setText(Helper.getResources("refresh"));
+        btnSearch.setText(Helper.getResources("search"));
+        btnUpdate.setText(Helper.getResources("update"));
     }
 
 
@@ -759,7 +759,6 @@ public class UserIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lbAddess;
     private javax.swing.JLabel lbAvartar;
     private javax.swing.JLabel lbBirthday;
-    private javax.swing.JLabel lbDemo;
     private javax.swing.JLabel lbEndDate;
     private javax.swing.JRadioButton lbFemale;
     private javax.swing.JLabel lbFullname;

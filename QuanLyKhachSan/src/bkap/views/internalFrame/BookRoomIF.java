@@ -80,7 +80,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     public BookRoomIF() {
         initComponents();
         listCheckin = checkinDao.findAll();
-        setNameLabel();
+        setNameLabelAndButton();
     }
 
     /**
@@ -609,7 +609,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         return price;
     }
 
-    private void setNameLabel() {
+    private void setNameLabelAndButton() {
         lbAdvancedPrice.setText(Helper.getResources("paymentAdvanced"));
         lbCategoryRoom.setText(Helper.getResources("categoryRoom"));
         lbCheckinDate.setText(Helper.getResources("checkinDate"));
@@ -618,9 +618,13 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         lbIdentityCard.setText(Helper.getResources("numOfIdentityCard"));
         lbNameCustomer.setText(Helper.getResources("fullnameCus"));
         lbPhone.setText(Helper.getResources("phone"));
-        lbSingleRoom.setText(Helper.getResources("sigleRoom"));
+        lbSingleRoom.setText(Helper.getResources("singleRoom"));
         lbPriceAgreeing.setText(Helper.getResources("priceAgreeing"));
         lbTotalPeople.setText(Helper.getResources("totalPeople"));
+        
+        btnBookRoom.setText(Helper.getResources("bookRoom"));
+        btnGetRoom.setText(Helper.getResources("chooseRoom"));
+        btnGetService.setText(Helper.getResources("chooseService"));
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

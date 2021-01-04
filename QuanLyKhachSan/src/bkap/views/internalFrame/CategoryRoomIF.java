@@ -58,7 +58,7 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
         }
-        setNameLabel();
+        setNameLabelAndButton();
     }
 
     /**
@@ -81,7 +81,7 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         msgInformation = new javax.swing.JLabel();
-        btnRefesh = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -136,11 +136,11 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
 
         msgInformation.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
 
-        btnRefesh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_refresh_20px.png"))); // NOI18N
-        btnRefesh.setText("Làm mới");
-        btnRefesh.addActionListener(new java.awt.event.ActionListener() {
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/images/icon/icons8_refresh_20px.png"))); // NOI18N
+        btnRefresh.setText("Làm mới");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefeshActionPerformed(evt);
+                btnRefreshActionPerformed(evt);
             }
         });
 
@@ -162,7 +162,7 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
                             .addComponent(txtCategoryRoomName)
                             .addComponent(txtPrice)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnRefesh)
+                        .addComponent(btnRefresh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -187,7 +187,7 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
                     .addComponent(btnAdd)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete)
-                    .addComponent(btnRefesh))
+                    .addComponent(btnRefresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
@@ -300,9 +300,9 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnRefeshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefeshActionPerformed
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         setNullFields();
-    }//GEN-LAST:event_btnRefeshActionPerformed
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void setMessageInformation(String msg, Boolean status) {
         if (status == false) {
@@ -332,15 +332,20 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
         }
     }
 
-    private void setNameLabel() {
+    private void setNameLabelAndButton() {
         lbNameCategoryRoom.setText(Helper.getResources("nameCategoryRoom"));
         lbRoomPrice.setText(Helper.getResources("priceRoom"));
+        
+        btnAdd.setText(Helper.getResources("add"));
+        btnDelete.setText(Helper.getResources("delete"));
+        btnRefresh.setText(Helper.getResources("refresh"));
+        btnUpdate.setText(Helper.getResources("update")); 
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnRefesh;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

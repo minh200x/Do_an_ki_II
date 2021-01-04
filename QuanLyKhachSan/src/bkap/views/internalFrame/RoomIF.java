@@ -116,7 +116,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
             btnUpdateRoom.setEnabled(false);
             btnDeleteRoom.setEnabled(false);
         }
-        setNameLabel();
+        setNameLabelAndButton();
     }
 
     public static boolean getStatus() {
@@ -1129,7 +1129,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
         }
     }
     
-    private void setNameLabel() {
+    private void setNameLabelAndButton() {
         lbCategoryRoom.setText(Helper.getResources("categoryRoom"));
         lbImgDescript.setText(Helper.getResources("image"));
         lbModel.setText(Helper.getResources("model"));
@@ -1140,6 +1140,18 @@ public class RoomIF extends javax.swing.JInternalFrame {
         lbRoomPrice.setText(Helper.getResources("priceRoom"));
         lbStatusProduct.setText(Helper.getResources("status"));
         lbStatusRoom.setText(Helper.getResources("status"));
+        
+        btnAddProduct.setText(Helper.getResources("addProduct"));
+        btnAddRoom.setText(Helper.getResources("add"));
+        btnDeleteProduct.setText(Helper.getResources("deleteProduct"));
+        btnDeleteRoom.setText(Helper.getResources("delete"));
+        btnRefreshProduct.setText(Helper.getResources("refresh"));
+        btnRefesh.setText(Helper.getResources("refresh"));
+        btnSearchModel.setText(Helper.getResources("searchModel"));
+        btnSearchRoom.setText(Helper.getResources("search"));
+        btnUpdateProduct.setText(Helper.getResources("updateProduct")); 
+        btnUpdateRoom.setText(Helper.getResources("update")); 
+        btnChooseImg.setText(Helper.getResources("chooseImg"));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
