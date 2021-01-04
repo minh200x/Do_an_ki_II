@@ -6,6 +6,7 @@
 package bkap.views.internalFrame;
 
 import bkap.utils.Helper;
+import bkap.utils.Utils;
 
 /**
  *
@@ -17,6 +18,7 @@ public class CheckoutIF extends javax.swing.JInternalFrame {
      * Creates new form CheckoutIF
      */
     public CheckoutIF() {
+        Utils.setIconIF(this, Helper.getResources("tCheckout"));
         initComponents();
         setTitle("Trả phòng - P101");
         setNameLable();

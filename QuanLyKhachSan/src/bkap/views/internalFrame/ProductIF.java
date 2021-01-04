@@ -33,6 +33,7 @@ public class ProductIF extends javax.swing.JInternalFrame {
      * Creates new form ProductIF
      */
     public ProductIF() {
+        Utils.setIconIF(this, Helper.getResources("tProduct"));
         initComponents();
         listPro = proDao.findAll();
         modelPro = (DefaultTableModel) tblPro.getModel();

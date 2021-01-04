@@ -54,6 +54,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
      * Creates new form ServiceIF
      */
     public ServiceIF() {
+        Utils.setIconIF(this, Helper.getResources("tService"));
         initComponents();
         listCatSer = catServiceDao.findAll();
         listSer = serviceDao.findAll();

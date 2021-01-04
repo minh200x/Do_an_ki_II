@@ -78,6 +78,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
      * Creates new form BookRoomIF
      */
     public BookRoomIF() {
+        Utils.setIconIF(this, Helper.getResources("tBookRoom"));
         initComponents();
         listCheckin = checkinDao.findAll();
         setNameLabelAndButton();

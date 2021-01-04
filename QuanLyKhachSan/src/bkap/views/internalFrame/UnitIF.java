@@ -32,6 +32,7 @@ public class UnitIF extends javax.swing.JInternalFrame {
      * Creates new form UnitIF
      */
     public UnitIF() {
+        Utils.setIconIF(this, Helper.getResources("tUnit"));
         initComponents();
         list = unitDao.findAll();
         modelUnit = (DefaultTableModel) tblUnit.getModel();

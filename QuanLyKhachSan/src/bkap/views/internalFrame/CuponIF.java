@@ -45,6 +45,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
      * Creates new form CuponIF
      */
     public CuponIF() {
+        Utils.setIconIF(this, Helper.getResources("tCupon"));
         initComponents();
         cuponDAO.updateStatus();
         listCupon = cuponDAO.findAll();

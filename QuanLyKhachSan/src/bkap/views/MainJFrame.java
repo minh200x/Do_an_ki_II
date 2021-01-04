@@ -18,6 +18,7 @@ import bkap.views.internalFrame.LevelIF;
 import bkap.views.internalFrame.ProductIF;
 import bkap.views.internalFrame.RoomIF;
 import bkap.views.internalFrame.ServiceIF;
+import bkap.views.internalFrame.StatisticsIF;
 import bkap.views.internalFrame.UnitIF;
 import bkap.views.internalFrame.UserIF;
 import java.awt.Image;
@@ -119,6 +120,7 @@ public class MainJFrame extends javax.swing.JFrame {
         mnAccount = new javax.swing.JMenuItem();
         mnCustomer = new javax.swing.JMenu();
         mnAddCustomer = new javax.swing.JMenuItem();
+        mnStatistic = new javax.swing.JMenu();
         btnLogout = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -257,6 +259,14 @@ public class MainJFrame extends javax.swing.JFrame {
         mnCustomer.add(mnAddCustomer);
 
         jMenuBar1.add(mnCustomer);
+
+        mnStatistic.setText("Thống kê");
+        mnStatistic.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnStatisticMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(mnStatistic);
 
         btnLogout.setText("Đăng xuất");
         btnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -400,6 +410,13 @@ public class MainJFrame extends javax.swing.JFrame {
         main(null);
     }//GEN-LAST:event_btnLogoutMouseClicked
 
+    private void mnStatisticMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnStatisticMouseClicked
+        StatisticsIF s = new StatisticsIF();
+        dkpMain.add(s);
+        s.setVisible(true);
+        s.validate();
+    }//GEN-LAST:event_mnStatisticMouseClicked
+
     private void setNameMenu() {
         mnAccount.setText(Helper.getResources("account"));
         mnAddCustomer.setText(Helper.getResources("addCustomer"));
@@ -479,6 +496,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JMenu mnManageSystem;
     private javax.swing.JMenuItem mnRoom;
     private javax.swing.JMenuItem mnService;
+    private javax.swing.JMenu mnStatistic;
     private javax.swing.JMenuItem mnUnit;
     // End of variables declaration//GEN-END:variables
 }

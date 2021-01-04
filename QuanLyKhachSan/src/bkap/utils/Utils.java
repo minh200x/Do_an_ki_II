@@ -22,10 +22,7 @@ import javax.swing.JLabel;
 public class Utils {
 
     public static void setIconIF(JInternalFrame internalFrame, String title) {
-//        ImageIcon imgLogo = null;
-//        ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("bkap/images/logo.png")); // load the image to a imageIcon 
-
-        ImageIcon imgIcon = new ImageIcon("bkap/images/logo.png");
+        ImageIcon imgIcon = new ImageIcon("src\\bkap\\images\\logo.png");
         Image image = imgIcon.getImage(); // transform it 
         Image newimg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         ImageIcon imgLogo = new ImageIcon(newimg);

@@ -42,6 +42,7 @@ public class CustomerIF extends javax.swing.JInternalFrame {
      * Creates new form CustomerIF
      */
     public CustomerIF() {
+        Utils.setIconIF(this, Helper.getResources("tCustomer"));
         initComponents();
 
         listCustomer = cusDAO.findAll();
