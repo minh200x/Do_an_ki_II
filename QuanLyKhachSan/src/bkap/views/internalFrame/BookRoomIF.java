@@ -80,7 +80,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
     public BookRoomIF() {
         initComponents();
         listCheckin = checkinDao.findAll();
-        setNameLabelAndButton();
+//        setNameLabelAndButton();
     }
 
     /**
@@ -530,8 +530,9 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         c.setPricePaymentAdvance(pricePaymentAdvance);
 
         // truyền mã giảm giá
-//        c.setCuponId(0);
+        c.setCuponId(1);
         c.setTotalServicePrice(totalServicePrice);
+        
 
         return c;
     }
