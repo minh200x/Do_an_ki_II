@@ -8,14 +8,9 @@ package bkap.dao.impl;
 import bkap.dao.ICheckinDetails;
 import bkap.mapper.CheckinDetailsMapper;
 import bkap.model.CheckinDetails;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -25,8 +20,8 @@ public class CheckinDetailsDAO extends AbstractDAO<CheckinDetails> implements IC
 
     @Override
     public Integer add(CheckinDetails c) {
-        String sql = "INSERT INTO tblCheckinDetails(detailId, checkinId, roomId, totalServicePrice, price, startDate, endDate, status) VALUES(?,?,?,?,?,?,?,?)";
-        return insertReturnId(sql, c.getDetailId(), c.getCheckinId(), c.getRoomId(), c.getTotalServicePrice(), c.getPrice(), c.getStartDate(), c.getEndDate(), c.getStatus());
+        String sql = "INSERT INTO tblCheckinDetails(checkinId, roomId, totalServicePrice, price, startDate, endDate, status) VALUES(?,?,?,?,?,?,?)";
+        return insertReturnId(sql, c.getCheckinId(), c.getRoomId(), c.getTotalServicePrice(), c.getPrice(), c.getStartDate(), c.getEndDate(), c.getStatus());
         
     }
 
@@ -42,4 +37,23 @@ public class CheckinDetailsDAO extends AbstractDAO<CheckinDetails> implements IC
         return query(sql, new CheckinDetailsMapper(), detailId);
     }
 
+    public static void main(String[] args) {
+
+            CheckinDetailsDAO dao = new CheckinDetailsDAO();
+            CheckinDetails c = new CheckinDetails();
+            c.setCheckinId(27);
+            
+            c.setRoomId(6);
+            c.setPrice(22);
+            Date d = new Date();
+            SimpleDateFormat s = new SimpleDateFormat();
+            c.setStartDate(d);
+            c.setEndDate(d);
+            
+            c.setTotalServicePrice(234);
+            c.setStatus(0);
+            
+            
+            System.out.println("id checkinDetail: "+dao.add(c));
+    }
 }

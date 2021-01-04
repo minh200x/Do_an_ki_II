@@ -33,7 +33,7 @@ import javax.swing.JOptionPane;
 public class MainJFrame extends javax.swing.JFrame {
 
     private UserDAO userDao = new UserDAO();
-    private ImageIcon imgLogo;
+//    private ImageIcon imgLogo;
     private BufferedImage backgroundImage;
     private RoomIF room;
     private String userName;
@@ -80,6 +80,7 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     public void setCss() {
+        ImageIcon imgLogo = null;
         ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("bkap/images/logo.png")); // load the image to a imageIcon 
         Image image = imageIcon.getImage(); // transform it 
         Image newimg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way

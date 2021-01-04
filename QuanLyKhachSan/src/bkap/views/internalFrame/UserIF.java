@@ -9,13 +9,13 @@ import bkap.dao.impl.LevelDAO;
 import bkap.dao.impl.UserDAO;
 import bkap.model.Level;
 import bkap.model.User;
-import bkap.utils.AppConfig;
 import bkap.utils.Helper;
 import bkap.utils.Security;
 import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import bkap.views.LoginDialog;
 import java.awt.Color;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,9 +27,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.DesktopIconUI;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -69,8 +73,9 @@ public class UserIF extends javax.swing.JInternalFrame {
     /**
      * Creates new form UserIF
      */
-    public UserIF() {        
-        initComponents();
+    public UserIF() {   
+        Utils.setIconIF(this, "Quản lý nhân viên");
+        initComponents();        
 
         listUser = userDAO.findAll();
         listLevel = levelDAO.findAll();
@@ -517,7 +522,7 @@ public class UserIF extends javax.swing.JInternalFrame {
         btnDelete.setEnabled(true);
         msgInformation.setText("");
         
-        System.out.println("oke" + containImg.getWidth() + containImg.getHeight());
+//        System.out.println("oke" + containImg.getWidth() + containImg.getHeight());
     }//GEN-LAST:event_tblUserMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed

@@ -12,6 +12,7 @@ import java.text.NumberFormat;
 import java.util.Date;
 import java.util.Locale;
 import javax.swing.ImageIcon;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 
 /**
@@ -19,6 +20,18 @@ import javax.swing.JLabel;
  * @author THUY
  */
 public class Utils {
+
+    public static void setIconIF(JInternalFrame internalFrame, String title) {
+//        ImageIcon imgLogo = null;
+//        ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("bkap/images/logo.png")); // load the image to a imageIcon 
+
+        ImageIcon imgIcon = new ImageIcon("bkap/images/logo.png");
+        Image image = imgIcon.getImage(); // transform it 
+        Image newimg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        ImageIcon imgLogo = new ImageIcon(newimg);
+        internalFrame.setTitle(title);
+        internalFrame.setFrameIcon(imgLogo);
+    }
 
     public static Date getCurrentTime() {
         Date currentTime = new Date();
@@ -51,7 +64,6 @@ public class Utils {
             label.setForeground(Color.BLUE);
             label.setText(msg);
         }
-    }   
-   
+    }
 
 }
