@@ -12,17 +12,19 @@ package bkap.model;
 public class Service {
     private int id;
     private String name;
-    private float price;
+    private float inputPrice;
+    private float outputPrice;
     private int unit;
     private int catService;
 
     public Service() {
     }
 
-    public Service(int id, String name, float price, int unit, int catService) {
+    public Service(int id, String name, float inputPrice, float outputPrice, int unit, int catService) {
         this.id = id;
         this.name = name;
-        this.price = price;
+        this.inputPrice = inputPrice;
+        this.outputPrice = outputPrice;
         this.unit = unit;
         this.catService = catService;
     }
@@ -43,14 +45,6 @@ public class Service {
         this.name = name;
     }
 
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
     public int getUnit() {
         return unit;
     }
@@ -65,6 +59,22 @@ public class Service {
 
     public void setCatService(int catService) {
         this.catService = catService;
+    }
+
+    public float getInputPrice() {
+        return inputPrice;
+    }
+
+    public void setInputPrice(float inputPrice) {
+        this.inputPrice = inputPrice;
+    }
+
+    public float getOutputPrice() {
+        return outputPrice;
+    }
+
+    public void setOutputPrice(float outputPrice) {
+        this.outputPrice = outputPrice;
     }
     
     

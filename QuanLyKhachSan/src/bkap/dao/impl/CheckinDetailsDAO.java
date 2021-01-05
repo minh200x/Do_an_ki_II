@@ -8,8 +8,6 @@ package bkap.dao.impl;
 import bkap.dao.ICheckinDetails;
 import bkap.mapper.CheckinDetailsMapper;
 import bkap.model.CheckinDetails;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,5 +33,11 @@ public class CheckinDetailsDAO extends AbstractDAO<CheckinDetails> implements IC
     public List<CheckinDetails> findByDetailId(int detailId) {
         String sql = "{call checkinDetails_findByDetailId(?)}";
         return query(sql, new CheckinDetailsMapper(), detailId);
+    }
+
+    @Override
+    public List<CheckinDetails> findAll() {
+        String sql = "{call checkinDetails_findAll()}";
+        return query(sql, new CheckinDetailsMapper());
     }
 }

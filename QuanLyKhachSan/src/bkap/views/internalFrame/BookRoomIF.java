@@ -8,6 +8,7 @@ package bkap.views.internalFrame;
 import bkap.dao.impl.CategoryRoomDAO;
 import bkap.dao.impl.CheckinDAO;
 import bkap.dao.impl.CheckinDetailsDAO;
+import bkap.dao.impl.CheckinServiceDetailsDAO;
 import bkap.dao.impl.CuponDAO;
 import bkap.dao.impl.CustomerDAO;
 import bkap.dao.impl.RoomDAO;
@@ -40,6 +41,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
 
     private CheckinDAO checkinDao = new CheckinDAO();
     private CheckinDetailsDAO checkinDetailDao = new CheckinDetailsDAO();
+    private CheckinServiceDetailsDAO checkinSerDetailDao = new CheckinServiceDetailsDAO();
     private CuponDAO cuponDao = new CuponDAO();
     private CustomerDAO cusDao = new CustomerDAO();
     private ServiceDAO serDao = new ServiceDAO();
@@ -81,7 +83,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         Utils.setIconIF(this, Helper.getResources("tBookRoom"));
         initComponents();
         listCheckin = checkinDao.findAll();
-        setNameLabelAndButton();
+//        setNameLabelAndButton();
     }
 
     /**
@@ -448,23 +450,20 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                 System.out.println("id checkin detail: "+idCheckinDetail);
                 
                 for (Map.Entry<Integer, List<Integer>> entrySet : listServiceSelected.entrySet()) {
+                    System.out.println("vào");
                     Integer key = entrySet.getKey();
                     List<Integer> value = entrySet.getValue();
                     if(idRoomItem == key){
                         for (Integer v : value) {
-                            
+                            System.out.println("id service: "+v);
                             // add checkinServicer Detail
                             CheckinServiceDetails checkinSerDetail = setPropertiesForObjectCheckinServiceDetails(v);
+                            checkinSerDetailDao.add(checkinSerDetail);
                         }
                     }
                 }
-                
             }
             
-            CheckinDetails checkinDetail = setPropertiesForObjectCheckinDetails(idCheckin);
-            idCheckinDetail = checkinDetailDao.add(checkinDetail);
-            
-
             Utils.setMessageInformation(txtInfo, SystemConstant.MSG_SUCCESSFUL_UPDATE, true);
             setNullValueFields();
         }
@@ -531,8 +530,9 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         c.setPricePaymentAdvance(pricePaymentAdvance);
 
         // truyền mã giảm giá
-//        c.setCuponId(0);
+        c.setCuponId(1);
         c.setTotalServicePrice(totalServicePrice);
+        
 
         return c;
     }
@@ -576,7 +576,8 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
 
         c.setIdCheckinDetails(idCheckinDetail);
         c.setIdService(idSer);
-        c.setPrice(serDao.findByID(idSer).getPrice());
+        c.setPrice(serDao.findByID(idSer).getOutputPrice());
+        System.out.println(serDao.findByID(idSer).getOutputPrice());
         c.setQuantity(1);
         return c;
     }
@@ -603,7 +604,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
             List<Integer> value = entrySet.getValue();
             if (key == id) {
                 for (Integer v : value) {
-                    price += serDao.findByID(v).getPrice();
+                    price += serDao.findByID(v).getOutputPrice();
                 }
             }
         }

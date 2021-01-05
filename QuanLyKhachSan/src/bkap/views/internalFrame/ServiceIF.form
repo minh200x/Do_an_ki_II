@@ -45,25 +45,6 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lbNameService" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbCategoryService" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbPrice" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtName" max="32767" attributes="0"/>
-                              <Component id="cbCatSer" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="txtPrice" pref="148" max="32767" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="lbUnit" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="cbUnit" min="-2" pref="169" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="btnRefresh" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
@@ -74,13 +55,36 @@
                           <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane1" alignment="0" pref="493" max="32767" attributes="0"/>
+                      <Component id="msgInfomation" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Component id="btnSearch" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="txtKeySearch" min="-2" pref="187" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="msgInfomation" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lbNameService" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbCategoryService" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbOutputPrice" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbInputPrice" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="txtName" max="32767" attributes="0"/>
+                              <Component id="cbCatSer" max="32767" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="txtInputPrice" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="txtOutputPrice" pref="148" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="lbUnit" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="cbUnit" min="-2" pref="169" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -101,8 +105,13 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lbPrice" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtPrice" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbInputPrice" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtInputPrice" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lbOutputPrice" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtOutputPrice" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lbUnit" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cbUnit" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -151,12 +160,12 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lbPrice">
+        <Component class="javax.swing.JLabel" name="lbOutputPrice">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Gi&#xe1;"/>
+            <Property name="text" type="java.lang.String" value="Gi&#xe1; xu&#x1ea5;t"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtPrice">
+        <Component class="javax.swing.JTextField" name="txtOutputPrice">
         </Component>
         <Component class="javax.swing.JLabel" name="lbUnit">
           <Properties>
@@ -244,15 +253,21 @@
             <Component class="javax.swing.JTable" name="tblSer">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="0">
+                  <Table columnCount="5" rowCount="0">
                     <Column editable="true" title="T&#xea;n d&#x1ecb;ch v&#x1ee5;" type="java.lang.Object"/>
                     <Column editable="true" title="Lo&#x1ea1;i d&#x1ecb;ch v&#x1ee5;" type="java.lang.Object"/>
-                    <Column editable="true" title="Gi&#xe1;" type="java.lang.Object"/>
+                    <Column editable="true" title="Gi&#xe1; nh&#x1ead;p" type="java.lang.Object"/>
+                    <Column editable="true" title="Gi&#xe1; xu&#x1ea5;t" type="java.lang.Object"/>
                     <Column editable="true" title="&#x110;&#x1a1;n v&#x1ecb;" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
@@ -301,6 +316,13 @@
             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtKeySearchFocusGained"/>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtKeySearchFocusLost"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbInputPrice">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Gi&#xe1; nh&#x1ead;p"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtInputPrice">
         </Component>
       </SubComponents>
     </Container>

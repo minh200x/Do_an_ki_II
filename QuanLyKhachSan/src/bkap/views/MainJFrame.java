@@ -45,7 +45,8 @@ public class MainJFrame extends javax.swing.JFrame {
      */
     public MainJFrame() {
         setCss();
-        showLogin();
+//        showLogin();
+        initComponents();   
         
         if (LoginDialog.levelUser == SystemConstant.LEVEL_ADMIN) {
 
@@ -56,7 +57,7 @@ public class MainJFrame extends javax.swing.JFrame {
             mnCatService.setEnabled(false);
             mnCatProduct.setEnabled(false);
         }
-        setNameMenu();
+//        setNameMenu();
     }
 
     private void showLogin() {

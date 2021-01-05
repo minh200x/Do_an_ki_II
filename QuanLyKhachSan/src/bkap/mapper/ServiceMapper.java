@@ -23,7 +23,8 @@ public class ServiceMapper implements RowMapper<Service> {
             Service s = new Service();
             s.setId(rs.getInt("id"));
             s.setName(rs.getString("name"));
-            s.setPrice(rs.getFloat("price"));
+            s.setInputPrice(rs.getFloat("inputPrice"));
+            s.setOutputPrice(rs.getFloat("price"));
             s.setUnit(rs.getInt("unit"));
             s.setCatService(rs.getInt("catService"));
 

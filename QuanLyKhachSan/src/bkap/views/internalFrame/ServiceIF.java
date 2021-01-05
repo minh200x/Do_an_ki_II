@@ -44,11 +44,10 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     private int id;
     private String name;
     private String catSerName;
-    private String price;
+    private String inputPrice;
+    private String outputPrice;
     private String unitName;
 
-    Locale localeVN = new Locale("vi", "VN");
-    NumberFormat vn = NumberFormat.getInstance(localeVN);
 
     /**
      * Creates new form ServiceIF
@@ -97,7 +96,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                     for (Unit listU : listUnit) {
                         if (data.getUnit() == listU.getId()) {
                             modelService.addRow(new Object[]{
-                                data.getName(), listCat.getName(), vn.format(data.getPrice()), listU.getName()
+                                data.getName(), listCat.getName(), Utils.formatPrice(data.getInputPrice()), Utils.formatPrice(data.getOutputPrice()), listU.getName()
                             });
                         }
                     }
@@ -120,8 +119,8 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         txtName = new javax.swing.JTextField();
         lbCategoryService = new javax.swing.JLabel();
         cbCatSer = new javax.swing.JComboBox();
-        lbPrice = new javax.swing.JLabel();
-        txtPrice = new javax.swing.JTextField();
+        lbOutputPrice = new javax.swing.JLabel();
+        txtOutputPrice = new javax.swing.JTextField();
         lbUnit = new javax.swing.JLabel();
         cbUnit = new javax.swing.JComboBox();
         btnAdd = new javax.swing.JButton();
@@ -134,6 +133,8 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         tblSer = new javax.swing.JTable();
         msgInfomation = new javax.swing.JLabel();
         txtKeySearch = new javax.swing.JTextField();
+        lbInputPrice = new javax.swing.JLabel();
+        txtInputPrice = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -145,7 +146,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
 
         lbCategoryService.setText("Loại dịch vụ");
 
-        lbPrice.setText("Giá");
+        lbOutputPrice.setText("Giá xuất");
 
         lbUnit.setText("Đơn vị");
 
@@ -198,7 +199,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Tên dịch vụ", "Loại dịch vụ", "Giá", "Đơn vị"
+                "Tên dịch vụ", "Loại dịch vụ", "Giá nhập", "Giá xuất", "Đơn vị"
             }
         ));
         tblSer.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -220,6 +221,8 @@ public class ServiceIF extends javax.swing.JInternalFrame {
             }
         });
 
+        lbInputPrice.setText("Giá nhập");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -228,21 +231,6 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbNameService)
-                            .addComponent(lbCategoryService)
-                            .addComponent(lbPrice))
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtName)
-                            .addComponent(cbCatSer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lbUnit)
-                                .addGap(18, 18, 18)
-                                .addComponent(cbUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnRefresh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -252,12 +240,30 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAdd))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+                    .addComponent(msgInfomation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSearch)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtKeySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(msgInfomation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbNameService)
+                            .addComponent(lbCategoryService)
+                            .addComponent(lbOutputPrice)
+                            .addComponent(lbInputPrice))
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtName)
+                            .addComponent(cbCatSer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtInputPrice)
+                                    .addComponent(txtOutputPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addComponent(lbUnit)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -273,8 +279,12 @@ public class ServiceIF extends javax.swing.JInternalFrame {
                     .addComponent(cbCatSer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbPrice)
-                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbInputPrice)
+                    .addComponent(txtInputPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbOutputPrice)
+                    .addComponent(txtOutputPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbUnit)
                     .addComponent(cbUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -334,7 +344,8 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         Service ser = listSer.get(indexSelected);
         id = ser.getId();
         txtName.setText(ser.getName());
-        txtPrice.setText((int) ser.getPrice() + "");
+        txtInputPrice.setText((int) ser.getInputPrice() + "");
+        txtOutputPrice.setText((int) ser.getOutputPrice()+ "");
         for (CategoryService listC : listCatSer) {
             if (ser.getCatService() == listC.getId()) {
                 cbCatSer.setSelectedItem(listC.getName());
@@ -421,7 +432,8 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     private void getValueOfFields() {
         id = id;
         name = txtName.getText();
-        price = txtPrice.getText();
+        inputPrice = txtInputPrice.getText();
+        outputPrice = txtOutputPrice.getText();
         catSerName = cbCatSer.getSelectedItem().toString();
         unitName = cbUnit.getSelectedItem().toString();
     }
@@ -433,7 +445,7 @@ public class ServiceIF extends javax.swing.JInternalFrame {
             Utils.setMessageInformation(msgInfomation, "Vui lòng nhập tên dịch vụ!", false);
         } else if (!name.matches("^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s\\W|_]+$")) {
             Utils.setMessageInformation(msgInfomation, "Vui lòng tên dịch vụ không nhập kí tự đặc biệt!", false);
-        } else if (!price.matches("^[0-9]+$")) {
+        } else if (!outputPrice.matches("^[0-9]+$") || !inputPrice.matches("^[0-9]+$")) {
             Utils.setMessageInformation(msgInfomation, "Giá tiền không hợp lệ!", false);
         } else {
             check = true;
@@ -445,7 +457,8 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         Service s = new Service();
         s.setId(id);
         s.setName(name);
-        s.setPrice(Float.parseFloat(price));
+        s.setInputPrice(Float.parseFloat(inputPrice));
+        s.setOutputPrice(Float.parseFloat(outputPrice));
         for (CategoryService row : listCatSer) {
             if (row.getName().equals(catSerName)) {
                 s.setCatService(row.getId());
@@ -463,7 +476,8 @@ public class ServiceIF extends javax.swing.JInternalFrame {
         btnAdd.setEnabled(true);
         btnUpdate.setEnabled(false);
         txtName.setText("");
-        txtPrice.setText("");
+        txtInputPrice.setText("");
+        txtOutputPrice.setText("");
         cbCatSer.setSelectedIndex(0);
         cbUnit.setSelectedIndex(0);
     }
@@ -471,7 +485,8 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     private void setNameLabelAndButton() {
         lbCategoryService.setText(Helper.getResources("categoryService"));
         lbNameService.setText(Helper.getResources("nameService"));
-        lbPrice.setText(Helper.getResources("price"));
+        lbInputPrice.setText(Helper.getResources("inputPrice"));
+        lbOutputPrice.setText(Helper.getResources("outputPrice"));
         lbUnit.setText(Helper.getResources("unit"));
         
         btnAdd.setText(Helper.getResources("add"));
@@ -493,13 +508,15 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lbCategoryService;
+    private javax.swing.JLabel lbInputPrice;
     private javax.swing.JLabel lbNameService;
-    private javax.swing.JLabel lbPrice;
+    private javax.swing.JLabel lbOutputPrice;
     private javax.swing.JLabel lbUnit;
     private javax.swing.JLabel msgInfomation;
     private javax.swing.JTable tblSer;
+    private javax.swing.JTextField txtInputPrice;
     private javax.swing.JTextField txtKeySearch;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtPrice;
+    private javax.swing.JTextField txtOutputPrice;
     // End of variables declaration//GEN-END:variables
 }

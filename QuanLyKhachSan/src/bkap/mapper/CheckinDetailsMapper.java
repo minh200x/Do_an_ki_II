@@ -25,6 +25,8 @@ public class CheckinDetailsMapper implements RowMapper<CheckinDetails> {
             c.setCheckinId(rs.getInt("checkinId"));
             c.setRoomId(rs.getInt("roomId"));
             c.setTotalServicePrice(rs.getFloat("totalServicePrice"));
+            c.setSubPrice(rs.getFloat("subPrice"));
+            c.setExPrice(rs.getFloat("exPrice"));
             c.setPrice(rs.getFloat("price"));
             c.setStartDate(rs.getDate("startDate"));
             c.setEndDate(rs.getDate("endDate"));

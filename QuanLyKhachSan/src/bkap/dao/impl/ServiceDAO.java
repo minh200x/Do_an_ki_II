@@ -18,14 +18,14 @@ public class ServiceDAO extends AbstractDAO<Service> implements IService {
 
     @Override
     public void add(Service s) {
-        String sql = "{call service_insert(?,?,?,?)}";
-        insert(sql, s.getName(), s.getPrice(), s.getUnit(), s.getCatService());
+        String sql = "{call service_insert(?,?,?,?,?)}";
+        insert(sql, s.getName(), s.getInputPrice(), s.getOutputPrice(), s.getUnit(), s.getCatService());
     }
 
     @Override
     public void edit(Service s) {
-        String sql = "{call service_update(?,?,?,?,?)}";
-        update(sql, s.getId(), s.getName(), s.getPrice(), s.getUnit(), s.getCatService());
+        String sql = "{call service_update(?,?,?,?,?,?)}";
+        update(sql, s.getId(), s.getName(), s.getInputPrice(), s.getOutputPrice(), s.getUnit(), s.getCatService());
     }
 
     @Override

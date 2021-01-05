@@ -142,6 +142,8 @@ create table tblCheckinDetails(
 	roomId int foreign key references tblRoom(roomId) not null,
 	totalServicePrice float default(0) not null,
 	price float not null,
+	exPrice float null,
+	subPrice float null,
 	startDate date not null,
 	endDate date not null,
 	status tinyint default(1) not null
@@ -166,6 +168,7 @@ go
 create table tblService(
 	id int primary key identity(1,1) not null,
 	name nvarchar(255) not null,
+	inputPrice float null,
 	price float not null,
 	unit int foreign key references tblUnit(id) not null,
 	catService int foreign key references tblCategoryService(id) not null
@@ -615,12 +618,13 @@ go
 -- PROC tblService
 
 create proc service_insert(@name nvarchar(255),
+							@inputPrice float,
 							@price float,
 							@unit int,
 							@catService int)
 as
 begin
-	insert into tblService(name, price, unit, catService) values(@name, @price, @unit, @catService)
+	insert into tblService(name, inputPrice, price, unit, catService) values(@name, @inputPrice, @price, @unit, @catService)
 end
 go
 
@@ -635,13 +639,14 @@ go
 
 create proc service_update(@id int,
 							@name nvarchar(255),
+							@inputPrice float,
 							@price float,
 							@unit int,
 							@catService int)
 as
 begin
 	update tblService 
-	set name=@name, price=@price, unit=@unit, catService=@catService 
+	set name=@name, inputPrice=@inputPrice, price=@price, unit=@unit, catService=@catService 
 	where id=@id
 end
 go
@@ -688,6 +693,13 @@ create proc checkinDetails_findByDetailId(@detailId int)
 as
 begin
 	select * from tblCheckinDetails where detailId=@detailId
+end
+go
+
+create proc checkinDetails_findAll
+as
+begin
+	select * from tblCheckinDetails
 end
 go
 

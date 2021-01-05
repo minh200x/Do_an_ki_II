@@ -17,6 +17,8 @@ public class CheckinDetails {
     private int roomId;
     private float totalServicePrice;
     private float price;
+    private float exPrice;
+    private float subPrice;
     private Date startDate;
     private Date endDate;
     private int status;
@@ -24,12 +26,14 @@ public class CheckinDetails {
     public CheckinDetails() {
     }
 
-    public CheckinDetails(int detailId, int checkinId, int roomId, float totalServicePrice, float price, Date startDate, Date endDate, int status) {
+    public CheckinDetails(int detailId, int checkinId, int roomId, float totalServicePrice, float price, float exPrice, float subPrice, Date startDate, Date endDate, int status) {
         this.detailId = detailId;
         this.checkinId = checkinId;
         this.roomId = roomId;
         this.totalServicePrice = totalServicePrice;
         this.price = price;
+        this.exPrice = exPrice;
+        this.subPrice = subPrice;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
@@ -98,6 +102,24 @@ public class CheckinDetails {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public float getExPrice() {
+        return exPrice;
+    }
+
+    public void setExPrice(float exPrice) {
+        this.exPrice = exPrice;
+    }
+
+    public float getSubPrice() {
+        return subPrice;
+    }
+
+    public void setSubPrice(float subPrice) {
+        this.subPrice = subPrice;
+    }
+
+    
     
     
 }
