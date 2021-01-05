@@ -15,5 +15,8 @@ import java.util.List;
 public interface ICheckinDetails extends GenericDAO<CheckinDetails>{
     Integer add(CheckinDetails c);
     void delete(int detailId);
+    List<CheckinDetails> findAllByStatus(int status);
     List<CheckinDetails> findByDetailId(int detailId);
+    CheckinDetails findByIdRoomStatus(int idR, int status);
+    void changeStatusRoom(int id, int status);
 }

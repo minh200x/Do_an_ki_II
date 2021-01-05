@@ -449,7 +449,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
                 System.out.println("id checkin detail: "+idCheckinDetail);
                 
                 for (Map.Entry<Integer, List<Integer>> entrySet : listServiceSelected.entrySet()) {
-                    System.out.println("vào");
                     Integer key = entrySet.getKey();
                     List<Integer> value = entrySet.getValue();
                     if(idRoomItem == key){
@@ -549,7 +548,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         cus.setNumIdentityCard(numIdentityCard);
         return cus;
         
-//        phone, fullname, email, address, gender, numIdentityCard, descript, createdAt, updatedAt
     }
 
     private CheckinDetails setPropertiesForObjectCheckinDetails(int idRoom) {

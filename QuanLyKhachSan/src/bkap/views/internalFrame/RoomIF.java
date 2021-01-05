@@ -152,7 +152,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
         tblRoom = new javax.swing.JTable();
         btnRefesh = new javax.swing.JButton();
         btnSearchRoom = new javax.swing.JButton();
-        cbStatusRoomSearch = new javax.swing.JComboBox<>();
+        cbStatusRoomSearch = new javax.swing.JComboBox<String>();
         txtKeySearchRoom = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -231,11 +231,11 @@ public class RoomIF extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Tên phòng", "Loại phòng", "Giá phòng", "Mô tả", "Trạng thái"
+                "Tên phòng", "Loại phòng", "Giá phòng", "Mô tả"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1100,19 +1100,10 @@ public class RoomIF extends javax.swing.JInternalFrame {
         for (T t : list) {
             if (t instanceof Room) {
                 Room r = (Room) t;
-                String txtStatus = "";
-                if (r.getStatus() == SystemConstant.STATUS_ROOM_EMPTY) {
-                    txtStatus = SystemConstant.STATUS_TXT_ROOM_EMPTY;
-                } else if (r.getStatus() == SystemConstant.STATUS_ROOM_USING) {
-                    txtStatus = SystemConstant.STATUS_TXT_ROOM_USING;
-                } else {
-                    txtStatus = SystemConstant.STATUS_TXT_ROOM_REPAIRING;
-                }
-
                 for (CategoryRoom c : listCategoryRoom) {
                     if (c.getId() == r.getTypeId()) {
                         modelTable.addRow(new Object[]{
-                            r.getRoomId(), c.getName(), Utils.formatPrice(c.getPrice()), r.getDescript(), txtStatus
+                            r.getRoomId(), c.getName(), Utils.formatPrice(c.getPrice()), r.getDescript()
                         });
                     }
                 }

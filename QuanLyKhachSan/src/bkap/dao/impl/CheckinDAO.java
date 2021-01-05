@@ -39,16 +39,11 @@ public class CheckinDAO extends AbstractDAO<Checkin> implements ICheckin {
 
     }
 
-//    public static void main(String[] args) {
-//        CheckinDAO dao = new CheckinDAO();
-//        Checkin c = new Checkin();
-//        c.setCusPhone("0156452205");
-//        c.setTotalPeople(2);
-//        c.setCuponId(1);
-//        c.setTotalMoney(35000);
-//        c.setTotalServicePrice(2000);
-//        c.setPricePaymentAdvance(500000);
-//        c.setDescript("lorem");
-//        System.out.println("idCheckin: " + dao.add(c));
-//    }
+    @Override
+    public Checkin findById(int id) {
+        String sql = "{call checkin_findById(?)}";
+        List<Checkin> list = query(sql, new CheckinMapper(), id);
+        return list.size() == 0 ? null : list.get(0);
+    
+    }
 }

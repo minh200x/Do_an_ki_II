@@ -120,7 +120,7 @@ public class ListServiceJDialog extends javax.swing.JDialog {
         pnlItem.setBorder(blackline);
         pnlItem.setLayout(new FlowLayout(5));
 
-        checkbox = new JCheckBox();
+//        checkbox = new JCheckBox();
         for (Service list : listSer) {
             if (id == list.getCatService()) {
                 checkbox = new JCheckBox(list.getName(), false);

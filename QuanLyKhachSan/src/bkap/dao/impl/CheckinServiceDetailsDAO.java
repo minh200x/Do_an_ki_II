@@ -39,14 +39,11 @@ public class CheckinServiceDetailsDAO extends AbstractDAO<CheckinServiceDetails>
         String sql = "{call checkinServiceDetail_findAll()";
         return query(sql, new CheckinServiceDetailsMapper());
     }
-//    public static void main(String[] args) {
-//        CheckinServiceDetails c = new CheckinServiceDetails();
-//        CheckinServiceDetailsDAO dao  = new CheckinServiceDetailsDAO();
-//        c.setIdCheckinDetails(8);
-//        c.setIdService(6);
-//        c.setPrice(345);
-//        c.setQuantity(1);
-//        dao.add(c);
-//    }
+
+    @Override
+    public List<CheckinServiceDetails> findByIdCheckinDetail(int idCheckinDetail) {
+        String sql = "{call checkinServiceDetail_findObjByIdCheckinDetail(?)}";
+        return query(sql, new CheckinServiceDetailsMapper(), idCheckinDetail);
+    }
     
 }

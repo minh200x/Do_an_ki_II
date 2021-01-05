@@ -15,6 +15,7 @@ import bkap.views.internalFrame.CategoryServiceIF;
 import bkap.views.internalFrame.CuponIF;
 import bkap.views.internalFrame.CustomerIF;
 import bkap.views.internalFrame.LevelIF;
+import bkap.views.internalFrame.ListRoomDetailIF;
 import bkap.views.internalFrame.ProductIF;
 import bkap.views.internalFrame.RoomIF;
 import bkap.views.internalFrame.ServiceIF;
@@ -152,6 +153,11 @@ public class MainJFrame extends javax.swing.JFrame {
         jMenuBar1.add(mnHome);
 
         mnCheckin_Checkout.setText("Thuê - Trả phòng");
+        mnCheckin_Checkout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnCheckin_CheckoutMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(mnCheckin_Checkout);
 
         mnBookRoom.setText("Đặt phòng");
@@ -399,6 +405,14 @@ public class MainJFrame extends javax.swing.JFrame {
         loginForm.setIsLogin(false);
         main(null);
     }//GEN-LAST:event_btnLogoutMouseClicked
+
+    private void mnCheckin_CheckoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnCheckin_CheckoutMouseClicked
+        // TODO add your handling code here:
+        ListRoomDetailIF formListR = new ListRoomDetailIF();
+        dkpMain.add(formListR);
+        formListR.setVisible(true);
+        formListR.validate();
+    }//GEN-LAST:event_mnCheckin_CheckoutMouseClicked
 
     private void setNameMenu() {
         mnAccount.setText(Helper.getResources("account"));
