@@ -80,6 +80,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
      * Creates new form BookRoomIF
      */
     public BookRoomIF() {
+        Utils.setIconIF(this, Helper.getResources("tBookRoom"));
         initComponents();
         listCheckin = checkinDao.findAll();
 //        setNameLabelAndButton();
@@ -569,8 +570,8 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
 
         c.setIdCheckinDetails(idCheckinDetail);
         c.setIdService(idSer);
-        c.setPrice(serDao.findByID(idSer).getPrice());
-        System.out.println(serDao.findByID(idSer).getPrice());
+        c.setPrice(serDao.findByID(idSer).getOutputPrice());
+        System.out.println(serDao.findByID(idSer).getOutputPrice());
         c.setQuantity(1);
         return c;
     }
@@ -597,7 +598,7 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
             List<Integer> value = entrySet.getValue();
             if (key == id) {
                 for (Integer v : value) {
-                    price += serDao.findByID(v).getPrice();
+                    price += serDao.findByID(v).getOutputPrice();
                 }
             }
         }

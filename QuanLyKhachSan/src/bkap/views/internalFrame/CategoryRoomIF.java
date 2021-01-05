@@ -11,6 +11,7 @@ import bkap.model.CategoryRoom;
 import bkap.model.Room;
 import bkap.utils.Helper;
 import bkap.utils.SystemConstant;
+import bkap.utils.Utils;
 import bkap.views.LoginDialog;
 import java.awt.Color;
 import java.text.NumberFormat;
@@ -44,6 +45,7 @@ public class CategoryRoomIF extends javax.swing.JInternalFrame {
      * Creates new form CategoryRoomIF
      */
     public CategoryRoomIF() {
+        Utils.setIconIF(this, Helper.getResources("tCategoryRoom"));
         initComponents();
 
         listCategoryRoom = catRoomDAO.findAll();

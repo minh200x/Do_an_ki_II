@@ -74,7 +74,7 @@ public class UserIF extends javax.swing.JInternalFrame {
      * Creates new form UserIF
      */
     public UserIF() {   
-        Utils.setIconIF(this, "Quản lý nhân viên");
+        Utils.setIconIF(this, Helper.getResources("tUser"));
         initComponents();        
 
         listUser = userDAO.findAll();

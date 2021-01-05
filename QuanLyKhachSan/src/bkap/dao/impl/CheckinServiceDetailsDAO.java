@@ -14,26 +14,26 @@ import java.util.List;
  *
  * @author THUY
  */
-public class CheckinServiceDetailsDAO extends AbstractDAO<CheckinServiceDetails> implements ICheckinServiceDetails{
-
+public class CheckinServiceDetailsDAO extends AbstractDAO<CheckinServiceDetails> implements ICheckinServiceDetails {
+    
     @Override
     public void add(CheckinServiceDetails c) {
         String sql = "{call checkinServiceDetail_insert(?,?,?,?)}";
-        insert(sql, c.getIdService(), c.getIdCheckinDetails(), c.getPrice(), c.getQuantity());
+        insert(sql, c.getIdService(), c.getIdCheckinDetails(), c.getQuantity(), c.getPrice());
     }
-
+    
     @Override
     public void delete(int idService) {
         String sql = "{call checkinServiceDetail_delete(?)}";
         update(sql, idService);
     }
-
+    
     @Override
     public void edit(CheckinServiceDetails c) {
         String sql = "{call checkinServiceDetail_update(?,?)}";
         update(sql, c.getIdService(), c.getQuantity());
     }
-
+    
     @Override
     public List<CheckinServiceDetails> findAll() {
         String sql = "{call checkinServiceDetail_findAll()";

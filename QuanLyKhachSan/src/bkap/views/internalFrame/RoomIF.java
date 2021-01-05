@@ -88,6 +88,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
      * Creates new form RoomFrame
      */
     public RoomIF() {
+        Utils.setIconIF(this, Helper.getResources("tRoom"));
         initComponents();
 
         listCategoryRoom = catRoomDAO.findAll();
@@ -103,8 +104,8 @@ public class RoomIF extends javax.swing.JInternalFrame {
         modeTablelRoom = (DefaultTableModel) tblRoom.getModel();
         modelTableProduct = (DefaultTableModel) tblProduct.getModel();
 
-        setComboxStatusRoom(cbModelStatusRoom);
-        setComboxStatusRoom(cbModelStatusRoomSearch);
+        setComboxStatusRoom();
+        setComboxStatusRoomSearch();
         setComboxStatusProduct();
         setDataCombox(cbModelProduct, listProduct);
         setDataCombox(cbModelCategoryRoom, listCategoryRoom);
@@ -879,6 +880,8 @@ public class RoomIF extends javax.swing.JInternalFrame {
         btnAddProduct.setEnabled(true);
         btnUpdateProduct.setEnabled(false);
         btnDeleteProduct.setEnabled(false);
+        
+        cbModelStatusRoomSearch.setSelectedItem("Tất cả");
     }//GEN-LAST:event_btnRefeshActionPerformed
 
     private void btnSearchModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchModelActionPerformed
@@ -1074,10 +1077,17 @@ public class RoomIF extends javax.swing.JInternalFrame {
         return null;
     }
 
-    private void setComboxStatusRoom(DefaultComboBoxModel comboxModel) {
-        comboxModel.addElement(SystemConstant.STATUS_TXT_ROOM_EMPTY);
-        comboxModel.addElement(SystemConstant.STATUS_TXT_ROOM_USING);
-        comboxModel.addElement(SystemConstant.STATUS_TXT_ROOM_REPAIRING);
+    private void setComboxStatusRoom() {
+        cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_EMPTY);
+        cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_USING);
+        cbModelStatusRoom.addElement(SystemConstant.STATUS_TXT_ROOM_REPAIRING);
+    }
+    
+    private void setComboxStatusRoomSearch() {
+        cbModelStatusRoomSearch.addElement("Tất cả");
+        cbModelStatusRoomSearch.addElement(SystemConstant.STATUS_TXT_ROOM_EMPTY);
+        cbModelStatusRoomSearch.addElement(SystemConstant.STATUS_TXT_ROOM_USING);
+        cbModelStatusRoomSearch.addElement(SystemConstant.STATUS_TXT_ROOM_REPAIRING);
     }
 
     private void setComboxStatusProduct() {

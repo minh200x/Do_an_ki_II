@@ -32,6 +32,7 @@ public class CategoryServiceIF extends javax.swing.JInternalFrame {
      * Creates new form CategoryServiceIF
      */
     public CategoryServiceIF() {
+        Utils.setIconIF(this, Helper.getResources("tCategoryService"));
         initComponents();
         listCatService = catServiceDao.findAll();
         modelCatService = (DefaultTableModel) tblCatService.getModel();

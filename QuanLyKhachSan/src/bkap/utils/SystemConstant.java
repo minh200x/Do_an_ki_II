@@ -58,4 +58,7 @@ public class SystemConstant {
     
     public final static int LEVEL_ADMIN = 1;
     public final static int LEVEL_USER = 2;
+    
+    public final static String MSG_EXPORT_SUCCESSFULLY = "Xuất file thành công!";
+    public final static String MSG_EXPORT_ERRORS = "Xuất file thất bại!";
 }

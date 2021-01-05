@@ -9,11 +9,20 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -22,10 +31,7 @@ import javax.swing.JLabel;
 public class Utils {
 
     public static void setIconIF(JInternalFrame internalFrame, String title) {
-//        ImageIcon imgLogo = null;
-//        ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource("bkap/images/logo.png")); // load the image to a imageIcon 
-
-        ImageIcon imgIcon = new ImageIcon("bkap/images/logo.png");
+        ImageIcon imgIcon = new ImageIcon("src\\bkap\\images\\logo.png");
         Image image = imgIcon.getImage(); // transform it 
         Image newimg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         ImageIcon imgLogo = new ImageIcon(newimg);
@@ -66,4 +72,19 @@ public class Utils {
         }
     }
 
+    public static void sortDataTable(JComboBox cbName, JTable tblName, int positionColumnTableSorting) {
+        String sortSelected = cbName.getSelectedItem().toString();
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tblName.getModel());
+        tblName.setRowSorter(sorter);
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+
+        if (sortSelected.equals("Tăng dần")) {
+            sortKeys.add(new RowSorter.SortKey(positionColumnTableSorting, SortOrder.ASCENDING));
+            sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+        } else {
+            sortKeys.add(new RowSorter.SortKey(positionColumnTableSorting, SortOrder.DESCENDING));
+            sortKeys.add(new RowSorter.SortKey(0, SortOrder.DESCENDING));
+        }
+        sorter.setSortKeys(sortKeys);
+    }
 }

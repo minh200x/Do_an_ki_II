@@ -502,7 +502,7 @@ public class CheckoutJDialog extends javax.swing.JDialog {
 
         c.setIdCheckinDetails(checkinDetail.getDetailId());
         c.setIdService(idSer);
-        c.setPrice(serDao.findByID(idSer).getPrice());
+        c.setPrice(serDao.findByID(idSer).getOutputPrice());
         c.setQuantity(1);
         return c;
     }

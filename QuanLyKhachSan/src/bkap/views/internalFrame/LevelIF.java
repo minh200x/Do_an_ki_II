@@ -32,6 +32,7 @@ public class LevelIF extends javax.swing.JInternalFrame {
      * Creates new form LevelIF
      */
     public LevelIF() {
+        Utils.setIconIF(this, Helper.getResources("tLevel"));
         initComponents();
 
         listLevel = levelDAO.findAll();
