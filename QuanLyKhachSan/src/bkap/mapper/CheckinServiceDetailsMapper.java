@@ -21,9 +21,10 @@ public class CheckinServiceDetailsMapper implements RowMapper<CheckinServiceDeta
     public CheckinServiceDetails mapRow(ResultSet rs) {
         try {
             CheckinServiceDetails c = new CheckinServiceDetails();
-            c.setIdService(rs.getInt("idService"));
+            c.setIdService(rs.getInt("idServicee"));
             c.setIdCheckinDetails(rs.getInt("idCheckinDetails"));
             c.setQuantity(rs.getInt("quantity"));
+            c.setPrice(rs.getFloat("price"));
 
             return c;
 

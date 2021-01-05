@@ -18,5 +18,6 @@ public interface IRoom extends GenericDAO<Room>{
     void delete(int roomId);
     List<Room> findAll();    
     Room findByRoomId(int roomId);    
-    List<Room> findByStatus(int status);    
+    List<Room> findByStatus(int status);   
+    void changeStatus(int id, int status);
 }

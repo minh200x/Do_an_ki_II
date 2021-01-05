@@ -613,6 +613,14 @@ begin
 end
 go
 
+create proc checkin_findById(@id int)
+as
+begin
+	select * from tblCheckin
+	where id = @id
+end
+go
+
 
 
 -- PROC tblService
@@ -695,6 +703,35 @@ begin
 	select * from tblCheckinDetails where detailId=@detailId
 end
 go
+drop proc checkinDetails_findAllByStatus
+go
+create proc checkinDetails_findAllByStatus(@status int)
+as
+begin
+	select * from tblCheckinDetails where "status" = @status
+end
+go
+
+create proc findIdCheckinDetailByIdRoom(@idR int, @status tinyint)
+as
+begin
+	select * from tblCheckinDetails where roomId = @idR and "status" = @status
+end
+go
+
+create proc checkinDetails_ChangeStatus(@id int, @status tinyint)
+as
+begin
+	update tblCheckinDetails
+	set status = @status
+	where detailId = @id
+end
+go
+
+select * from tblCheckin
+select * from tblCheckinDetails
+select * from tblCheckinServiceDetails
+select * from tblCheckoutProductDetails
 
 create proc checkinDetails_findAll
 as
@@ -924,6 +961,14 @@ create proc checkinServiceDetail_findAll
 as
 begin
 	select * from tblCheckinServiceDetails
+end
+go
+
+create proc checkinServiceDetail_findObjByIdCheckinDetail(@idCheckinDetail int)
+as
+begin
+	select * from tblCheckinServiceDetails
+	where idCheckinDetails = @idCheckinDetail
 end
 go
 

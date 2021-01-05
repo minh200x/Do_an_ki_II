@@ -100,4 +100,10 @@ public class RoomDAO extends AbstractDAO<Room> implements IRoom {
         List<Room> list = query(sql, new RoomMapper(), roomId);
         return list.isEmpty() ? null : list.get(0);
     }
+
+    @Override
+    public void changeStatus(int id, int status) {
+        String sql = "{call room_ChangeStatus(?,?)}";
+        update(sql, id, status);
+    }
 }

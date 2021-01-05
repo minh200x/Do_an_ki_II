@@ -17,4 +17,5 @@ public interface ICheckinServiceDetails {
     void delete(int idService);
     void edit (CheckinServiceDetails c);
     List<CheckinServiceDetails> findAll();
+    List<CheckinServiceDetails> findByIdCheckinDetail(int id);
 }

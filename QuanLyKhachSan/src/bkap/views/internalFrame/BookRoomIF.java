@@ -436,26 +436,21 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
             // add customer
             Customer c = setPropertiesForObjectCustomer();
             phone = cusDao.add(c);
-            System.out.println("sdt khách hàng: "+phone);
             
             // add checkin
             Checkin checkin = setPropertiesForObjectCheckin();
             idCheckin = checkinDao.add(checkin);
-            System.out.println("id checkin: "+idCheckin);
             
             for (Integer idRoomItem : listRoomSelected) {
                 // add checkinDetail
                 CheckinDetails checkinDetail = setPropertiesForObjectCheckinDetails(idRoomItem);
                 idCheckinDetail = checkinDetailDao.add(checkinDetail);
-                System.out.println("id checkin detail: "+idCheckinDetail);
                 
                 for (Map.Entry<Integer, List<Integer>> entrySet : listServiceSelected.entrySet()) {
-                    System.out.println("vào");
                     Integer key = entrySet.getKey();
                     List<Integer> value = entrySet.getValue();
                     if(idRoomItem == key){
                         for (Integer v : value) {
-                            System.out.println("id service: "+v);
                             // add checkinServicer Detail
                             CheckinServiceDetails checkinSerDetail = setPropertiesForObjectCheckinServiceDetails(v);
                             checkinSerDetailDao.add(checkinSerDetail);
@@ -550,7 +545,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         cus.setNumIdentityCard(numIdentityCard);
         return cus;
         
-//        phone, fullname, email, address, gender, numIdentityCard, descript, createdAt, updatedAt
     }
 
     private CheckinDetails setPropertiesForObjectCheckinDetails(int idRoom) {

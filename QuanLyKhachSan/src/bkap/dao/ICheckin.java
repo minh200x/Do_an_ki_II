@@ -16,4 +16,5 @@ public interface ICheckin extends GenericDAO<Checkin>{
     Integer add(Checkin c);
     void delete(int id);
     List<Checkin> findAll();
+    Checkin findById(int id);
 }

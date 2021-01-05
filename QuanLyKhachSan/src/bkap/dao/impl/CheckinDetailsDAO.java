@@ -34,6 +34,26 @@ public class CheckinDetailsDAO extends AbstractDAO<CheckinDetails> implements IC
         String sql = "{call checkinDetails_findByDetailId(?)}";
         return query(sql, new CheckinDetailsMapper(), detailId);
     }
+    
+
+    @Override
+    public CheckinDetails findByIdRoomStatus(int idR, int status) {
+        String sql = "{call findIdCheckinDetailByIdRoom(?,?)}";
+        List<CheckinDetails> list = query(sql, new CheckinDetailsMapper(), idR, status);
+        return list.size() == 0 ? null : list.get(0);
+    }
+
+    @Override
+    public void changeStatusRoom(int id, int status) {
+        String sql = "{call checkinDetails_ChangeStatus(?,?)}";
+        update(sql, id, status);
+    }
+
+    @Override
+    public List<CheckinDetails> findAllByStatus(int status) {
+        String sql = "{call checkinDetails_findAllByStatus(?)}";
+        return query(sql, new CheckinDetailsMapper(), status); 
+    }
 
     @Override
     public List<CheckinDetails> findAll() {
