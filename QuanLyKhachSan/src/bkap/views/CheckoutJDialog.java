@@ -8,11 +8,13 @@ package bkap.views;
 import bkap.dao.impl.CheckinDAO;
 import bkap.dao.impl.CheckinDetailsDAO;
 import bkap.dao.impl.CheckinServiceDetailsDAO;
+import bkap.dao.impl.CuponDAO;
 import bkap.dao.impl.CustomerDAO;
 import bkap.dao.impl.RoomDAO;
 import bkap.dao.impl.ServiceDAO;
 import bkap.model.CheckinDetails;
 import bkap.model.CheckinServiceDetails;
+import bkap.model.Cupon;
 import bkap.model.Customer;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +35,7 @@ public class CheckoutJDialog extends javax.swing.JDialog {
     private CustomerDAO cusDao = new CustomerDAO();
     private ServiceDAO serDao = new ServiceDAO();
     private RoomDAO roomDao = new RoomDAO();
+    private CuponDAO cuponDao = new CuponDAO();
 
     private int idCheckindetail;
     private int idR;
@@ -49,12 +52,14 @@ public class CheckoutJDialog extends javax.swing.JDialog {
     private float totalPrice;
     private String des;
     private String txtService;
+    private String txtCupon;
     private List<CheckinServiceDetails> listObjSer;
     private List<Integer> listIntSer = new ArrayList<>();
     private List<Integer> listSerDB = new ArrayList<>();
     private List<Integer> listRoomSelected = new ArrayList<>();
     private Map<Integer, List<Integer>> listServiceSelected = new HashMap<Integer, List<Integer>>();
     private CheckinDetails checkinDetail;
+    private Cupon c;
 
     /**
      * Creates new form CheckoutJDialog
@@ -122,6 +127,9 @@ public class CheckoutJDialog extends javax.swing.JDialog {
         txtStartDate = new com.toedter.calendar.JDateChooser();
         txtEndDate = new com.toedter.calendar.JDateChooser();
         btnUpdate = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        txtDiscount = new javax.swing.JTextField();
+        lblCupon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -203,6 +211,19 @@ public class CheckoutJDialog extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setText("Mã giảm giá");
+
+        txtDiscount.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDiscountFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDiscountFocusLost(evt);
+            }
+        });
+
+        lblCupon.setText("Giảm ? %");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -222,7 +243,7 @@ public class CheckoutJDialog extends javax.swing.JDialog {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtTotalPriceRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtPriceAgreement, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtGetDay)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -230,36 +251,42 @@ public class CheckoutJDialog extends javax.swing.JDialog {
                                             .addComponent(lbAdvancedPrice)
                                             .addComponent(jLabel16))
                                         .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(txtPricePaymentAdvance, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                                                .addComponent(txtPay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(txtPay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel13)
                                                 .addGap(27, 27, 27)
-                                                .addComponent(txtTotalServicePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                                .addComponent(txtTotalServicePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txtPricePaymentAdvance, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
                                     .addComponent(txtEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnUpdate)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCheckout))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbExPrice)
-                            .addComponent(lbTotalMoney)
-                            .addComponent(lbNote))
+                        .addComponent(lbNote)
                         .addGap(71, 71, 71)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTotalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtSubPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel18)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtExtendPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1)))
+                        .addComponent(jScrollPane1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbExPrice)
+                                    .addComponent(lbTotalMoney))
+                                .addGap(71, 71, 71)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtTotalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtSubPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel18)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtExtendPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
@@ -269,15 +296,16 @@ public class CheckoutJDialog extends javax.swing.JDialog {
                                 .addGap(18, 18, 18)
                                 .addComponent(lblNote))
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(80, 80, 80)
+                                .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblCupon))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnService)
                                 .addGap(35, 35, 35)
                                 .addComponent(txtSer)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnUpdate)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCheckout)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -294,7 +322,7 @@ public class CheckoutJDialog extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(txtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(20, 20, 20)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -326,6 +354,11 @@ public class CheckoutJDialog extends javax.swing.JDialog {
                     .addComponent(jLabel16)
                     .addComponent(txtPay))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCupon))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbNote)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -344,11 +377,15 @@ public class CheckoutJDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 33, Short.MAX_VALUE))
         );
 
         pack();
@@ -370,7 +407,6 @@ public class CheckoutJDialog extends javax.swing.JDialog {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-//        listObjSer
         int sizeListSer = listObjSer.size();
         int i = 0;
         for (Map.Entry<Integer, List<Integer>> entrySet : listServiceSelected.entrySet()) {
@@ -397,6 +433,26 @@ public class CheckoutJDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCheckoutActionPerformed
 
+    private void txtDiscountFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDiscountFocusGained
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtDiscountFocusGained
+
+    private void txtDiscountFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDiscountFocusLost
+        // TODO add your handling code here:
+        txtCupon = txtDiscount.getText();
+        List<Cupon> listCupon = cuponDao.findByNameAndStatus(txtCupon, 0);
+        if (listCupon.size() > 0 ) {
+            c = listCupon.get(0);
+            lblCupon.setText("Giảm " + c.getDiscount() + " %");
+            subPrice = totalPrice*(1-c.getDiscount()/100);
+            txtSubPrice.setText(subPrice+"");
+        } else {
+            lblCupon.setText("Không tìm thấy mã giảm giá");
+            txtSubPrice.setText(0+"");
+        }
+    }//GEN-LAST:event_txtDiscountFocusLost
+
     private void getVaLueOfDB() {
         txtService = "";
 
@@ -416,8 +472,8 @@ public class CheckoutJDialog extends javax.swing.JDialog {
         totalServicePrice = checkinDetail.getTotalServicePrice();
         priceAgreement = TotalPriceRoom + totalServicePrice;
         extendPrice = 0;
-        subPrice = 0;
         totalPrice = priceAgreement + extendPrice + subPrice;
+        subPrice = 0;
         des = "";
     }
 
@@ -497,6 +553,7 @@ public class CheckoutJDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnCheckout;
     private javax.swing.JButton btnService;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
@@ -512,9 +569,11 @@ public class CheckoutJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lbRoomPrice;
     private javax.swing.JLabel lbStartDate;
     private javax.swing.JLabel lbTotalMoney;
+    private javax.swing.JLabel lblCupon;
     private javax.swing.JLabel lblNote;
     private javax.swing.JLabel lblTime;
     private javax.swing.JTextArea txtDes;
+    private javax.swing.JTextField txtDiscount;
     private com.toedter.calendar.JDateChooser txtEndDate;
     private javax.swing.JTextField txtExtendPrice;
     private javax.swing.JLabel txtGetDay;

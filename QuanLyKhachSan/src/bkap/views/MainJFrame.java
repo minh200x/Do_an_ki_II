@@ -55,6 +55,8 @@ public class MainJFrame extends javax.swing.JFrame {
             mnEmployee.setEnabled(false);
             mnCatService.setEnabled(false);
             mnCatProduct.setEnabled(false);
+            mnCategoryRoom.setEnabled(false);
+            mnService.setEnabled(false);
         }
 //        setNameMenu();
     }

@@ -371,6 +371,15 @@ begin
 end
 go
 
+create proc room_ChangeStatus(@roomId int,
+						@status tinyint)
+as
+begin
+	update tblRoom set status=@status
+	where roomId=@roomId
+end
+go
+
 create proc room_findAll
 as
 begin
@@ -576,11 +585,10 @@ begin
 end
 go
 
-
 create proc cupon_findByNameAndStatus(@name nvarchar(255), @status int)
 as
 begin
-	select * from tblCupon where name like '%' + @name + '%' and status=@status
+	select * from tblCupon where name=@name and status=@status
 end
 go
 
@@ -722,11 +730,6 @@ begin
 	where detailId = @id
 end
 go
-
-select * from tblCheckin
-select * from tblCheckinDetails
-select * from tblCheckinServiceDetails
-select * from tblCheckoutProductDetails
 
 
 
