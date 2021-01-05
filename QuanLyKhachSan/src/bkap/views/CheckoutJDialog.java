@@ -9,6 +9,7 @@ import bkap.dao.impl.CheckinDAO;
 import bkap.dao.impl.CheckinDetailsDAO;
 import bkap.dao.impl.CheckinServiceDetailsDAO;
 import bkap.dao.impl.CustomerDAO;
+import bkap.dao.impl.RoomDAO;
 import bkap.dao.impl.ServiceDAO;
 import bkap.model.CheckinDetails;
 import bkap.model.CheckinServiceDetails;
@@ -31,6 +32,7 @@ public class CheckoutJDialog extends javax.swing.JDialog {
     private CheckinServiceDetailsDAO checkinSerDetailDao = new CheckinServiceDetailsDAO();
     private CustomerDAO cusDao = new CustomerDAO();
     private ServiceDAO serDao = new ServiceDAO();
+    private RoomDAO roomDao = new RoomDAO();
 
     private int idCheckindetail;
     private int idR;
@@ -47,7 +49,9 @@ public class CheckoutJDialog extends javax.swing.JDialog {
     private float totalPrice;
     private String des;
     private String txtService;
-    private List<Integer> listIntSer;
+    private List<CheckinServiceDetails> listObjSer;
+    private List<Integer> listIntSer = new ArrayList<>();
+    private List<Integer> listSerDB = new ArrayList<>();
     private List<Integer> listRoomSelected = new ArrayList<>();
     private Map<Integer, List<Integer>> listServiceSelected = new HashMap<Integer, List<Integer>>();
     private CheckinDetails checkinDetail;
@@ -59,12 +63,21 @@ public class CheckoutJDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.idCheckindetail = idCheckinDetail;
+
         checkinDetail = checkinDetailDao.findByDetailId(idCheckindetail).get(0);
         idR = checkinDetail.getRoomId();
         Customer cus = cusDao.findByPhone(checkinDao.findById(checkinDetail.getCheckinId()).getCusPhone()).get(0);
         setTitle("P " + idR + " " + cus.getFullname());
-        setValueOfFields();
 
+        listObjSer = checkinSerDetailDao.findByIdCheckinDetail(checkinDetail.getDetailId());
+        if (listObjSer.size() != 0) {
+            for (CheckinServiceDetails listObjSer1 : listObjSer) {
+                listIntSer.add(listObjSer1.getIdService());
+            }
+        }
+        listRoomSelected.add(idR);
+        listServiceSelected.put(idR, listIntSer);
+        setValueOfFields();
     }
 
     /**
@@ -177,8 +190,18 @@ public class CheckoutJDialog extends javax.swing.JDialog {
         txtSer.setText("List menu");
 
         btnCheckout.setText("Trả phòng");
+        btnCheckout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckoutActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Cập nhật");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -342,36 +365,51 @@ public class CheckoutJDialog extends javax.swing.JDialog {
         listService.setVisible(true);
         listService.validate();
         listServiceSelected = listService.getListServiceSelected();
+        setValueOfFields();
     }//GEN-LAST:event_btnServiceActionPerformed
 
-    private void getVaLueOfDB() {
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+//        listObjSer
+        int sizeListSer = listObjSer.size();
+        int i = 0;
+        for (Map.Entry<Integer, List<Integer>> entrySet : listServiceSelected.entrySet()) {
 
-        listRoomSelected.add(idR);
-        List<CheckinServiceDetails> listObjSer = checkinSerDetailDao.findByIdCheckinDetail(checkinDetail.getDetailId());
-        if (listObjSer.size() == 0) {
-            System.out.println("list roongx");
-        } else {
-            System.out.println("list checkinSerDetail ko rỗng"+listObjSer.size());
-            for (CheckinServiceDetails listObjSer1 : listObjSer) {
-                System.out.println("ddaxc vào");
-                System.out.println(listObjSer1.getIdService()+" id service");
-                listIntSer.add(listObjSer1.getIdService());
+            Integer key = entrySet.getKey();
+            List<Integer> value = entrySet.getValue();
+            for (Integer v : value) {
+                i++;
+                if (i > sizeListSer) {
+                    CheckinServiceDetails checkinSerDetail = setPropertiesForObjectCheckinServiceDetails(v);
+                    checkinSerDetailDao.add(checkinSerDetail);
+                    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+                }
             }
         }
-        listServiceSelected.put(idR, listIntSer);
-        
-        if (listIntSer == null) {
-            System.out.println("List ser rỗng");
-        } else {
-            for (Integer listIntSer1 : listIntSer) {
-                System.out.println(listIntSer1 + serDao.findByID(listIntSer1).getName() + "\n");
+
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutActionPerformed
+        // TODO add your handling code here:
+        checkinDetailDao.changeStatusRoom(checkinDetail.getDetailId(), 2);
+        roomDao.changeStatus(idR, 2);
+        JOptionPane.showMessageDialog(this, "Đã trả phòng thành công");
+        this.dispose();
+    }//GEN-LAST:event_btnCheckoutActionPerformed
+
+    private void getVaLueOfDB() {
+        txtService = "";
+
+        for (Map.Entry<Integer, List<Integer>> entrySet : listServiceSelected.entrySet()) {
+            Integer key = entrySet.getKey();
+            List<Integer> value = entrySet.getValue();
+            for (Integer v : value) {
+                txtService += serDao.findByID(v).getName() + ", ";
             }
         }
-        
-        
         startDate = checkinDetail.getStartDate();
         endDate = checkinDetail.getEndDate();
-        time = (endDate.getTime() - startDate.getTime())/ 1000 / 60 / 60 / 24;
+        time = (endDate.getTime() - startDate.getTime()) / 1000 / 60 / 60 / 24;
         note = "Trống";
         TotalPriceRoom = checkinDetail.getPrice() * time;
         pricePaymentAdvance = 0;
@@ -381,27 +419,36 @@ public class CheckoutJDialog extends javax.swing.JDialog {
         subPrice = 0;
         totalPrice = priceAgreement + extendPrice + subPrice;
         des = "";
-
-//    private String txtService;
     }
 
     private void setValueOfFields() {
         getVaLueOfDB();
-        
+
         txtStartDate.setDate(startDate);
         txtEndDate.setDate(endDate);
         lblTime.setText(time + " ngày");
         lblNote.setText(note);
-        txtTotalPriceRoom.setText(TotalPriceRoom+"");
-        txtGetDay.setText("Tiền phòng trong "+time+" ngày");
-        txtPriceAgreement.setText(priceAgreement+"");
-        txtPricePaymentAdvance.setText(pricePaymentAdvance+"");
-        txtSubPrice.setText(subPrice+"");
-        txtExtendPrice.setText(extendPrice+"");
-        txtTotalServicePrice.setText(totalServicePrice+"");
-        txtTotalPrice.setText(totalPrice+"");
-        txtPay.setText((totalPrice-pricePaymentAdvance)+"");
+        txtTotalPriceRoom.setText(TotalPriceRoom + "");
+        txtGetDay.setText("Tiền phòng trong " + time + " ngày");
+        txtPriceAgreement.setText(priceAgreement + "");
+        txtPricePaymentAdvance.setText(pricePaymentAdvance + "");
+        txtSubPrice.setText(subPrice + "");
+        txtExtendPrice.setText(extendPrice + "");
+        txtTotalServicePrice.setText(totalServicePrice + "");
+        txtTotalPrice.setText(totalPrice + "");
+        txtPay.setText((totalPrice - pricePaymentAdvance) + "");
         txtDes.setText(des);
+        txtSer.setText(txtService);
+    }
+
+    private CheckinServiceDetails setPropertiesForObjectCheckinServiceDetails(int idSer) {
+        CheckinServiceDetails c = new CheckinServiceDetails();
+
+        c.setIdCheckinDetails(checkinDetail.getDetailId());
+        c.setIdService(idSer);
+        c.setPrice(serDao.findByID(idSer).getPrice());
+        c.setQuantity(1);
+        return c;
     }
 
     /**

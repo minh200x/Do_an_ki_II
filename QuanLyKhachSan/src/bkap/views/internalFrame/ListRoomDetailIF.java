@@ -47,6 +47,7 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
     private CheckinDetailsDAO checkinDetailDao = new CheckinDetailsDAO();
     private CheckinServiceDetailsDAO checkinSerDetailDao = new CheckinServiceDetailsDAO();
     private CustomerDAO cusDao = new CustomerDAO();
+    private RoomDAO roomDao = new RoomDAO();
 
     private RoomDAO roomDAO = new RoomDAO();
     private CategoryRoomDAO catRoomDao = new CategoryRoomDAO();
@@ -109,30 +110,34 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
                             formCheckout.validate();
                         } else if (listItem.getStatus() == 0) {
                             final JPopupMenu editMenu = new JPopupMenu("Edit");
-
                             JMenuItem receiveMenuItem = new JMenuItem("Nhận phòng");
                             receiveMenuItem.setActionCommand("Nhận phòng");
-
                             editMenu.add(receiveMenuItem);
-
                             editMenu.show(b, b.getX(), b.getY());
-
                             receiveMenuItem.addActionListener(new ActionListener() {
-
                                 @Override
                                 public void actionPerformed(ActionEvent ae) {
                                     int idCheckinDetail = checkinDetailDao.findByIdRoomStatus(listItem.getRoomId(), 0).getDetailId();
                                     checkinDetailDao.changeStatusRoom(idCheckinDetail, 1);
-
                                 }
                             });
-
+                        }else if (listItem.getStatus() == 2) {
+                            final JPopupMenu editMenu = new JPopupMenu("Edit");
+                            JMenuItem receiveMenuItem = new JMenuItem("Đã dọn phòng");
+                            receiveMenuItem.setActionCommand("Đã dọn phòng");
+                            editMenu.add(receiveMenuItem);
+                            editMenu.show(b, b.getX(), b.getY());
+                            receiveMenuItem.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent ae) {
+                                    roomDao.changeStatus(listItem.getRoomId(), 0);
+                                }
+                            });
                         }
                     }
                 });
             }
         }
-
         pnl.add(pnlItem);
         pnlItem.setVisible(true);
         pnlItem.validate();
@@ -188,6 +193,11 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
         jMenuBar1.add(mnStatus2);
 
         mnHistory.setText("Lịch sử");
+        mnHistory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnHistoryMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(mnHistory);
 
         setJMenuBar(jMenuBar1);
@@ -208,6 +218,7 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
 
     private void mnStatus0MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnStatus0MouseClicked
         // TODO add your handling code here:
+        setTitle("Phòng chờ");
         listCheckinDetail = checkinDetailDao.findAllByStatus(0);
         createNewPanel(listCheckinDetail);
 
@@ -215,15 +226,24 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
 
     private void mnStatus1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnStatus1MouseClicked
         // TODO add your handling code here:
+        setTitle("Phòng đang thuê");
         listCheckinDetail = checkinDetailDao.findAllByStatus(1);
         createNewPanel(listCheckinDetail);
     }//GEN-LAST:event_mnStatus1MouseClicked
 
     private void mnStatus2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnStatus2MouseClicked
         // TODO add your handling code here:
+        setTitle("Phòng cần dọn");
         listCheckinDetail = checkinDetailDao.findAllByStatus(2);
         createNewPanel(listCheckinDetail);
     }//GEN-LAST:event_mnStatus2MouseClicked
+
+    private void mnHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnHistoryMouseClicked
+        // TODO add your handling code here:
+        setTitle("Lịch sử");
+        listCheckinDetail = checkinDetailDao.findAllByStatus(2);
+        createNewPanel(listCheckinDetail);
+    }//GEN-LAST:event_mnHistoryMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
