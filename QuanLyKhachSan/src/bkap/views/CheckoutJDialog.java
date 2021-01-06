@@ -442,15 +442,17 @@ public class CheckoutJDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         txtCupon = txtDiscount.getText();
         List<Cupon> listCupon = cuponDao.findByNameAndStatus(txtCupon, 0);
-        if (listCupon.size() > 0 ) {
+        if (listCupon.size() > 0) {
             c = listCupon.get(0);
             lblCupon.setText("Giảm " + c.getDiscount() + " %");
-            subPrice = totalPrice*(1-c.getDiscount()/100);
-            txtSubPrice.setText(subPrice+"");
+            subPrice = totalPrice * c.getDiscount() / 100;
+            txtSubPrice.setText(subPrice + "");
         } else {
             lblCupon.setText("Không tìm thấy mã giảm giá");
-            txtSubPrice.setText(0+"");
+            txtSubPrice.setText(0 + "");
         }
+        totalPrice = priceAgreement + extendPrice - subPrice;
+        txtPay.setText((totalPrice - pricePaymentAdvance) + "");
     }//GEN-LAST:event_txtDiscountFocusLost
 
     private void getVaLueOfDB() {
@@ -472,7 +474,7 @@ public class CheckoutJDialog extends javax.swing.JDialog {
         totalServicePrice = checkinDetail.getTotalServicePrice();
         priceAgreement = TotalPriceRoom + totalServicePrice;
         extendPrice = 0;
-        totalPrice = priceAgreement + extendPrice + subPrice;
+        totalPrice = priceAgreement + extendPrice - subPrice;
         subPrice = 0;
         des = "";
     }

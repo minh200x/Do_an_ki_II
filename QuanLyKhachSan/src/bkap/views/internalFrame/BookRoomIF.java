@@ -573,7 +573,6 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
         c.setIdCheckinDetails(idCheckinDetail);
         c.setIdService(idSer);
         c.setPrice(serDao.findByID(idSer).getOutputPrice());
-        System.out.println(serDao.findByID(idSer).getOutputPrice());
         c.setQuantity(1);
         return c;
     }

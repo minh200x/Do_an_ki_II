@@ -74,16 +74,11 @@ public class ServiceIF extends javax.swing.JInternalFrame {
     }
 
     private <T> void setComboxModel(List<T> list) {
-        if (list.get(0) instanceof CategoryService) {
-            List<CategoryService> data = (List<CategoryService>) list;
-            for (CategoryService item : data) {
-                modelCatService.addElement(item.getName());
-            }
-        }
-        if (list.get(0) instanceof Unit) {
-            List<Unit> data = (List<Unit>) list;
-            for (Unit item : data) {
-                modelUnit.addElement(item.getName());
+        for (T l : list) {
+            if(l instanceof CategoryService){
+                modelCatService.addElement(((CategoryService) l).getName());
+            }else if(l instanceof Unit){
+                modelUnit.addElement(((Unit) l).getName());
             }
         }
     }

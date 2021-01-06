@@ -377,7 +377,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
                     .addComponent(btnSearchRoom)
                     .addComponent(txtKeySearchRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbStatusRoomSearch))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Thiết bị trong phòng"));
@@ -609,11 +609,11 @@ public class RoomIF extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnAddRoom))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
+                        .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(25, 25, 25))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -629,7 +629,7 @@ public class RoomIF extends javax.swing.JInternalFrame {
                         .addComponent(btnUpdateRoom)
                         .addComponent(btnAddRoom)
                         .addComponent(btnDeleteRoom)))
-                .addGap(29, 29, 29))
+                .addContainerGap())
         );
 
         pack();
