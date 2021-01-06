@@ -26,7 +26,9 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javafx.scene.control.Cell;
 import javax.swing.DefaultComboBoxModel;
@@ -1137,10 +1139,26 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
     private void setDataChartRevenueByDay() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         monthSelected = cbMonthStatisticMenu.getSelectedItem().toString();
+        
+        
 
         for (CheckinDetails c : listCheckinDetails) {
+            // calculate days between 2 day (startDate & endDate)
+            int daysDiff = 0;
+            long diff = c.getEndDate().getTime() - c.getStartDate().getTime();
+            long diffDays = diff / (24 * 60 * 60 * 1000) + 1;
+
+            daysDiff = (int) diffDays;
+            
+            for (int i = 0; i < daysDiff; i++) {
+//                Calendar cal = new GregorianCalendar();
+//                cal.setTime(startDate);
+//                cal.add(Calendar.DATE, i);
+//
+//                listDateBetween2Days.add(cal.getTime());
+            }
             if (dateFormat.format(c.getStartDate()).equals(dateFormat.format(Utils.getCurrentTime()))) {
-                
+
             }
         }
 
