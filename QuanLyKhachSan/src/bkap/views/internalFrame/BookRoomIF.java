@@ -435,8 +435,10 @@ public class BookRoomIF extends javax.swing.JInternalFrame {
             
             // add customer
             Customer c = setPropertiesForObjectCustomer();
-            phone = cusDao.add(c);
-            
+            List<Customer> listCusItem = cusDao.findByPhone(phone);
+            if(listCusItem.size() == 0){
+                phone = cusDao.add(c);
+            }
             // add checkin
             Checkin checkin = setPropertiesForObjectCheckin();
             idCheckin = checkinDao.add(checkin);

@@ -57,6 +57,8 @@ public class MainJFrame extends javax.swing.JFrame {
             mnEmployee.setEnabled(false);
             mnCatService.setEnabled(false);
             mnCatProduct.setEnabled(false);
+            mnCategoryRoom.setEnabled(false);
+            mnService.setEnabled(false);
         }
 //        setNameMenu();
     }
@@ -257,7 +259,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         mnCustomer.setText("Khách hàng");
 
-        mnAddCustomer.setText("Thêm khách hàng");
+        mnAddCustomer.setText("Quản lý khách hàng");
         mnAddCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnAddCustomerActionPerformed(evt);

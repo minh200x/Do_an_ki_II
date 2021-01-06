@@ -125,7 +125,7 @@ create table tblCheckin(
 	cusPhone nvarchar(255) foreign key references tblCustomer(phone) not null,
 	totalPeople int not null,
 	cuponId int foreign key references tblCupon(id) not null,
-	  float not null,
+	pricePaymentAdvance float not null,
 	totalMoney float not null,
 	totalServicePrice float not null,
 	descript text null,
@@ -156,7 +156,6 @@ create table tblCategoryService(
 	name nvarchar(255) not null
 )
 go
-
 
 create table tblUnit(
 	id int primary key identity(1,1) not null,
@@ -374,6 +373,15 @@ begin
 end
 go
 
+create proc room_ChangeStatus(@roomId int,
+						@status tinyint)
+as
+begin
+	update tblRoom set status=@status
+	where roomId=@roomId
+end
+go
+
 create proc room_findAll
 as
 begin
@@ -582,11 +590,10 @@ begin
 end
 go
 
-
 create proc cupon_findByNameAndStatus(@name nvarchar(255), @status int)
 as
 begin
-	select * from tblCupon where name like '%' + @name + '%' and status=@status
+	select * from tblCupon where name=@name and status=@status
 end
 go
 
@@ -706,8 +713,7 @@ begin
 	select * from tblCheckinDetails where detailId=@detailId
 end
 go
-drop proc checkinDetails_findAllByStatus
-go
+
 create proc checkinDetails_findAllByStatus(@status int)
 as
 begin
@@ -731,10 +737,6 @@ begin
 end
 go
 
-select * from tblCheckin
-select * from tblCheckinDetails
-select * from tblCheckinServiceDetails
-select * from tblCheckoutProductDetails
 
 create proc checkinDetails_findAll
 as

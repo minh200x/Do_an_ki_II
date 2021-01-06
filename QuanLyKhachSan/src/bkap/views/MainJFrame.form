@@ -121,7 +121,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnAddCustomer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Th&#xea;m kh&#xe1;ch h&#xe0;ng"/>
+                <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; kh&#xe1;ch h&#xe0;ng"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnAddCustomerActionPerformed"/>
