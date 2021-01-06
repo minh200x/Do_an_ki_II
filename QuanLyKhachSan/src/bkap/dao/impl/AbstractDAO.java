@@ -145,7 +145,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
             e.printStackTrace();
         }
     }
-    
+
     private void setParameters(PreparedStatement ps, Object... parameters) {
         try {
             int index = 1;

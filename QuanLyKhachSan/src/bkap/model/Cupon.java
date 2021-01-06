@@ -17,6 +17,7 @@ public class Cupon {
     private float discount;
     private int maxQuantity;
     private int status;
+    private String descript;
     private Date startDate;
     private Date endDate;
     private Date createdAt;
@@ -25,19 +26,27 @@ public class Cupon {
     public Cupon() {
     }
 
-    public Cupon(int id, String name, float discount, int maxQuantity, int status, Date startDate, Date endDate, Date createdAt, Date updatedAt) {
+    public Cupon(int id, String name, float discount, int maxQuantity, int status, String descript, Date startDate, Date endDate, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.discount = discount;
         this.maxQuantity = maxQuantity;
         this.status = status;
+        this.descript = descript;
         this.startDate = startDate;
         this.endDate = endDate;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-   
 
+    public String getDescript() {
+        return descript;
+    }
+
+    public void setDescript(String descript) {
+        this.descript = descript;
+    }
+   
     public int getId() {
         return id;
     }

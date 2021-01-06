@@ -519,14 +519,15 @@ create proc cupon_insert(@name nvarchar(255),
 						@discount float,
 						@maxQuantity int,
 						@status bit,
+						@descript nvarchar(255),
 						@startDate date,
 						@endDate date,
 						@createdAt date,
 						@updatedAt date)
 as
 begin
-	insert into tblCupon(name, discount, maxQuantity, status, startDate, endDate, createdAt, updatedAt)
-	values(@name, @discount, @maxQuantity, @status, @startDate, @endDate, @createdAt, @updatedAt)
+	insert into tblCupon(name, discount, maxQuantity, status. descript, startDate, endDate, createdAt, updatedAt)
+	values(@name, @discount, @maxQuantity, @status, @descript, @startDate, @endDate, @createdAt, @updatedAt)
 end
 go
 
@@ -536,13 +537,15 @@ create proc cupon_update(@id int,
 						@discount float,
 						@maxQuantity int,
 						@status bit,
+						@descript nvarchar(255),
 						@startDate date,
 						@endDate date,
 						@createdAt date,
 						@updatedAt date)
 as
 begin
-	update tblCupon set name=@name, discount=@discount, maxQuantity=@maxQuantity, status=@status, startDate=@startDate, endDate=@endDate, createdAt=@createdAt, updatedAt=@updatedAt
+	update tblCupon set name=@name, discount=@discount, maxQuantity=@maxQuantity, status=@status, descript=@descript, 
+						startDate=@startDate, endDate=@endDate, createdAt=@createdAt, updatedAt=@updatedAt
 	where id=@id
 end
 go

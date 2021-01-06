@@ -21,8 +21,8 @@ public class CuponDAO extends AbstractDAO<Cupon> implements ICupon {
 
     @Override
     public void add(Cupon c) {
-        String sql = "{call cupon_insert(?,?,?,?,?,?,?,?)}";
-        insert(sql, c.getName(), c.getDiscount(), c.getMaxQuantity(), c.getStatus(), c.getStartDate(), c.getEndDate(), c.getCreatedAt(), c.getUpdatedAt());
+        String sql = "{call cupon_insert(?,?,?,?,?,?,?,?,?)}";
+        insert(sql, c.getName(), c.getDiscount(), c.getMaxQuantity(), c.getStatus(), c.getDescript(), c.getStartDate(), c.getEndDate(), c.getCreatedAt(), c.getUpdatedAt());
     }
 
     @Override
@@ -33,8 +33,8 @@ public class CuponDAO extends AbstractDAO<Cupon> implements ICupon {
 
     @Override
     public void edit(Cupon c) {
-        String sql = "{call cupon_update(?,?,?,?,?,?,?,?,?)}";
-        update(sql, c.getId(), c.getName(), c.getDiscount(), c.getMaxQuantity(), c.getStatus(), c.getStartDate(), c.getEndDate(), c.getCreatedAt(), c.getUpdatedAt());
+        String sql = "{call cupon_update(?,?,?,?,?,?,?,?,?,?)}";
+        update(sql, c.getId(), c.getName(), c.getDiscount(), c.getMaxQuantity(), c.getStatus(), c.getDescript(), c.getStartDate(), c.getEndDate(), c.getCreatedAt(), c.getUpdatedAt());
     }
 
     @Override

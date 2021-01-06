@@ -26,6 +26,7 @@ public class CuponMapper implements RowMapper<Cupon> {
             c.setDiscount(rs.getFloat("discount"));
             c.setMaxQuantity(rs.getInt("maxQuantity"));
             c.setStatus(rs.getInt("status"));
+            c.setDescript(rs.getString("descript"));
             c.setStartDate(rs.getDate("startDate"));
             c.setEndDate(rs.getDate("endDate"));
             c.setCreatedAt(rs.getDate("createdAt"));

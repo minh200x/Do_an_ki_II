@@ -36,7 +36,7 @@ public class CheckinServiceDetailsDAO extends AbstractDAO<CheckinServiceDetails>
     
     @Override
     public List<CheckinServiceDetails> findAll() {
-        String sql = "{call checkinServiceDetail_findAll()";
+        String sql = "{call checkinServiceDetail_findAll()}";
         return query(sql, new CheckinServiceDetailsMapper());
     }
 

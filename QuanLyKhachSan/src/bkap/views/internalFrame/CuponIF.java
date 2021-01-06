@@ -36,6 +36,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
     private String discount;
     private String maxQuantity;
     private String status;
+    private String descript;
     private Date startDate = null;
     private Date endDate = null;
     private Date createdAt = Utils.getCurrentTime();
@@ -95,6 +96,9 @@ public class CuponIF extends javax.swing.JInternalFrame {
         txtKeySearch = new javax.swing.JTextField();
         cbStatus = new javax.swing.JComboBox<>();
         btnRefresh = new javax.swing.JButton();
+        lbDescript = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtDescript = new javax.swing.JTextPane();
 
         setClosable(true);
         setIconifiable(true);
@@ -141,11 +145,11 @@ public class CuponIF extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Mã giảm giá", "Số lượng", "Discount", "Ngày bắt đầu", "Ngày kết thúc", "Trạng thái"
+                "Mã giảm giá", "Số lượng", "Discount", "Ngày bắt đầu", "Ngày kết thúc", "Mô tả", "Trạng thái"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, true, false, false, true
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -205,6 +209,10 @@ public class CuponIF extends javax.swing.JInternalFrame {
             }
         });
 
+        lbDescript.setText("Mô tả");
+
+        jScrollPane2.setViewportView(txtDescript);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -212,43 +220,8 @@ public class CuponIF extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbStartDate)
-                                    .addComponent(lbNameCupon)
-                                    .addComponent(lbDiscount))
-                                .addGap(28, 28, 28)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNameCupon)
-                                    .addComponent(txtStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel6)))
-                                .addGap(39, 39, 39)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbEndDate)
-                                    .addComponent(lbQuantity))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                                    .addComponent(txtMaxQuantity)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnDelete)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnUpdate)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAdd)))
-                        .addGap(0, 1, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1)
                             .addComponent(messageInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -256,48 +229,99 @@ public class CuponIF extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtKeySearch, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSeparator1)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDelete)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnUpdate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAdd))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbStartDate)
+                                    .addComponent(lbNameCupon)
+                                    .addComponent(lbDiscount)
+                                    .addComponent(lbDescript))
+                                .addGap(28, 28, 28)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtNameCupon)
+                                            .addComponent(txtStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jLabel6)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lbEndDate)
+                                            .addComponent(lbQuantity))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txtMaxQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jScrollPane2))))
+                        .addGap(31, 31, 31)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtNameCupon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lbQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtMaxQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lbNameCupon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lbStartDate)
-                    .addComponent(txtStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNameCupon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbNameCupon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbStartDate)
+                            .addComponent(txtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMaxQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbDiscount)
                     .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbDescript)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnAdd)
                         .addComponent(btnUpdate)
-                        .addComponent(btnDelete)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDelete))
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbStatus, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnSearch)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(txtKeySearch))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                        .addGap(22, 22, 22))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtKeySearch, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSearch, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(messageInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
@@ -307,9 +331,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -322,7 +344,6 @@ public class CuponIF extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        getValueOfFields();
         if (checkValidate()) {
             Cupon c = setPropertiesForObject();
             cuponDAO.add(c);
@@ -349,6 +370,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
             idCupon = c.getId();
             txtNameCupon.setText(c.getName());
             txtMaxQuantity.setText((int) c.getMaxQuantity() + "");
+            txtDescript.setText(c.getDescript());
             txtDiscount.setText(c.getDiscount() + "");
             txtStartDate.setDate(c.getStartDate());
             txtEndDate.setDate(c.getEndDate());
@@ -373,7 +395,6 @@ public class CuponIF extends javax.swing.JInternalFrame {
         int reply = JOptionPane.showConfirmDialog(rootPane, SystemConstant.CONFIRM_UPDATE);
 
         if (reply == 0) {
-            getValueOfFields();
             if (checkValidate()) {
                 Cupon c = setPropertiesForObject();
                 cuponDAO.edit(c);
@@ -453,18 +474,21 @@ public class CuponIF extends javax.swing.JInternalFrame {
         discount = txtDiscount.getText();
         maxQuantity = txtMaxQuantity.getText();
         startDate = txtStartDate.getDate();
+        descript = txtDescript.getText();
         endDate = txtEndDate.getDate();
     }
 
     private boolean checkValidate() {
         boolean check = false;
-
-        if (name.isEmpty()) {
-            Utils.setMessageInformation(messageInformation, "Vui lòng nhập tên mã giảm giá!", false);
+        getValueOfFields();
+        if (!name.matches("[A-Z0-9]{2,}")) {
+            Utils.setMessageInformation(messageInformation, "Vui lòng nhập đúng định dạng mã giảm giá, VD: TET2021", false);
         } else if (startDate == null && endDate == null && maxQuantity.isEmpty()) {
             Utils.setMessageInformation(messageInformation, "Vui lòng nhập số mã giảm giá giới hạn hoặc nhập thời gian bắt đầu!", check);
         } else if (discount.isEmpty()) {
             Utils.setMessageInformation(messageInformation, "Vui lòng nhập giá trị mã giảm giá!", false);
+        } else if (descript.isEmpty()) {
+            Utils.setMessageInformation(messageInformation, "Vui lòng nhập mô tả!", false);
         } else {
             check = true;
         }
@@ -477,6 +501,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
         c.setName(name);
         c.setMaxQuantity(Integer.parseInt(maxQuantity));
         c.setDiscount(Float.parseFloat(discount));
+        c.setDescript(descript);
         c.setStartDate(startDate);
         c.setEndDate(endDate);
         c.setCreatedAt(createdAt);
@@ -491,6 +516,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
         txtDiscount.setText("");
         txtStartDate.setDate(null);
         txtEndDate.setDate(null);
+        txtDescript.setText("");
 
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
@@ -503,7 +529,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
         model.setRowCount(0);
         for (Cupon c : list) {
             model.addRow(new Object[]{
-                c.getName(), c.getMaxQuantity(), c.getDiscount(), c.getStartDate(), c.getEndDate(), c.getStatus() == SystemConstant.STATUS_CUPON_ON ? SystemConstant.STATUS_TXT_CUPON_ON : SystemConstant.STATUS_TXT_CUPON_OFF
+                c.getName(), c.getMaxQuantity(), c.getDiscount(), c.getStartDate(), c.getEndDate(), c.getDescript(), c.getStatus() == SystemConstant.STATUS_CUPON_ON ? SystemConstant.STATUS_TXT_CUPON_ON : SystemConstant.STATUS_TXT_CUPON_OFF
             });
         }
     }
@@ -514,12 +540,13 @@ public class CuponIF extends javax.swing.JInternalFrame {
         lbNameCupon.setText(Helper.getResources("nameCupon"));
         lbQuantity.setText(Helper.getResources("quantity"));
         lbStartDate.setText(Helper.getResources("startDate"));
-        
+        lbDescript.setText(Helper.getResources("descript"));
+
         btnAdd.setText(Helper.getResources("add"));
         btnDelete.setText(Helper.getResources("delete"));
         btnRefresh.setText(Helper.getResources("refresh"));
         btnSearch.setText(Helper.getResources("search"));
-        btnUpdate.setText(Helper.getResources("update")); 
+        btnUpdate.setText(Helper.getResources("update"));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -532,7 +559,9 @@ public class CuponIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lbDescript;
     private javax.swing.JLabel lbDiscount;
     private javax.swing.JLabel lbEndDate;
     private javax.swing.JLabel lbNameCupon;
@@ -540,6 +569,7 @@ public class CuponIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lbStartDate;
     private javax.swing.JLabel messageInformation;
     private javax.swing.JTable tblCupon;
+    private javax.swing.JTextPane txtDescript;
     private javax.swing.JTextField txtDiscount;
     private com.toedter.calendar.JDateChooser txtEndDate;
     private javax.swing.JTextField txtKeySearch;

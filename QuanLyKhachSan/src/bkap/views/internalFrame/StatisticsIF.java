@@ -5,10 +5,14 @@
  */
 package bkap.views.internalFrame;
 
+import bkap.dao.impl.CategoryServiceDAO;
 import bkap.dao.impl.CheckinDetailsDAO;
+import bkap.dao.impl.CheckinServiceDetailsDAO;
 import bkap.dao.impl.RoomDAO;
 import bkap.dao.impl.ServiceDAO;
+import bkap.model.CategoryService;
 import bkap.model.CheckinDetails;
+import bkap.model.CheckinServiceDetails;
 import bkap.model.Room;
 import bkap.model.Service;
 import bkap.utils.Helper;
@@ -50,18 +54,25 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
 
     private RoomDAO roomDAO = new RoomDAO();
     private CheckinDetailsDAO checkinDetailsDAO = new CheckinDetailsDAO();
+    private CheckinServiceDetailsDAO checkinSerDetailsDAO = new CheckinServiceDetailsDAO();
     private ServiceDAO serDAO = new ServiceDAO();
+    private CategoryServiceDAO catSerDAO = new CategoryServiceDAO();
 
     private List<Room> listRoom;
     private List<Service> listService;
     private List<CheckinDetails> listCheckinDetails;
     private List<CheckinDetails> listCheckinDetailsFindByMonth;
+    private List<CheckinServiceDetails> listCheckinServiceDetails;
+    private List<CheckinServiceDetails> listCheckinServiceDetailsFindByMonth;
+    private List<CategoryService> listCategoryService;
 
     private DefaultComboBoxModel cbModelMonthStatisticRevenue;
     private DefaultComboBoxModel cbModelMonthStatisticBookRoom;
+    private DefaultComboBoxModel cbModelMonthStatisticMenu;
     private DefaultComboBoxModel cbModelSortStatisticRoomRevenue;
     private DefaultComboBoxModel cbModelSortStatisticMenu;
-    private DefaultTableModel modelTblStatistic;
+    private DefaultTableModel modelTblStatisticRoomRevenue;
+    private DefaultTableModel modelTblStatisticMenu;
 
     private String monthSelected = "";
     private double countBookRoom = 0;
@@ -80,6 +91,12 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
     private double rateService = 0;
     private double rateExPrice = 0;
     private double rateSubPrice = 0;
+
+    private double totalCountMenuBook = 0;
+    private double countMenuBook = 0;
+    private float serviceRevenue = 0;
+    private float totalServiceRevenue = 0;
+    private double rateServiceRevenue = 0;
     private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
     /**
@@ -93,23 +110,29 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         listService = serDAO.findAll();
         listCheckinDetails = checkinDetailsDAO.findAll();
         listCheckinDetailsFindByMonth = new ArrayList<>();
+        listCheckinServiceDetails = checkinSerDetailsDAO.findAll();
+        listCheckinServiceDetailsFindByMonth = new ArrayList<>();
+        listCategoryService = catSerDAO.findAll();
 
         cbModelMonthStatisticRevenue = (DefaultComboBoxModel) cbMonthStatisticRevenue.getModel();
         cbModelMonthStatisticBookRoom = (DefaultComboBoxModel) cbMonthStatisticBookRoom.getModel();
+        cbModelMonthStatisticMenu = (DefaultComboBoxModel) cbMonthStatisticMenu.getModel();
         cbModelSortStatisticRoomRevenue = (DefaultComboBoxModel) cbSortStatisticRoomRevenue.getModel();
         cbModelSortStatisticMenu = (DefaultComboBoxModel) cbSortStatisticMenu.getModel();
-        modelTblStatistic = (DefaultTableModel) tblStatisticRoom.getModel();
+        modelTblStatisticRoomRevenue = (DefaultTableModel) tblStatisticRoom.getModel();
+        modelTblStatisticMenu = (DefaultTableModel) tblStatisticMenu.getModel();
 
         setDataComboxSort(cbModelSortStatisticRoomRevenue);
         setDataComboxSort(cbModelSortStatisticMenu);
         setDataComboxMonth(cbModelMonthStatisticRevenue);
         setDataComboxMonth(cbModelMonthStatisticBookRoom);
+        setDataComboxMonth(cbModelMonthStatisticMenu);
         loadDataStatisticRevenue();
 
         setDataChartPieRevenue();
         setDataChartPieFee();
         setDataChartPieBenifit();
-        setDataChart();
+        setDataChartRevenueByDay();
     }
 
     /**
@@ -134,7 +157,7 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         tblStatisticMenu = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
-        txtTotalRevenue1 = new javax.swing.JLabel();
+        txtTotalRevenueMenu = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -278,8 +301,8 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel18.setText("Tổng doanh thu menu:");
 
-        txtTotalRevenue1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtTotalRevenue1.setText("500.000 ");
+        txtTotalRevenueMenu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtTotalRevenueMenu.setText("500.000 ");
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel20.setText("VNĐ");
@@ -296,7 +319,7 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTotalRevenue1)
+                        .addComponent(txtTotalRevenueMenu)
                         .addGap(67, 67, 67)
                         .addComponent(jLabel20))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -322,16 +345,16 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 636, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel18)
-                        .addComponent(txtTotalRevenue1)
-                        .addComponent(jLabel20)))
+                        .addComponent(txtTotalRevenueMenu)
+                        .addComponent(jLabel20))
+                    .addComponent(jButton1))
                 .addContainerGap(104, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Thống kê thuê menu", jPanel4);
+        jTabbedPane1.addTab("Thống kê menu", jPanel4);
 
         jLabel1.setText("Xem theo tháng");
 
@@ -932,15 +955,36 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
                 }
             }
         }
-        setDataTable(listCheckinDetailsFindByMonth);
+        setDataTableStatisticRoomRevenue(listCheckinDetailsFindByMonth);
     }//GEN-LAST:event_cbMonthStatisticBookRoomItemStateChanged
 
     private void cbMonthStatisticMenuItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMonthStatisticMenuItemStateChanged
-        // TODO add your handling code here:
+        monthSelected = cbMonthStatisticMenu.getSelectedItem().toString();
+        listCheckinDetailsFindByMonth.clear();
+        listCheckinServiceDetailsFindByMonth.clear();
+        totalServiceRevenue = 0;
+
+        for (int i = 1; i <= 12; i++) {
+            if (monthSelected.equals("Tháng " + i)) {
+                for (CheckinDetails c : listCheckinDetails) {
+                    if (c.getStartDate().getMonth() + 1 == i) {
+                        listCheckinDetailsFindByMonth.add(c);
+                    }
+                }
+            }
+        }
+        for (CheckinDetails c : listCheckinDetailsFindByMonth) {
+            for (CheckinServiceDetails s : listCheckinServiceDetails) {
+                if (c.getDetailId() == s.getIdCheckinDetails()) {
+                    listCheckinServiceDetailsFindByMonth.add(s);
+                }
+            }
+        }
+        setDataTableStatisticMenu(listCheckinServiceDetailsFindByMonth);
     }//GEN-LAST:event_cbMonthStatisticMenuItemStateChanged
 
     private void cbSortStatisticMenuItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbSortStatisticMenuItemStateChanged
-        // TODO add your handling code here:
+        Utils.sortDataTable(cbSortStatisticMenu, tblStatisticMenu, 5);
     }//GEN-LAST:event_cbSortStatisticMenuItemStateChanged
 
     private void setDataComboxMonth(DefaultComboBoxModel cbModel) {
@@ -954,8 +998,42 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         cbModel.addElement("Giảm dần");
     }
 
-    private void setDataTable(List<CheckinDetails> listCKD) {
-        modelTblStatistic.setRowCount(0);
+    private void setDataTableStatisticMenu(List<CheckinServiceDetails> listCSD) {
+        modelTblStatisticMenu.setRowCount(0);
+        int i = 1;
+        totalCountMenuBook = 0;
+
+        for (CheckinServiceDetails c : listCheckinServiceDetailsFindByMonth) {
+            totalCountMenuBook += c.getQuantity();
+        }
+
+        for (CategoryService catSer : listCategoryService) {
+            for (Service ser : listService) {
+                for (CheckinServiceDetails c : listCSD) {
+                    if (ser.getId() == c.getIdService()) {
+                        countMenuBook += c.getQuantity();
+                        serviceRevenue = (float) (c.getPrice() * countMenuBook);
+                    }
+                }
+                totalServiceRevenue += serviceRevenue;
+                rateServiceRevenue = (countMenuBook / totalCountMenuBook) * 100;
+                if (countMenuBook > 0) {
+                    if (catSer.getId() == ser.getCatService()) {
+                        modelTblStatisticMenu.addRow(new Object[]{
+                            i, ser.getName(), catSer.getName(), (int) countMenuBook, Utils.formatPrice(serviceRevenue), decimalFormat.format((double) rateServiceRevenue)
+                        });
+                    }
+                }
+                countMenuBook = 0;
+                serviceRevenue = 0;
+                i++;
+            }
+        }
+        txtTotalRevenueMenu.setText(Utils.formatPrice(totalServiceRevenue));
+    }
+
+    private void setDataTableStatisticRoomRevenue(List<CheckinDetails> listCKD) {
+        modelTblStatisticRoomRevenue.setRowCount(0);
         int i = 1;
         totalCountBookRoom = 0;
         for (Room r : listRoom) {
@@ -971,12 +1049,12 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
                 if (r.getRoomId() == c.getRoomId()) {
                     countBookRoom++;
                     revenueRoom += c.getPrice();
-                    totalRevenue += revenueRoom;
                 }
             }
+            totalRevenue += revenueRoom;
             rate = (countBookRoom / totalCountBookRoom) * 100;
             if (countBookRoom > 0) {
-                modelTblStatistic.addRow(new Object[]{
+                modelTblStatisticRoomRevenue.addRow(new Object[]{
                     i, r.getRoomId(), (int) countBookRoom, Utils.formatPrice(revenueRoom), decimalFormat.format((double) rate)
                 });
             }
@@ -1056,21 +1134,30 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         txtStatisticRevenueRateTotalBenefit.setText(decimalFormat.format((double) 100));
     }
 
-    private void setDataChart() {
-        DefaultPieDataset pieDataSet = new DefaultPieDataset();
-        pieDataSet.setValue("One", new Integer(10));
-        pieDataSet.setValue("two", new Integer(20));
-        pieDataSet.setValue("three", new Integer(30));
-        pieDataSet.setValue("four", new Integer(40));
-        JFreeChart chart = ChartFactory.createPieChart("Pie Chart", pieDataSet, true, true, true);
-        PiePlot p = (PiePlot) chart.getPlot();
+    private void setDataChartRevenueByDay() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        monthSelected = cbMonthStatisticMenu.getSelectedItem().toString();
 
-        ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setDomainZoomable(true);
-        containChartPie.add(chartPanel);
-        containChartPie.setLayout(new BorderLayout());
-        containChartPie.add(chartPanel, BorderLayout.CENTER);
-        chartPanel.setVisible(true);
+        for (CheckinDetails c : listCheckinDetails) {
+            if (dateFormat.format(c.getStartDate()).equals(dateFormat.format(Utils.getCurrentTime()))) {
+                
+            }
+        }
+
+//        DefaultPieDataset pieDataSet = new DefaultPieDataset();
+//        pieDataSet.setValue("Doanh thu từ phòng", new Integer(10));
+//        pieDataSet.setValue("Doanh thu từ menu", new Integer(20));
+//        pieDataSet.setValue("Doanh thu từ dịch vụ", new Integer(30));
+//        pieDataSet.setValue("Doanh thu khác", new Integer(40));
+//        JFreeChart chart = ChartFactory.createPieChart("Pie Chart", pieDataSet, true, true, true);
+//        PiePlot p = (PiePlot) chart.getPlot();
+//
+//        ChartPanel chartPanel = new ChartPanel(chart);
+//        chartPanel.setDomainZoomable(true);
+//        containChartPie.add(chartPanel);
+//        containChartPie.setLayout(new BorderLayout());
+//        containChartPie.add(chartPanel, BorderLayout.CENTER);
+//        chartPanel.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1141,6 +1228,6 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel txtStatisticRevenueTotal_Benefit;
     private javax.swing.JLabel txtStatisticRevenueTotal_Fee;
     private javax.swing.JLabel txtTotalRevenue;
-    private javax.swing.JLabel txtTotalRevenue1;
+    private javax.swing.JLabel txtTotalRevenueMenu;
     // End of variables declaration//GEN-END:variables
 }
