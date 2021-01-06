@@ -16,36 +16,25 @@ import bkap.model.CheckinServiceDetails;
 import bkap.model.Room;
 import bkap.model.Service;
 import bkap.utils.Helper;
-import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import java.awt.BorderLayout;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import javafx.scene.control.Cell;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 /**
@@ -64,6 +53,7 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
     private List<Service> listService;
     private List<CheckinDetails> listCheckinDetails;
     private List<CheckinDetails> listCheckinDetailsFindByMonth;
+    private List<CheckinDetails> listCheckinDetailsFindByDay;
     private List<CheckinServiceDetails> listCheckinServiceDetails;
     private List<CheckinServiceDetails> listCheckinServiceDetailsFindByMonth;
     private List<CategoryService> listCategoryService;
@@ -71,11 +61,13 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
     private DefaultComboBoxModel cbModelMonthStatisticRevenue;
     private DefaultComboBoxModel cbModelMonthStatisticBookRoom;
     private DefaultComboBoxModel cbModelMonthStatisticMenu;
+    private DefaultComboBoxModel cbModelMonthStatisticRevenueByMonth;
     private DefaultComboBoxModel cbModelSortStatisticRoomRevenue;
     private DefaultComboBoxModel cbModelSortStatisticMenu;
     private DefaultTableModel modelTblStatisticRoomRevenue;
     private DefaultTableModel modelTblStatisticMenu;
 
+    private String timeSelected = "";
     private String monthSelected = "";
     private double countBookRoom = 0;
     private double totalCountBookRoom = 0;
@@ -112,6 +104,7 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         listService = serDAO.findAll();
         listCheckinDetails = checkinDetailsDAO.findAll();
         listCheckinDetailsFindByMonth = new ArrayList<>();
+        listCheckinDetailsFindByDay = new ArrayList<>();
         listCheckinServiceDetails = checkinSerDetailsDAO.findAll();
         listCheckinServiceDetailsFindByMonth = new ArrayList<>();
         listCategoryService = catSerDAO.findAll();
@@ -119,6 +112,7 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         cbModelMonthStatisticRevenue = (DefaultComboBoxModel) cbMonthStatisticRevenue.getModel();
         cbModelMonthStatisticBookRoom = (DefaultComboBoxModel) cbMonthStatisticBookRoom.getModel();
         cbModelMonthStatisticMenu = (DefaultComboBoxModel) cbMonthStatisticMenu.getModel();
+        cbModelMonthStatisticRevenueByMonth = (DefaultComboBoxModel) cbMonthStatisticRevenueByMonth.getModel();
         cbModelSortStatisticRoomRevenue = (DefaultComboBoxModel) cbSortStatisticRoomRevenue.getModel();
         cbModelSortStatisticMenu = (DefaultComboBoxModel) cbSortStatisticMenu.getModel();
         modelTblStatisticRoomRevenue = (DefaultTableModel) tblStatisticRoom.getModel();
@@ -126,9 +120,12 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
 
         setDataComboxSort(cbModelSortStatisticRoomRevenue);
         setDataComboxSort(cbModelSortStatisticMenu);
+
         setDataComboxMonth(cbModelMonthStatisticRevenue);
         setDataComboxMonth(cbModelMonthStatisticBookRoom);
         setDataComboxMonth(cbModelMonthStatisticMenu);
+        setDataComboxStatisticRevenueByMonth();
+
         loadDataStatisticRevenue();
 
         setDataChartPieRevenue();
@@ -148,8 +145,11 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        containChartPie = new javax.swing.JPanel();
+        containChartRevenueByDay = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        cbMonthStatisticRevenueByMonth = new javax.swing.JComboBox<>();
+        jLabel21 = new javax.swing.JLabel();
+        containChartRevenueByMonth = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         cbMonthStatisticMenu = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
@@ -221,15 +221,15 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout containChartPieLayout = new javax.swing.GroupLayout(containChartPie);
-        containChartPie.setLayout(containChartPieLayout);
-        containChartPieLayout.setHorizontalGroup(
-            containChartPieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 391, Short.MAX_VALUE)
+        javax.swing.GroupLayout containChartRevenueByDayLayout = new javax.swing.GroupLayout(containChartRevenueByDay);
+        containChartRevenueByDay.setLayout(containChartRevenueByDayLayout);
+        containChartRevenueByDayLayout.setHorizontalGroup(
+            containChartRevenueByDayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1187, Short.MAX_VALUE)
         );
-        containChartPieLayout.setVerticalGroup(
-            containChartPieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 358, Short.MAX_VALUE)
+        containChartRevenueByDayLayout.setVerticalGroup(
+            containChartRevenueByDayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 479, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -237,29 +237,65 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(containChartPie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(925, Short.MAX_VALUE))
+                .addGap(67, 67, 67)
+                .addComponent(containChartRevenueByDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(85, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(containChartPie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(436, Short.MAX_VALUE))
+                .addGap(88, 88, 88)
+                .addComponent(containChartRevenueByDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(282, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Doanh thu ngày", jPanel1);
+
+        cbMonthStatisticRevenueByMonth.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbMonthStatisticRevenueByMonthItemStateChanged(evt);
+            }
+        });
+
+        jLabel21.setText("Xem theo tháng");
+
+        javax.swing.GroupLayout containChartRevenueByMonthLayout = new javax.swing.GroupLayout(containChartRevenueByMonth);
+        containChartRevenueByMonth.setLayout(containChartRevenueByMonthLayout);
+        containChartRevenueByMonthLayout.setHorizontalGroup(
+            containChartRevenueByMonthLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1207, Short.MAX_VALUE)
+        );
+        containChartRevenueByMonthLayout.setVerticalGroup(
+            containChartRevenueByMonthLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 432, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1339, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel21)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbMonthStatisticRevenueByMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(containChartRevenueByMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 845, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(cbMonthStatisticRevenueByMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addComponent(containChartRevenueByMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(345, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Doanh thu tháng", jPanel2);
@@ -831,7 +867,7 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         pack();
@@ -989,15 +1025,97 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         Utils.sortDataTable(cbSortStatisticMenu, tblStatisticMenu, 5);
     }//GEN-LAST:event_cbSortStatisticMenuItemStateChanged
 
+    private void cbMonthStatisticRevenueByMonthItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMonthStatisticRevenueByMonthItemStateChanged
+        timeSelected = cbMonthStatisticRevenueByMonth.getSelectedItem().toString();
+        listCheckinDetailsFindByMonth.clear();
+
+        for (CheckinDetails c : listCheckinDetails) {
+            if (monthSelected.equals("6 tháng")) {
+                for (int i = 1; i <= 6; i++) {
+                    if (c.getStartDate().getMonth() + 1 == i) {
+                        listCheckinDetailsFindByMonth.add(c);
+                    }
+                }
+            } else {
+                for (int i = 1; i <= 12; i++) {
+                    if (c.getStartDate().getMonth() + 1 == i) {
+                        listCheckinDetailsFindByMonth.add(c);
+                    }
+                }
+            }
+        }
+        setDataChartRevenueByMonth(listCheckinDetailsFindByMonth);
+    }//GEN-LAST:event_cbMonthStatisticRevenueByMonthItemStateChanged
+
     private void setDataComboxMonth(DefaultComboBoxModel cbModel) {
         for (int i = 1; i <= 12; i++) {
             cbModel.addElement("Tháng " + i);
         }
     }
 
+    private void setDataComboxStatisticRevenueByMonth() {
+        cbModelMonthStatisticRevenueByMonth.addElement("6 tháng");
+        cbModelMonthStatisticRevenueByMonth.addElement("1 năm");
+    }
+
     private void setDataComboxSort(DefaultComboBoxModel cbModel) {
         cbModel.addElement("Tăng dần");
         cbModel.addElement("Giảm dần");
+    }
+
+    private void setDataChartRevenueByMonth(List<CheckinDetails> listCD) {
+        DefaultCategoryDataset dcd = new DefaultCategoryDataset();
+
+        Calendar calStartDate = new GregorianCalendar();
+        Calendar calEndDate = new GregorianCalendar();
+        Calendar currentTime = new GregorianCalendar();
+        currentTime.setTime(new Date());
+        int currentYear = currentTime.get(Calendar.YEAR);
+        int currentMonth = currentTime.get(Calendar.MONTH);
+        int currentDay = currentTime.get(Calendar.DATE);
+        int startYear = 0;
+        int endYear = 0;
+        int startMonth = 0;
+        int endMonth = 0;
+
+        for (CheckinDetails c : listCD) {
+            totalRevenueRoom = 0;
+            calStartDate.setTime(c.getStartDate());
+            calEndDate.setTime(c.getEndDate());
+            // calculate year
+            startYear = calStartDate.get(Calendar.YEAR);
+            endYear = calEndDate.get(Calendar.YEAR);
+            // calculate month
+            startMonth = calStartDate.get(Calendar.MONTH);
+            endMonth = calEndDate.get(Calendar.MONTH);
+
+            if (startYear == currentYear || endYear == currentDay) {
+                System.out.println("0ke");
+                for (Room r : listRoom) {
+                    if (r.getRoomId() == c.getRoomId()) {
+                        revenueRoom += c.getPrice();
+                        totalRevenue += revenueRoom;
+                    }
+                    revenueRoom = 0;
+                }
+                dcd.setValue(totalRevenueRoom, "Doanh số", "Phòng");
+            }
+
+        }
+//       
+
+//        dcd.setValue(totalRevenueRoom, "Doanh số", "Phòng");
+//        dcd.setValue(totalRevenueRoom, "Doanh số", "Menu");
+//        dcd.setValue(totalRevenueRoom, "Doanh số", "Phòng");
+        JFreeChart chart = ChartFactory.createBarChart("Doanh số " + timeSelected, "Thời gian", "Doanh số", dcd, PlotOrientation.VERTICAL, true, true, true);
+        CategoryPlot p = (CategoryPlot) chart.getPlot();
+        p.setRangeGridlinePaint(Color.black);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setDomainZoomable(true);
+        containChartRevenueByMonth.add(chartPanel);
+        containChartRevenueByMonth.setLayout(new BorderLayout());
+        containChartRevenueByMonth.add(chartPanel, BorderLayout.CENTER);
+        chartPanel.setVisible(true);
     }
 
     private void setDataTableStatisticMenu(List<CheckinServiceDetails> listCSD) {
@@ -1017,12 +1135,11 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
                         serviceRevenue = (float) (c.getPrice() * countMenuBook);
                     }
                 }
-                totalServiceRevenue += serviceRevenue;
                 rateServiceRevenue = (countMenuBook / totalCountMenuBook) * 100;
                 if (countMenuBook > 0) {
                     if (catSer.getId() == ser.getCatService()) {
                         modelTblStatisticMenu.addRow(new Object[]{
-                            i, ser.getName(), catSer.getName(), (int) countMenuBook, Utils.formatPrice(serviceRevenue), decimalFormat.format((double) rateServiceRevenue)
+                            null, ser.getName(), catSer.getName(), (int) countMenuBook, Utils.formatPrice(serviceRevenue), decimalFormat.format((double) rateServiceRevenue)
                         });
                     }
                 }
@@ -1030,6 +1147,16 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
                 serviceRevenue = 0;
                 i++;
             }
+        }
+
+        String strPriceGetFromTable = "";
+        float priceGetFromTable = 0;
+        for (int j = 0; j < tblStatisticMenu.getRowCount(); j++) {
+            // set STT cho bảng
+            modelTblStatisticMenu.setValueAt(j + 1, j, 0);
+            strPriceGetFromTable = modelTblStatisticMenu.getValueAt(j, 4).toString().replace(".", "");
+            priceGetFromTable = Float.parseFloat(strPriceGetFromTable);
+            totalServiceRevenue += priceGetFromTable;
         }
         txtTotalRevenueMenu.setText(Utils.formatPrice(totalServiceRevenue));
     }
@@ -1137,58 +1264,133 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
     }
 
     private void setDataChartRevenueByDay() {
+        DefaultCategoryDataset dcd = new DefaultCategoryDataset();
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         monthSelected = cbMonthStatisticMenu.getSelectedItem().toString();
-        
-        
 
-        for (CheckinDetails c : listCheckinDetails) {
-            // calculate days between 2 day (startDate & endDate)
-            int daysDiff = 0;
-            long diff = c.getEndDate().getTime() - c.getStartDate().getTime();
-            long diffDays = diff / (24 * 60 * 60 * 1000) + 1;
+        Calendar calStartDate = new GregorianCalendar();
+        Calendar calEndDate = new GregorianCalendar();
+        Calendar currentTime = new GregorianCalendar();
+        currentTime.setTime(new Date());
+        int currentYear = currentTime.get(Calendar.YEAR);
+        int currentMonth = currentTime.get(Calendar.MONTH);
+        int currentDay = currentTime.get(Calendar.DATE);
+        int startYear = 0;
+        int endYear = 0;
+        int startMonth = 0;
+        int endMonth = 0;
+        int startDay = 0;
+        int endDay = 0;
 
-            daysDiff = (int) diffDays;
-            
-            for (int i = 0; i < daysDiff; i++) {
-//                Calendar cal = new GregorianCalendar();
-//                cal.setTime(startDate);
-//                cal.add(Calendar.DATE, i);
+//        if (currentDay - 6 < 1) {
+//            System.out.println("oke");
+//            for (CheckinDetails c : listCheckinDetails) {
+//                calStartDate.setTime(c.getStartDate());
+//                calEndDate.setTime(c.getEndDate());
+//                // calculate year
+//                startYear = calStartDate.get(Calendar.YEAR);
+//                endYear = calEndDate.get(Calendar.YEAR);
+//                // calculate month
+//                startMonth = calStartDate.get(Calendar.MONTH);
+//                endMonth = calEndDate.get(Calendar.MONTH);
+//                // calculate days 
+//                startDay = calStartDate.get(Calendar.DATE);
+//                endDay = calEndDate.get(Calendar.DATE);
 //
-//                listDateBetween2Days.add(cal.getTime());
-            }
-            if (dateFormat.format(c.getStartDate()).equals(dateFormat.format(Utils.getCurrentTime()))) {
+//                if (startYear == currentYear && startMonth == currentMonth) {
+//                    for (int i = 1; i <= currentDay; i++) {
+//                        if (i == currentDay - i) {
+//                            
+//                        }
+//                        
+//                    }
+//                }
+//                for (CheckinDetails cd : listCheckinDetailsFindByDay) {
+//                            revenueRoom = cd.getPrice();
+//                            totalRevenueRoom += revenueRoom;
+//                        }
+//                        dcd.setValue(totalRevenueRoom, "Doanh số", startYear + "-" + startMonth + "-" + currentDay);
+//                        totalRevenueRoom = 0;
+//                        listCheckinDetailsFindByDay.clear();
+//            }
+//        } else {
+//            startDay = currentDay - 6;
+//        }
+//        totalRevenueRoom = 0;
+        for (CheckinDetails c : listCheckinDetails) {
+            totalRevenueRoom = 0;
+            calStartDate.setTime(c.getStartDate());
+            calEndDate.setTime(c.getEndDate());
+            // calculate year
+            startYear = calStartDate.get(Calendar.YEAR);
+            endYear = calEndDate.get(Calendar.YEAR);
+            // calculate month
+            startMonth = calStartDate.get(Calendar.MONTH);
+            endMonth = calEndDate.get(Calendar.MONTH);
+            // calculate days 
+            startDay = calStartDate.get(Calendar.DATE);
+            endDay = calEndDate.get(Calendar.DATE);
 
+//            if (currentDay - 6 < 1) {
+//                if (startYear == currentYear && startMonth == currentMonth) {
+//                    for (int i = 1; i <= currentDay; i++) {
+//                        if (i == currentDay) {
+//                            listCheckinDetailsFindByDay.add(c);
+//                        }
+//                    }
+//                }
+//            } else {
+//                if (startYear == currentYear && startMonth == currentMonth) {
+//                    for (int i = currentDay - 6; i <= currentDay; i++) {
+//                        listCheckinDetailsFindByDay.add(c);
+//                    }
+//                }
+//            }
+            if (startYear == currentYear && startMonth == currentMonth) {
+                for (int i = 1; i <= currentDay; i++) {
+                    if (i == currentDay) {
+                        listCheckinDetailsFindByDay.add(c);
+                    }
+                }
+            }
+            for (CheckinDetails cd : listCheckinDetailsFindByDay) {
+                revenueRoom = cd.getPrice();
+                totalRevenueRoom += revenueRoom;
             }
         }
+        dcd.setValue(totalRevenueRoom, "Doanh số", startYear + "-" + startMonth + "-" + currentDay);
+        JFreeChart chart = ChartFactory.createBarChart("Doanh thu theo ngày", "Thời gian", "Doanh số", dcd, PlotOrientation.VERTICAL, true, true, true);
+        CategoryPlot p = (CategoryPlot) chart.getPlot();
 
-//        DefaultPieDataset pieDataSet = new DefaultPieDataset();
-//        pieDataSet.setValue("Doanh thu từ phòng", new Integer(10));
-//        pieDataSet.setValue("Doanh thu từ menu", new Integer(20));
-//        pieDataSet.setValue("Doanh thu từ dịch vụ", new Integer(30));
-//        pieDataSet.setValue("Doanh thu khác", new Integer(40));
-//        JFreeChart chart = ChartFactory.createPieChart("Pie Chart", pieDataSet, true, true, true);
-//        PiePlot p = (PiePlot) chart.getPlot();
-//
-//        ChartPanel chartPanel = new ChartPanel(chart);
-//        chartPanel.setDomainZoomable(true);
-//        containChartPie.add(chartPanel);
-//        containChartPie.setLayout(new BorderLayout());
-//        containChartPie.add(chartPanel, BorderLayout.CENTER);
-//        chartPanel.setVisible(true);
+        p.setRangeGridlinePaint(Color.black);
+
+        ChartPanel chartPanel = new ChartPanel(chart);
+
+        chartPanel.setDomainZoomable(
+                true);
+        containChartRevenueByDay.add(chartPanel);
+
+        containChartRevenueByDay.setLayout(
+                new BorderLayout());
+        containChartRevenueByDay.add(chartPanel, BorderLayout.CENTER);
+
+        chartPanel.setVisible(
+                true);
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExportFileExcel;
     private javax.swing.JComboBox<String> cbMonthStatisticBookRoom;
     private javax.swing.JComboBox<String> cbMonthStatisticMenu;
     private javax.swing.JComboBox<String> cbMonthStatisticRevenue;
+    private javax.swing.JComboBox<String> cbMonthStatisticRevenueByMonth;
     private javax.swing.JComboBox<String> cbSortStatisticMenu;
     private javax.swing.JComboBox<String> cbSortStatisticRoomRevenue;
-    private javax.swing.JPanel containChartPie;
     private javax.swing.JPanel containChartPieBenifit;
     private javax.swing.JPanel containChartPieFee;
     private javax.swing.JPanel containChartPieRevenue;
+    private javax.swing.JPanel containChartRevenueByDay;
+    private javax.swing.JPanel containChartRevenueByMonth;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1203,6 +1405,7 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;

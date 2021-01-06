@@ -269,7 +269,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(mnCustomer);
 
-        mnStatistic.setText("Thống kê");
+        mnStatistic.setText("Báo cáo & Thống kê");
         mnStatistic.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mnStatisticMouseClicked(evt);
