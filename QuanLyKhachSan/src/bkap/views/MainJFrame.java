@@ -46,12 +46,12 @@ public class MainJFrame extends javax.swing.JFrame {
      */
     public MainJFrame() {
         setCss();
-//        showLogin();
-        initComponents();
+        showLogin();
 
         if (LoginDialog.levelUser == SystemConstant.LEVEL_ADMIN) {
-
+            mnStatisticMouseClicked(null);
         } else if (LoginDialog.levelUser == SystemConstant.LEVEL_USER) {
+            mnBookRoomMouseClicked(null);
             mnUnit.setEnabled(false);
             mnLevel.setEnabled(false);
             mnEmployee.setEnabled(false);

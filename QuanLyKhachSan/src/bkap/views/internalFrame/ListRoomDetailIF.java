@@ -54,6 +54,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 /**
  *
@@ -197,24 +198,37 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
         Date date = new Date();
         SimpleDateFormat s = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
         String stringDate = s.format(date);
-        String part = "Bill//"+name + stringDate + ".pdf";
+        String part = "Bill//" + name + stringDate + ".pdf";
 
         String nameHotel = "HHotel";
-        String line = "-------------------";
+        String line = "-----------------------------------------------------------------------";
         String address = "";
         String phone = "";
-        String title = "PHIẾU THANH TOÁN";
-        String room = "P "+checkinDetail.getRoomId();
+        String title = "PHIEU THANH TOAN";
+        String room = "P " + checkinDetail.getRoomId();
         Date startDate = checkinDetail.getStartDate();
         Date endDate = checkinDetail.getEndDate();
         long time = (endDate.getTime() - startDate.getTime()) / 1000 / 60 / 60 / 24;
-        String menu = "Menu     SL      Thành Tiền";
         String totalRoom = "Tiền phòng 222";
         String totalSer = "Tiền menu 222";
         String totalPrice = "Tổng tiền 222";
         // gọi lại line
         String copyRight = "©Copyright Phần Mềm HHotel";
 
+        List<String> list1 = new ArrayList<>();
+        list1.add("Phong");
+        list1.add(room);
+        list1.add("Gio vao");
+        list1.add(startDate + "");
+        list1.add("Gio ra");
+        list1.add(endDate + "");
+        list1.add("Thoi gian");
+        list1.add(time + "");
+        
+        List<String> list2 = new ArrayList<>();
+        list2.add("MENU");
+        list2.add("SL");
+        list2.add("Thanh tien");
         Document document = new Document();
 
         try {
@@ -224,8 +238,8 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
             document.add(new Paragraph(line));
             document.add(new Paragraph(""));
             document.add(new Paragraph(title));
-            
-            
+
+            // table 1
             PdfPTable table = new PdfPTable(2);
             table.setWidthPercentage(100); //Width 100%
             table.setSpacingBefore(10f); //Space before table
@@ -233,125 +247,63 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
             //Set Column widths
             float[] columnWidths = {1f, 1f};
             table.setWidths(columnWidths);
-
-            PdfPCell cell1 = new PdfPCell(new Paragraph("Phòng"));
-            cell1.setPaddingLeft(10);
-            cell1.setBorderColor(BaseColor.WHITE);
-            cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell1.setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-            PdfPCell cell2 = new PdfPCell(new Paragraph(room));
-            cell2.setPaddingLeft(10);
-            cell2.setBorderColor(BaseColor.WHITE);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-            PdfPCell cell3 = new PdfPCell(new Paragraph("Giờ vào"));
-            cell3.setPaddingLeft(10);
-            cell3.setBorderColor(BaseColor.WHITE);
-            cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell3.setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-            PdfPCell cell4 = new PdfPCell(new Paragraph(startDate+""));
-            cell4.setPaddingLeft(10);
-            cell4.setBorderColor(BaseColor.WHITE);
-            cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell4.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            
-            PdfPCell cell5 = new PdfPCell(new Paragraph("Giờ ra"));
-            cell5.setPaddingLeft(10);
-            cell5.setBorderColor(BaseColor.WHITE);
-            cell5.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell5.setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-            PdfPCell cell6 = new PdfPCell(new Paragraph(endDate+""));
-            cell6.setPaddingLeft(10);
-            cell6.setBorderColor(BaseColor.WHITE);
-            cell6.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell6.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            
-            PdfPCell cell7 = new PdfPCell(new Paragraph("Thời gian"));
-            cell7.setPaddingLeft(10);
-            cell7.setBorderColor(BaseColor.WHITE);
-            cell7.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell7.setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-            PdfPCell cell8 = new PdfPCell(new Paragraph(time));
-            cell8.setPaddingLeft(10);
-            cell8.setBorderColor(BaseColor.WHITE);
-            cell8.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell8.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            
-            table.addCell(cell1);
-            table.addCell(cell2);
-            table.addCell(cell3);
-            table.addCell(cell4);
-            table.addCell(cell5);
-            table.addCell(cell6);
-            table.addCell(cell7);
-            table.addCell(cell8);
+            for (String l : list1) {
+                PdfPCell cell1 = new PdfPCell(new Paragraph(l));
+                cell1.setPaddingLeft(10);
+                cell1.setBorderColor(BaseColor.WHITE);
+                cell1.setHorizontalAlignment(Element.ALIGN_LEFT);
+                cell1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                table.addCell(cell1);
+            }
             document.add(table);
-            
+
             document.add(new Paragraph(line));
             
+            // table 2
             PdfPTable table2 = new PdfPTable(3);
-            table2.setWidthPercentage(100); //Width 100%
-            table2.setSpacingBefore(10f); //Space before table
-            table2.setSpacingAfter(10f); //Space after table
-            //Set Column widths
+            table2.setWidthPercentage(100); 
+            table2.setSpacingBefore(10f);
+            table2.setSpacingAfter(10f); 
             float[] columnWidths2 = {1f, 1f, 1f};
-            table2.setWidths(columnWidths);
+            table2.setWidths(columnWidths2);
+            for (String l : list2) {
+                PdfPCell cell1 = new PdfPCell(new Paragraph(l));
+                cell1.setPaddingLeft(10);
+                cell1.setBorderColor(BaseColor.WHITE);
+                cell1.setHorizontalAlignment(Element.ALIGN_LEFT);
+                cell1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                table2.addCell(cell1);
+            }
 
-            PdfPCell cell9 = new PdfPCell(new Paragraph("MENU"));
-            cell9.setPaddingLeft(10);
-            cell9.setBorderColor(BaseColor.WHITE);
-            cell9.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell9.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            
-            PdfPCell cell10 = new PdfPCell(new Paragraph("SL"));
-            cell9.setPaddingLeft(10);
-            cell9.setBorderColor(BaseColor.WHITE);
-            cell9.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell9.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            
-            PdfPCell cell11 = new PdfPCell(new Paragraph("Thành tiền"));
-            cell9.setPaddingLeft(10);
-            cell9.setBorderColor(BaseColor.WHITE);
-            cell9.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell9.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            
-            table2.addCell(cell9);
             document.add(table2);
             document.add(new Paragraph(line));
             // for menu 
             document.add(new Paragraph(line));
-            
-            
+
             PdfPTable table3 = new PdfPTable(2);
-            table3.setWidthPercentage(100); //Width 100%
-            table3.setSpacingBefore(10f); //Space before table
-            table3.setSpacingAfter(10f); //Space after table
-            //Set Column widths
+            table3.setWidthPercentage(100); 
+            table3.setSpacingBefore(10f); 
+            table3.setSpacingAfter(10f); 
             float[] columnWidths3 = {1f, 1f};
             table3.setWidths(columnWidths);
 
-            PdfPCell cell12 = new PdfPCell(new Paragraph("Tiền phòng"));
+            PdfPCell cell12 = new PdfPCell(new Paragraph("Tien phong"));
             cell12.setPaddingLeft(10);
             cell12.setBorderColor(BaseColor.WHITE);
-            cell12.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell12.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell12.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            
-            PdfPCell cell13 = new PdfPCell(new Paragraph("Tiền phòng"));
+
+            PdfPCell cell13 = new PdfPCell(new Paragraph("Tien phong"));
             cell13.setPaddingLeft(10);
             cell13.setBorderColor(BaseColor.WHITE);
-            cell13.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell13.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell13.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            
+
             table3.addCell(cell12);
             table3.addCell(cell13);
             document.add(table3);
             document.add(new Paragraph(line));
-            
+
             document.close();
             writer.close();
         } catch (DocumentException e) {
