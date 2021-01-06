@@ -259,7 +259,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         mnCustomer.setText("Khách hàng");
 
-        mnAddCustomer.setText("Thêm khách hàng");
+        mnAddCustomer.setText("Quản lý khách hàng");
         mnAddCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnAddCustomerActionPerformed(evt);
