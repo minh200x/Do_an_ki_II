@@ -60,7 +60,7 @@ public class MainJFrame extends javax.swing.JFrame {
             mnCategoryRoom.setEnabled(false);
             mnService.setEnabled(false);
         }
-//        setNameMenu();
+        setNameMenu();
     }
 
     private void showLogin() {

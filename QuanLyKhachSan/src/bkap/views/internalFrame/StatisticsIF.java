@@ -16,9 +16,14 @@ import bkap.model.CheckinServiceDetails;
 import bkap.model.Room;
 import bkap.model.Service;
 import bkap.utils.Helper;
+import bkap.utils.SystemConstant;
 import bkap.utils.Utils;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,7 +32,13 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -126,9 +137,6 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         setDataComboxMonth(cbModelMonthStatisticMenu);
         setDataComboxStatisticRevenueByMonth();
 
-        loadDataStatisticRevenue();
-
-        setDataChartPieRevenue();
         setDataChartPieFee();
         setDataChartPieBenifit();
         setDataChartRevenueByDay();
@@ -238,18 +246,20 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(67, 67, 67)
-                .addComponent(containChartRevenueByDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addComponent(containChartRevenueByDay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(85, 85, 85))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(88, 88, 88)
-                .addComponent(containChartRevenueByDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(282, Short.MAX_VALUE))
+                .addComponent(containChartRevenueByDay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(290, 290, 290))
         );
 
         jTabbedPane1.addTab("Doanh thu ngày", jPanel1);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         cbMonthStatisticRevenueByMonth.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -283,8 +293,8 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
                         .addComponent(cbMonthStatisticRevenueByMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(57, 57, 57)
-                        .addComponent(containChartRevenueByMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(75, Short.MAX_VALUE))
+                        .addComponent(containChartRevenueByMonth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(75, 75, 75))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,7 +305,7 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
                     .addComponent(cbMonthStatisticRevenueByMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41)
                 .addComponent(containChartRevenueByMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(345, Short.MAX_VALUE))
+                .addContainerGap(349, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Doanh thu tháng", jPanel2);
@@ -335,6 +345,11 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblStatisticMenu);
 
         jButton1.setText("Xuất file Excel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel18.setText("Tổng doanh thu menu:");
@@ -880,6 +895,7 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         totalSubPrice = 0;
         totalRevenueService = 0;
         totalExPrice = 0;
+        totalInputPriceMenu = 0;
         for (int i = 1; i <= 12; i++) {
             if (monthSelected.equals("Tháng " + i)) {
                 for (CheckinDetails c : listCheckinDetails) {
@@ -888,92 +904,121 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
                         totalSubPrice += c.getSubPrice();
                         totalRevenueService += c.getTotalServicePrice();
                         totalExPrice += c.getExPrice();
-                        totalRevenue += totalRevenueRoom + totalSubPrice + totalRevenueService + totalExPrice;
-
-                        rateRoom = (totalRevenueRoom / totalRevenue) * 100;
-                        rateService = (totalRevenueService / totalRevenue) * 100;
-                        rateExPrice = (totalExPrice / totalRevenue) * 100;
-                        rateSubPrice = (totalSubPrice / totalRevenue) * 100;
+                        for (CheckinServiceDetails csd : listCheckinServiceDetails) {
+                            if (csd.getIdCheckinDetails() == c.getDetailId()) {
+                                for (Service s : listService) {
+                                    if (s.getId() == csd.getIdService()) {
+                                        totalInputPriceMenu += s.getInputPrice();
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
-        for (Service s : listService) {
-            totalInputPriceMenu += s.getInputPrice();
-        }
+
+        totalRevenue = totalRevenueRoom + totalSubPrice + totalRevenueService + totalExPrice;
         totalBenefit = totalRevenue - totalInputPriceMenu;
-        loadDataStatisticRevenue();
+
+        rateRoom = (totalRevenueRoom / totalRevenue) * 100;
+        rateService = (totalRevenueService / totalRevenue) * 100;
+        rateExPrice = (totalExPrice / totalRevenue) * 100;
+        rateSubPrice = (totalSubPrice / totalRevenue) * 100;
+
+        containChartPieRevenue.removeAll();
+        containChartPieRevenue.validate();
+        setDataChartPieRevenue(revenueRoom, totalRevenueService, totalSubPrice, totalExPrice);
+
+        // revenue
+        txtStatisticRevenueTotalRevenue.setText(Utils.formatPrice(totalRevenue));
+        txtStatisticRevenueRoomTotalRevenue.setText(Utils.formatPrice(totalRevenueRoom));
+        txtStatisticRevenueRateRoomRevenue.setText(decimalFormat.format((double) rateRoom));
+        txtStatisticRevenueMenuRevenue.setText(Utils.formatPrice(totalRevenueService));
+        txtStatisticRevenueRateMenuRevenue.setText(decimalFormat.format((double) rateService));
+        txtStatisticRevenueThuGiamTru.setText(Utils.formatPrice(totalSubPrice));
+        txtStatisticRevenueRateThuGiamTru.setText(decimalFormat.format((double) rateSubPrice));
+        txtStatisticRevenueExPrice.setText(Utils.formatPrice(totalExPrice));
+        txtStatisticRevenueRateExPrice.setText(decimalFormat.format((double) rateExPrice));
+
+        // fee
+        txtStatisticRevenueTotalFee.setText(Utils.formatPrice(totalInputPriceMenu));
+        txtStatisticRevenueTotal_Fee.setText(Utils.formatPrice(totalInputPriceMenu));
+        txtStatisticRevenueRateTotalFee.setText(decimalFormat.format((double) 100));
+
+        // benefit
+        txtStatisticRevenueTotalBenefit.setText(Utils.formatPrice(totalBenefit));
+        txtStatisticRevenueTotal_Benefit.setText(Utils.formatPrice(totalBenefit));
+        txtStatisticRevenueRateTotalBenefit.setText(decimalFormat.format((double) 100));
     }//GEN-LAST:event_cbMonthStatisticRevenueItemStateChanged
 
     private void btnExportFileExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportFileExcelActionPerformed
-        //        XSSFWorkbook workbook = new XSSFWorkbook();
-        //        XSSFSheet sheet = workbook.createSheet("Thống kê thuê phòng");
-        //
-        //        XSSFRow row = null;
-        //        Cell cell = null;
-        //
-        //        int rownum = 0;
-        //        row = sheet.createRow(rownum);
-        //
-        //        cell = row.createCell(0, CellType.STRING);
-        //        cell.setCellValue("No");
-        //
-        //        cell = row.createCell(1, CellType.STRING);
-        //        cell.setCellValue("Order ID");
-        //
-        //        cell = row.createCell(2, CellType.STRING);
-        //        cell.setCellValue("Total Bill");
-        //
-        //        cell = row.createCell(3, CellType.STRING);
-        //        cell.setCellValue("Cashier");
-        //
-        //        cell = row.createCell(4, CellType.STRING);
-        //        cell.setCellValue("Created At");
-        //
-        //        if (listCheckinDetailsFindByMonth.size() == 0) {
-        //            JOptionPane.showMessageDialog(rootPane, SystemConstant.MSG_EXPORT_ERRORS);
-        //        } else {
-        //            FileOutputStream fos = null;
-        //            try {
-        //                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        //
-        //                for (Order o : listOrder) {
-        //                    row = sheet.createRow(rownum + 1);
-        //
-        //                    cell = row.createCell(0, CellType.NUMERIC);
-        //                    cell.setCellValue(rownum + 1);
-        //
-        //                    cell = row.createCell(1, CellType.NUMERIC);
-        //                    cell.setCellValue(o.getId());
-        //
-        //                    cell = row.createCell(2, CellType.NUMERIC);
-        //                    cell.setCellValue(o.getTotal_money());
-        //
-        //                    cell = row.createCell(3, CellType.STRING);
-        //                    cell.setCellValue(o.getCashier());
-        //
-        //                    cell = row.createCell(4, CellType.STRING);
-        //                    cell.setCellValue(dateFormat.format(o.getCreated_at()));
-        //                    rownum++;
-        //                }
-        //
-        //                File file = new File("List_Order.xlxs");
-        //                fos = new FileOutputStream(file);
-        //                workbook.write(fos);
-        //
-        //                JOptionPane.showMessageDialog(rootPane, SystemConstant.MSG_EXPORT_SUCCESSFULLY);
-        //            } catch (FileNotFoundException ex) {
-        //                ex.printStackTrace();
-        //            } catch (IOException ex) {
-        //                ex.printStackTrace();
-        //            } finally {
-        //                try {
-        //                    fos.close();
-        //                } catch (IOException ex) {
-        //                    ex.printStackTrace();
-        //                }
-        //            }
-        //        }
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Thống kê thuê phòng " + monthSelected);
+
+        XSSFRow row = null;
+        Cell cell = null;
+
+        int rownum = 0;
+        row = sheet.createRow(rownum);
+
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("STT");
+
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue("Tên phòng");
+
+        cell = row.createCell(2, CellType.STRING);
+        cell.setCellValue("Số lượt thuê");
+
+        cell = row.createCell(3, CellType.STRING);
+        cell.setCellValue("Tổng doanh thu");
+
+        cell = row.createCell(4, CellType.STRING);
+        cell.setCellValue("Tỉ lệ (&)");
+
+        if (listCheckinDetailsFindByMonth.size() == 0) {
+            JOptionPane.showMessageDialog(rootPane, SystemConstant.MSG_EXPORT_ERRORS);
+        } else {
+            FileOutputStream fos = null;
+            try {
+                for (int i = 0; i < tblStatisticRoom.getRowCount(); i++) {
+                    row = sheet.createRow(rownum + 1);
+
+                    cell = row.createCell(0, CellType.NUMERIC);
+                    cell.setCellValue(modelTblStatisticRoomRevenue.getValueAt(i, 0) + "");
+
+                    cell = row.createCell(1, CellType.NUMERIC);
+                    cell.setCellValue(modelTblStatisticRoomRevenue.getValueAt(i, 1) + "");
+
+                    cell = row.createCell(2, CellType.NUMERIC);
+                    cell.setCellValue(modelTblStatisticRoomRevenue.getValueAt(i, 2) + "");
+
+                    cell = row.createCell(3, CellType.STRING);
+                    cell.setCellValue(modelTblStatisticRoomRevenue.getValueAt(i, 3) + "");
+
+                    cell = row.createCell(4, CellType.STRING);
+                    cell.setCellValue(modelTblStatisticRoomRevenue.getValueAt(i, 4) + "");
+                    rownum++;
+                }
+
+                File file = new File("Statistic_Revenue_Room_" + monthSelected + ".xlxs");
+                fos = new FileOutputStream(file);
+                workbook.write(fos);
+
+                JOptionPane.showMessageDialog(rootPane, SystemConstant.MSG_EXPORT_SUCCESSFULLY);
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                try {
+                    fos.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }//GEN-LAST:event_btnExportFileExcelActionPerformed
 
     private void cbSortStatisticRoomRevenueItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbSortStatisticRoomRevenueItemStateChanged
@@ -1029,23 +1074,107 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         timeSelected = cbMonthStatisticRevenueByMonth.getSelectedItem().toString();
         listCheckinDetailsFindByMonth.clear();
 
-        for (CheckinDetails c : listCheckinDetails) {
-            if (monthSelected.equals("6 tháng")) {
-                for (int i = 1; i <= 6; i++) {
+        Calendar calStartDate = new GregorianCalendar();
+        Calendar calEndDate = new GregorianCalendar();
+        Calendar currentTime = new GregorianCalendar();
+        currentTime.setTime(new Date());
+        int currentYear = currentTime.get(Calendar.YEAR);
+        int currentMonth = currentTime.get(Calendar.MONTH);
+        int startYear = 0;
+        int endYear = 0;
+
+        if (timeSelected.equals("6 tháng")) {
+            for (int i = 1; i <= 6; i++) {
+                for (CheckinDetails c : listCheckinDetails) {
+                    calStartDate.setTime(c.getStartDate());
+                    calEndDate.setTime(c.getEndDate());
+                    
+//                    startYear = ca
                     if (c.getStartDate().getMonth() + 1 == i) {
-                        listCheckinDetailsFindByMonth.add(c);
-                    }
-                }
-            } else {
-                for (int i = 1; i <= 12; i++) {
-                    if (c.getStartDate().getMonth() + 1 == i) {
-                        listCheckinDetailsFindByMonth.add(c);
+                        totalRevenueRoom += c.getPrice();
                     }
                 }
             }
         }
-        setDataChartRevenueByMonth(listCheckinDetailsFindByMonth);
+        System.out.println("totalRevenueRoom: " + totalRevenueRoom);
+//        setDataChartRevenueByMonth(listCheckinDetailsFindByMonth);
     }//GEN-LAST:event_cbMonthStatisticRevenueByMonthItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Thống kê menu " + monthSelected);
+
+        XSSFRow row = null;
+        Cell cell = null;
+
+        int rownum = 0;
+        row = sheet.createRow(rownum);
+
+        cell = row.createCell(0, CellType.STRING);
+        cell.setCellValue("STT");
+
+        cell = row.createCell(1, CellType.STRING);
+        cell.setCellValue("Tên dịch vụ");
+
+        cell = row.createCell(2, CellType.STRING);
+        cell.setCellValue("Loại dịch vụ");
+
+        cell = row.createCell(3, CellType.STRING);
+        cell.setCellValue("Số lượng");
+
+        cell = row.createCell(4, CellType.STRING);
+        cell.setCellValue("Doanh thu");
+
+        cell = row.createCell(5, CellType.STRING);
+        cell.setCellValue("Tỉ lệ (%)");
+
+        if (listCheckinServiceDetailsFindByMonth.size() == 0) {
+            JOptionPane.showMessageDialog(rootPane, SystemConstant.MSG_EXPORT_ERRORS);
+        } else {
+            FileOutputStream fos = null;
+            try {
+                for (int i = 0; i < tblStatisticMenu.getRowCount(); i++) {
+                    row = sheet.createRow(rownum + 1);
+
+                    cell = row.createCell(0, CellType.NUMERIC);
+                    cell.setCellValue(modelTblStatisticMenu.getValueAt(i, 0) + "");
+
+                    cell = row.createCell(1, CellType.NUMERIC);
+                    cell.setCellValue(modelTblStatisticMenu.getValueAt(i, 1) + "");
+
+                    cell = row.createCell(2, CellType.NUMERIC);
+                    cell.setCellValue(modelTblStatisticMenu.getValueAt(i, 2) + "");
+
+                    cell = row.createCell(3, CellType.NUMERIC);
+                    cell.setCellValue(modelTblStatisticMenu.getValueAt(i, 3) + "");
+
+                    cell = row.createCell(4, CellType.NUMERIC);
+                    cell.setCellValue(modelTblStatisticMenu.getValueAt(i, 4) + "");
+
+                    cell = row.createCell(5, CellType.NUMERIC);
+                    cell.setCellValue(modelTblStatisticMenu.getValueAt(i, 5) + "");
+
+                    rownum++;
+                }
+
+                File file = new File("Statistic_Revenue_Menu_" + monthSelected + ".xlxs");
+                fos = new FileOutputStream(file);
+                workbook.write(fos);
+
+                JOptionPane.showMessageDialog(rootPane, SystemConstant.MSG_EXPORT_SUCCESSFULLY);
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                try {
+                    fos.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void setDataComboxMonth(DefaultComboBoxModel cbModel) {
         for (int i = 1; i <= 12; i++) {
@@ -1090,7 +1219,6 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
             endMonth = calEndDate.get(Calendar.MONTH);
 
             if (startYear == currentYear || endYear == currentDay) {
-                System.out.println("0ke");
                 for (Room r : listRoom) {
                     if (r.getRoomId() == c.getRoomId()) {
                         revenueRoom += c.getPrice();
@@ -1192,14 +1320,15 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
             i++;
         }
         txtTotalRevenue.setText(Utils.formatPrice(totalRevenue));
+        totalRevenue = 0;
     }
 
-    private void setDataChartPieRevenue() {
+    private void setDataChartPieRevenue(float getRevenueRoom, float getRevenueService, float getSubPrice, float getOtherPrice) {
         DefaultPieDataset pieDataSet = new DefaultPieDataset();
-        pieDataSet.setValue("Doanh thu từ phòng", new Integer(10));
-        pieDataSet.setValue("Doanh thu từ Menu", new Integer(20));
-        pieDataSet.setValue("Thu, giảm trừ", new Integer(30));
-        pieDataSet.setValue("Thu khác", new Integer(40));
+        pieDataSet.setValue("Doanh thu từ phòng", new Float(getRevenueRoom));
+        pieDataSet.setValue("Doanh thu từ Menu", new Float(getRevenueService));
+        pieDataSet.setValue("Thu, giảm trừ", new Float(getSubPrice));
+        pieDataSet.setValue("Thu khác", new Float(getOtherPrice));
         JFreeChart chart = ChartFactory.createPieChart("", pieDataSet, false, true, true);
         PiePlot p = (PiePlot) chart.getPlot();
 
@@ -1240,126 +1369,50 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         chartPanel.setVisible(true);
     }
 
-    private void loadDataStatisticRevenue() {
-        // reevenue
-        txtStatisticRevenueTotalRevenue.setText(Utils.formatPrice(totalRevenue));
-        txtStatisticRevenueRoomTotalRevenue.setText(Utils.formatPrice(totalRevenueRoom));
-        txtStatisticRevenueRateRoomRevenue.setText(decimalFormat.format((double) rateRoom));
-        txtStatisticRevenueMenuRevenue.setText(Utils.formatPrice(totalRevenueService));
-        txtStatisticRevenueRateMenuRevenue.setText(decimalFormat.format((double) rateService));
-        txtStatisticRevenueThuGiamTru.setText(Utils.formatPrice(totalSubPrice));
-        txtStatisticRevenueRateThuGiamTru.setText(decimalFormat.format((double) rateSubPrice));
-        txtStatisticRevenueExPrice.setText(Utils.formatPrice(totalExPrice));
-        txtStatisticRevenueRateExPrice.setText(decimalFormat.format((double) rateExPrice));
-
-        // fee
-        txtStatisticRevenueTotalFee.setText(Utils.formatPrice(totalInputPriceMenu));
-        txtStatisticRevenueTotal_Fee.setText(Utils.formatPrice(totalInputPriceMenu));
-        txtStatisticRevenueRateTotalFee.setText(decimalFormat.format((double) 100));
-
-        // benefit
-        txtStatisticRevenueTotalBenefit.setText(Utils.formatPrice(totalBenefit));
-        txtStatisticRevenueTotal_Benefit.setText(Utils.formatPrice(totalBenefit));
-        txtStatisticRevenueRateTotalBenefit.setText(decimalFormat.format((double) 100));
-    }
-
     private void setDataChartRevenueByDay() {
         DefaultCategoryDataset dcd = new DefaultCategoryDataset();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         monthSelected = cbMonthStatisticMenu.getSelectedItem().toString();
 
-        Calendar calStartDate = new GregorianCalendar();
-        Calendar calEndDate = new GregorianCalendar();
         Calendar currentTime = new GregorianCalendar();
         currentTime.setTime(new Date());
         int currentYear = currentTime.get(Calendar.YEAR);
         int currentMonth = currentTime.get(Calendar.MONTH);
         int currentDay = currentTime.get(Calendar.DATE);
-        int startYear = 0;
-        int endYear = 0;
-        int startMonth = 0;
-        int endMonth = 0;
-        int startDay = 0;
-        int endDay = 0;
 
-//        if (currentDay - 6 < 1) {
-//            System.out.println("oke");
-//            for (CheckinDetails c : listCheckinDetails) {
-//                calStartDate.setTime(c.getStartDate());
-//                calEndDate.setTime(c.getEndDate());
-//                // calculate year
-//                startYear = calStartDate.get(Calendar.YEAR);
-//                endYear = calEndDate.get(Calendar.YEAR);
-//                // calculate month
-//                startMonth = calStartDate.get(Calendar.MONTH);
-//                endMonth = calEndDate.get(Calendar.MONTH);
-//                // calculate days 
-//                startDay = calStartDate.get(Calendar.DATE);
-//                endDay = calEndDate.get(Calendar.DATE);
-//
-//                if (startYear == currentYear && startMonth == currentMonth) {
-//                    for (int i = 1; i <= currentDay; i++) {
-//                        if (i == currentDay - i) {
-//                            
-//                        }
-//                        
-//                    }
-//                }
-//                for (CheckinDetails cd : listCheckinDetailsFindByDay) {
-//                            revenueRoom = cd.getPrice();
-//                            totalRevenueRoom += revenueRoom;
-//                        }
-//                        dcd.setValue(totalRevenueRoom, "Doanh số", startYear + "-" + startMonth + "-" + currentDay);
-//                        totalRevenueRoom = 0;
-//                        listCheckinDetailsFindByDay.clear();
-//            }
-//        } else {
-//            startDay = currentDay - 6;
-//        }
-//        totalRevenueRoom = 0;
-        for (CheckinDetails c : listCheckinDetails) {
-            totalRevenueRoom = 0;
-            calStartDate.setTime(c.getStartDate());
-            calEndDate.setTime(c.getEndDate());
-            // calculate year
-            startYear = calStartDate.get(Calendar.YEAR);
-            endYear = calEndDate.get(Calendar.YEAR);
-            // calculate month
-            startMonth = calStartDate.get(Calendar.MONTH);
-            endMonth = calEndDate.get(Calendar.MONTH);
-            // calculate days 
-            startDay = calStartDate.get(Calendar.DATE);
-            endDay = calEndDate.get(Calendar.DATE);
+        int index;
+        if (currentDay - 6 < 1) {
+            index = 1;
+        } else {
+            index = currentDay - 6;
+        }
 
-//            if (currentDay - 6 < 1) {
-//                if (startYear == currentYear && startMonth == currentMonth) {
-//                    for (int i = 1; i <= currentDay; i++) {
-//                        if (i == currentDay) {
-//                            listCheckinDetailsFindByDay.add(c);
-//                        }
-//                    }
-//                }
-//            } else {
-//                if (startYear == currentYear && startMonth == currentMonth) {
-//                    for (int i = currentDay - 6; i <= currentDay; i++) {
-//                        listCheckinDetailsFindByDay.add(c);
-//                    }
-//                }
-//            }
-            if (startYear == currentYear && startMonth == currentMonth) {
-                for (int i = 1; i <= currentDay; i++) {
-                    if (i == currentDay) {
-                        listCheckinDetailsFindByDay.add(c);
-                    }
-                }
-            }
-            for (CheckinDetails cd : listCheckinDetailsFindByDay) {
-                revenueRoom = cd.getPrice();
-                totalRevenueRoom += revenueRoom;
+        List<Float> listRevenue = new ArrayList<>();
+        for (int i = index; i <= currentDay; i++) {
+            listRevenue.add(caculateRevenueRoomByDay(i));
+        }
+
+        for (int i = index; i < currentDay; i++) {
+            if (listRevenue.size() == 7) {
+                dcd.setValue(listRevenue.get(0), "Doanh số", currentYear + "-" + (currentMonth + 1) + "-" + i);
+                dcd.setValue(listRevenue.get(1), "Doanh số", currentYear + "-" + (currentMonth + 1) + "-" + (i + 1));
+                dcd.setValue(listRevenue.get(2), "Doanh số", currentYear + "-" + (currentMonth + 1) + "-" + (i + 2));
+                dcd.setValue(listRevenue.get(3), "Doanh số", currentYear + "-" + (currentMonth + 1) + "-" + (i + 3));
+                dcd.setValue(listRevenue.get(4), "Doanh số", currentYear + "-" + (currentMonth + 1) + "-" + (i + 4));
+                dcd.setValue(listRevenue.get(5), "Doanh số", currentYear + "-" + (currentMonth + 1) + "-" + (i + 5));
+                dcd.setValue(listRevenue.get(6), "Doanh số", currentYear + "-" + (currentMonth + 1) + "-" + (i + 6));
+                break;
+            } else {
+                dcd.setValue(listRevenue.get(0), "Doanh số", currentYear + "-" + (currentMonth + 1) + "-" + i);
+                dcd.setValue(listRevenue.get(1), "Doanh số", currentYear + "-" + (currentMonth + 1) + "-" + (i + 1));
+                dcd.setValue(listRevenue.get(2), "Doanh số", currentYear + "-" + (currentMonth + 1) + "-" + (i + 2));
+                dcd.setValue(listRevenue.get(3), "Doanh số", currentYear + "-" + (currentMonth + 1) + "-" + (i + 3));
+                dcd.setValue(listRevenue.get(4), "Doanh số", currentYear + "-" + (currentMonth + 1) + "-" + (i + 4));
+                break;
             }
         }
-        dcd.setValue(totalRevenueRoom, "Doanh số", startYear + "-" + startMonth + "-" + currentDay);
+        
         JFreeChart chart = ChartFactory.createBarChart("Doanh thu theo ngày", "Thời gian", "Doanh số", dcd, PlotOrientation.VERTICAL, true, true, true);
         CategoryPlot p = (CategoryPlot) chart.getPlot();
 
@@ -1378,6 +1431,51 @@ public class StatisticsIF extends javax.swing.JInternalFrame {
         chartPanel.setVisible(
                 true);
     }
+
+    private float caculateRevenueRoomByDay(int mainDay) {
+        Calendar calStartDate = new GregorianCalendar();
+        Calendar calEndDate = new GregorianCalendar();
+        Calendar currentTime = new GregorianCalendar();
+        currentTime.setTime(new Date());
+        int currentYear = currentTime.get(Calendar.YEAR);
+        int currentMonth = currentTime.get(Calendar.MONTH);
+        int startYear = 0;
+        int endYear = 0;
+        int startMonth = 0;
+        int endMonth = 0;
+        int startDay = 0;
+        int endDay = 0;
+
+        totalRevenueRoom = 0;
+        listCheckinDetailsFindByDay.clear();
+        for (CheckinDetails c : listCheckinDetails) {
+            calStartDate.setTime(c.getStartDate());
+            calEndDate.setTime(c.getEndDate());
+            // calculate year
+            startYear = calStartDate.get(Calendar.YEAR);
+            endYear = calEndDate.get(Calendar.YEAR);
+            // calculate month
+            startMonth = calStartDate.get(Calendar.MONTH);
+            endMonth = calEndDate.get(Calendar.MONTH);
+            // calculate days 
+            startDay = calStartDate.get(Calendar.DATE);
+            endDay = calEndDate.get(Calendar.DATE);
+            if (startYear == currentYear && endYear == currentYear && startMonth == currentMonth || endMonth == currentMonth) {
+                for (int i = startDay; i <= endDay; i++) {
+                    if (i == mainDay) {
+                        listCheckinDetailsFindByDay.add(c);
+                    }
+                }
+            }
+        }
+
+        for (CheckinDetails cd : listCheckinDetailsFindByDay) {
+            revenueRoom = cd.getPrice();
+            totalRevenueRoom += revenueRoom;
+        }
+        return totalRevenueRoom;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExportFileExcel;
     private javax.swing.JComboBox<String> cbMonthStatisticBookRoom;

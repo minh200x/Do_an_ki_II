@@ -88,7 +88,7 @@ public class LoginDialog extends javax.swing.JDialog {
 
         txtUserName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtUserName.setForeground(new java.awt.Color(102, 102, 102));
-        txtUserName.setText("admin");
+        txtUserName.setText("congTua");
         txtUserName.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 3, 0, new java.awt.Color(84, 137, 255)));
 
         txtPassword.setForeground(new java.awt.Color(102, 102, 102));
