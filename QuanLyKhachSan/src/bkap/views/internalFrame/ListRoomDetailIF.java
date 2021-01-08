@@ -6,14 +6,18 @@
 package bkap.views.internalFrame;
 
 import bkap.dao.impl.CategoryRoomDAO;
+import bkap.dao.impl.CategoryServiceDAO;
 import bkap.dao.impl.CheckinDAO;
 import bkap.dao.impl.CheckinDetailsDAO;
 import bkap.dao.impl.CheckinServiceDetailsDAO;
 import bkap.dao.impl.CustomerDAO;
 import bkap.dao.impl.RoomDAO;
+import bkap.dao.impl.ServiceDAO;
 import bkap.model.CategoryRoom;
+import bkap.model.CategoryService;
 import bkap.model.Checkin;
 import bkap.model.CheckinDetails;
+import bkap.model.CheckinServiceDetails;
 import bkap.model.Customer;
 import bkap.model.Room;
 import bkap.views.CheckoutJDialog;
@@ -36,10 +40,6 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
 
-//import com.itextpdf.layout.element.Paragraph;
-//import com.itextpdf.layout.element.Table;
-//import com.itextpdf.layout.Document;
-//import com.itextpdf.kernel.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,6 +55,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -67,13 +68,14 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
     private CheckinServiceDetailsDAO checkinSerDetailDao = new CheckinServiceDetailsDAO();
     private CustomerDAO cusDao = new CustomerDAO();
     private RoomDAO roomDao = new RoomDAO();
+    private ServiceDAO serDao = new ServiceDAO();
 
     private RoomDAO roomDAO = new RoomDAO();
     private CategoryRoomDAO catRoomDao = new CategoryRoomDAO();
     private List<Room> listR;
     private List<CategoryRoom> listCatRoom;
     private List<CheckinDetails> listCheckinDetail;
-
+    private List<CheckinServiceDetails> listSer;
     private JPanel pnl;
     private Border blackline;
     private int page = 0;
@@ -117,7 +119,8 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
 
         for (CheckinDetails listItem : list) {
             if (idCat == roomDAO.findByRoomId(listItem.getRoomId()).getTypeId()) {
-                Button b = new Button("P " + listItem.getRoomId() + " " + cusDao.findByPhone(checkinDao.findById(listItem.getCheckinId()).getCusPhone()).get(0).getFullname());
+                Customer cus = cusDao.findByPhone(checkinDao.findById(listItem.getCheckinId()).getCusPhone()).get(0);
+                Button b = new Button("P " + listItem.getRoomId() + " " + cus.getFullname() + " " + cus.getPhone());
                 pnlItem.add(b);
 
                 b.addActionListener(new ActionListener() {
@@ -209,11 +212,6 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
         Date startDate = checkinDetail.getStartDate();
         Date endDate = checkinDetail.getEndDate();
         long time = (endDate.getTime() - startDate.getTime()) / 1000 / 60 / 60 / 24;
-        String totalRoom = "Tiền phòng 222";
-        String totalSer = "Tiền menu 222";
-        String totalPrice = "Tổng tiền 222";
-        // gọi lại line
-        String copyRight = "©Copyright Phần Mềm HHotel";
 
         List<String> list1 = new ArrayList<>();
         list1.add("Phong");
@@ -224,11 +222,22 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
         list1.add(endDate + "");
         list1.add("Thoi gian");
         list1.add(time + "");
-        
+
         List<String> list2 = new ArrayList<>();
         list2.add("MENU");
         list2.add("SL");
         list2.add("Thanh tien");
+
+        List<String> list3 = new ArrayList<>();
+        list3.add("Tien phong");
+        list3.add((checkinDetail.getPrice() * time) + "");
+        list3.add("Tien menu");
+        list3.add(checkinDetail.getTotalServicePrice() + "");
+        list3.add("Tong tien");
+        list3.add(checkinDetail.getPrice() + checkinDetail.getTotalServicePrice() + "");
+
+        listSer = checkinSerDetailDao.findByIdCheckinDetail(idCheckinDetail);
+
         Document document = new Document();
 
         try {
@@ -258,12 +267,12 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
             document.add(table);
 
             document.add(new Paragraph(line));
-            
+
             // table 2
             PdfPTable table2 = new PdfPTable(3);
-            table2.setWidthPercentage(100); 
+            table2.setWidthPercentage(100);
             table2.setSpacingBefore(10f);
-            table2.setSpacingAfter(10f); 
+            table2.setSpacingAfter(10f);
             float[] columnWidths2 = {1f, 1f, 1f};
             table2.setWidths(columnWidths2);
             for (String l : list2) {
@@ -274,38 +283,72 @@ public class ListRoomDetailIF extends javax.swing.JInternalFrame {
                 cell1.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 table2.addCell(cell1);
             }
-
             document.add(table2);
+
             document.add(new Paragraph(line));
-            // for menu 
+
+            if (listSer.size() != 0) {
+                PdfPTable table4 = new PdfPTable(3);
+                table4.setWidthPercentage(100);
+                table4.setSpacingBefore(10f);
+                table4.setSpacingAfter(10f);
+                float[] columnWidths4 = {1f, 1f, 1f};
+                table4.setWidths(columnWidths4);
+                for (CheckinServiceDetails l : listSer) {                 
+                    PdfPCell cell12 = new PdfPCell(new Paragraph(serDao.findByID(l.getIdService()).getName()));
+                    cell12.setPaddingLeft(10);
+                    cell12.setBorderColor(BaseColor.WHITE);
+                    cell12.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    cell12.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+                    PdfPCell cell13 = new PdfPCell(new Paragraph(l.getQuantity()+""));
+                    cell13.setPaddingLeft(10);
+                    cell13.setBorderColor(BaseColor.WHITE);
+                    cell13.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    cell13.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+                    PdfPCell cell14 = new PdfPCell(new Paragraph(l.getQuantity() * l.getPrice()+""));
+                    cell14.setPaddingLeft(10);
+                    cell14.setBorderColor(BaseColor.WHITE);
+                    cell14.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    cell14.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+                    table4.addCell(cell12);
+                    table4.addCell(cell13);
+                    table4.addCell(cell14);
+
+                }
+                document.add(table4);
+            }else{
+                document.add(new Paragraph("Khong co menu"));
+            }
+
             document.add(new Paragraph(line));
 
             PdfPTable table3 = new PdfPTable(2);
-            table3.setWidthPercentage(100); 
-            table3.setSpacingBefore(10f); 
-            table3.setSpacingAfter(10f); 
+            table3.setWidthPercentage(100);
+            table3.setSpacingBefore(10f);
+            table3.setSpacingAfter(10f);
             float[] columnWidths3 = {1f, 1f};
             table3.setWidths(columnWidths);
 
-            PdfPCell cell12 = new PdfPCell(new Paragraph("Tien phong"));
-            cell12.setPaddingLeft(10);
-            cell12.setBorderColor(BaseColor.WHITE);
-            cell12.setHorizontalAlignment(Element.ALIGN_LEFT);
-            cell12.setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-            PdfPCell cell13 = new PdfPCell(new Paragraph("Tien phong"));
-            cell13.setPaddingLeft(10);
-            cell13.setBorderColor(BaseColor.WHITE);
-            cell13.setHorizontalAlignment(Element.ALIGN_LEFT);
-            cell13.setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-            table3.addCell(cell12);
-            table3.addCell(cell13);
+            for (String l : list3) {
+                PdfPCell cell15 = new PdfPCell(new Paragraph(l));
+                cell15.setPaddingLeft(10);
+                cell15.setBorderColor(BaseColor.WHITE);
+                cell15.setHorizontalAlignment(Element.ALIGN_LEFT);
+                cell15.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                table3.addCell(cell15);
+            }
             document.add(table3);
+
             document.add(new Paragraph(line));
+
+            document.add(new Paragraph("©Copyright Phan Mem HHotel"));
 
             document.close();
             writer.close();
+            JOptionPane.showMessageDialog(pnl, "Đã in song hóa đơn");
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {

@@ -8,6 +8,7 @@ package bkap.dao.impl;
 import bkap.dao.ICheckinDetails;
 import bkap.mapper.CheckinDetailsMapper;
 import bkap.model.CheckinDetails;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,5 +60,10 @@ public class CheckinDetailsDAO extends AbstractDAO<CheckinDetails> implements IC
     public List<CheckinDetails> findAll() {
         String sql = "{call checkinDetails_findAll()}";
         return query(sql, new CheckinDetailsMapper());
+    }
+    
+    public Boolean checkStatusRoom(Date start1, Date end1, Date start2, Date end2){
+        
+        return true;
     }
 }
